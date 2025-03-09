@@ -1,0 +1,93 @@
+# {{Path.Api.Info.Title}}
+
+## {{f_Upper Method}} {{Path.Route}}
+
+### {{Summary}}
+
+{{Description}}
+
+{{ if QueryParameters != empty}}
+## Query Parameters: 
+{{for queryParam in QueryParameters}}{{#For each query param}}
+* **{{queryParam.Name}}**: {{queryParam.Description}}
+    * Type: {{queryParam.Type}}
+    * Format: {{f_Coalesce queryParam.Format "[N/A]"}}
+
+{{if queryParam.IsRequired}}
+    * ‼️ Required
+{{end}}
+
+{{if queryParam.AllowEmptyValue}}
+    * 🪹 Allows Empty
+{{end}} 
+
+{{end}}{{#for}}
+{{end}}
+
+{{ if HeaderParameters != empty}}
+## Headers: 
+{{for header in HeaderParameters}}{{#For each header}}
+* **{{header.Name}}**: {{header.Description}}
+    * Type: {{header.Type}}
+    * Format: {{f_Coalesce header.Format "[N/A]"}}
+
+{{if header.IsRequired}}
+    * ‼️ Required
+{{end}}
+
+{{if header.AllowEmptyValue}}
+    * 🪹 Allows Empty
+{{end}} 
+{{end}}{{#for}}
+{{end}}
+
+{{ if PathParameters != empty}}
+## Path Parameters: 
+{{for pathParam in PathParameters}}{{#For each pathParam}}
+* **{{pathParam.Name}}**: {{pathParam.Description}}
+    * Type: {{pathParam.Type}}
+    * Format: {{f_Coalesce pathParam.Format "[N/A]"}}
+
+{{if pathParam.IsRequired}}
+    * ‼️ Required
+{{end}}
+
+{{if pathParam.AllowEmptyValue}}
+    * 🪹 Allows Empty
+{{end}} 
+{{end}}{{#for}}
+{{end}}
+
+## RequestBody 
+
+{{if RequestBody.IsRequired}}
+!! Required
+{{end}}
+
+{{RequestBody.Description}}
+
+**ContentType:** {{RequestBody.RawContentType}}
+
+#### Schema - {{RequestBody.Schema.Title}} - SchemaID = {{RequestBody.Schema.SchemaID}}
+
+{{for prop in RequestBody.Schema.Properties}}
+* {{prop.Name}} {{if prop.IsArray}}[]{{end}}
+    * **Example:** `{{prop.Example}}`
+    * **Type:** {{prop.Type}}
+    * **Format:** {{prop.Format}}
+    * **IsArray:** {{prop.IsArray}}
+    * **IsEnum:** {{prop.IsEnum}}
+{{end}}
+
+## Tags
+
+{{for tag in Tags}}
+* {{tag.Name}} - {{tag.Description}}
+    {{if tag.ExternalDocs}}
+    * [{{tag.ExternalDocs.Url}}]() - {{tag.ExternalDocs.Description}}
+    {{end}}
+{{end}}
+
+[👈🏻 Go Back](../paths/{{f_UrlEncode Path.Name}}.md)
+
+[🏠 Home](../{{f_UrlEncode Path.Api.Info.Title}}.Readme.md)

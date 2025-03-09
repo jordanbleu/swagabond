@@ -1,0 +1,15 @@
+# {{ Api.Info.Title }}
+
+## {{ Route }}
+
+### {{ Summary }}
+
+{{ Description }}
+
+## Operations
+
+{{ for op in Operations}}
+* [{{ op.Method }}](../operations/{{f_UrlEncode Name}}__{{op.Method}}.md) - {{op.Summary}}
+{{ end }}
+
+[🏠 Home](../{{f_UrlEncode Api.Info.Title}}.Readme.md)

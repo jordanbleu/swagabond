@@ -1,0 +1,32 @@
+# {{Info.Title}}
+
+### v{{ Info.Version }}
+
+**Terms of Service:** [{{ Info.TermsOfServiceUrl }}]()
+
+{{ Info.Description }}
+
+## Routes
+
+{{ for path in Paths}}
+* [{{ path.Route }}](./paths/{{path.Name}}.md)
+{{ end }}
+
+{{ if Info.HasLicenseInfo }}
+## License / Terms
+
+**License:** {{ Info.LicenseName }}
+
+**License URL:** [{{ Info.LicenseUrl }}]()
+{{ end }}
+
+
+{{ if Info.HasContactInfo }}
+## Contact Information
+
+**Name:** {{ Info.ContactName }}
+
+**Email:** {{ Info.ContactEmail }}
+
+**URL:** {{ Info.ContactUrl }}
+{{ end }}

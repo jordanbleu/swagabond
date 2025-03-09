@@ -1,0 +1,19 @@
+template_base_directory: .
+output_base_directory: ../../template-output/markdown
+
+for_api:
+- use_template_file: api.scriban
+  write_output_to: '{{Info.Title}}.Readme.md'
+
+for_paths:
+- use_template_file: path.scriban
+  write_output_to: 'paths/{{Name}}.md'
+
+for_operations:
+- use_template_file: operation.scriban
+  write_output_to: 'operations/{{Path.Name}}__{{Method}}.md'
+
+metadata:
+  Company: Jordan Bleu
+  Dummy: Hello World
+

@@ -1,0 +1,15 @@
+template_base_directory: .
+output_base_directory: output
+
+for_api:
+- use_template_file: apiClient.scriban
+  write_outputs_to: '{Name}Template.cs'
+
+for_schema_definitions:
+- use_template_file: schema.scriban
+  write_outputs_to: '{Name}.cs'
+
+metadata:
+  Company: JBleu,inc.
+  Dummy: Hello World
+
