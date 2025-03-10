@@ -9,13 +9,20 @@
 {{ if QueryParameters != empty}}
 ## Query Parameters: 
 {{for queryParam in QueryParameters}}{{#For each query param}}
-* **{{queryParam.Name}}**: {{queryParam.Description}}
-    * Type: {{queryParam.Type}}
-    * Format: {{f_Coalesce queryParam.Format "[N/A]"}}
-
+* **{{queryParam.Name}}**: {{if queryParam.IsArray}}[]{{end}}  {{queryParam.Description}}
 {{if queryParam.IsRequired}}
     * ‼️ Required
 {{end}}
+    * **Type:** {{queryParam.Type}}
+    * **Format:** {{f_Coalesce queryParam.Format "[N/A]"}}
+    * **IsArray:** {{queryParam.IsArray}}
+    * **IsEnum:** {{queryParam.IsEnum}}
+{{ if queryParam.IsEnum}}
+        * **Enum Options**
+{{ for enumOpt in queryParam.EnumOptions}}
+            * {{enumOpt.Name}} ==> {{enumOpt.Value}}
+{{end}}{{#for enumOpt}}
+{{end}} {{#/if queryParam.IsEnum}}
 
 {{if queryParam.AllowEmptyValue}}
     * 🪹 Allows Empty
@@ -28,8 +35,19 @@
 ## Headers: 
 {{for header in HeaderParameters}}{{#For each header}}
 * **{{header.Name}}**: {{header.Description}}
-    * Type: {{header.Type}}
-    * Format: {{f_Coalesce header.Format "[N/A]"}}
+{{if header.IsRequired}}
+    * ‼️ Required
+{{end}}
+    * **Type:** {{header.Type}}
+    * **Format:** {{f_Coalesce header.Format "[N/A]"}}
+    * **IsArray:** {{header.IsArray}}
+    * **IsEnum:** {{header.IsEnum}}
+{{ if header.IsEnum}}
+        * **Enum Options**
+{{ for enumOpt in header.EnumOptions}}
+            * {{enumOpt.Name}} ==> {{enumOpt.Value}}
+{{end}}{{#for enumOpt}}
+{{end}} {{#/if header.IsEnum}}
 
 {{if header.IsRequired}}
     * ‼️ Required
@@ -45,12 +63,19 @@
 ## Path Parameters: 
 {{for pathParam in PathParameters}}{{#For each pathParam}}
 * **{{pathParam.Name}}**: {{pathParam.Description}}
-    * Type: {{pathParam.Type}}
-    * Format: {{f_Coalesce pathParam.Format "[N/A]"}}
-
 {{if pathParam.IsRequired}}
     * ‼️ Required
 {{end}}
+    * **Type:** {{pathParam.Type}}
+    * **Format:** {{f_Coalesce pathParam.Format "[N/A]"}}
+    * **IsArray:** {{pathParam.IsArray}}
+    * **IsEnum:** {{pathParam.IsEnum}}
+{{ if pathParam.IsEnum}}
+        * **Enum Options**
+{{ for enumOpt in pathParam.EnumOptions}}
+            * {{enumOpt.Name}} ==> {{enumOpt.Value}}
+{{end}}{{#for enumOpt}}
+{{end}} {{#/if pathParam.IsEnum}}
 
 {{if pathParam.AllowEmptyValue}}
     * 🪹 Allows Empty
@@ -77,6 +102,13 @@
     * **Format:** {{prop.Format}}
     * **IsArray:** {{prop.IsArray}}
     * **IsEnum:** {{prop.IsEnum}}
+{{ if prop.IsEnum }}
+    * **Enum Options:**
+{{for enumOpt in prop.EnumOptions}}
+        * {{enumOpt.Name}} ==> {{enumOpt.Value}}
+{{end}}{{#/prop.IsEnum}}
+
+{{end}}{{#/prop is enum}}
 {{end}}
 
 ## Tags

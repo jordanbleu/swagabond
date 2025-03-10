@@ -1,5 +1,7 @@
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swagabond.Core.Constants;
+using Swagabond.Core.Extensions;
 
 namespace Swagabond.Core.ObjectModel;
 
@@ -21,19 +23,49 @@ public class ApiSchemaProperty
 
     public ICollection<string> EnumNames { get; set; } = Empty.Strings;
     
+    public ICollection<ApiEnumOption> EnumOptions { get; set; } = new List<ApiEnumOption>();
+    
     public List<ApiSchemaProperty> Properties { get; set; } = new();
     
     public static ApiSchemaProperty FromOpenApi(KeyValuePair<string, OpenApiSchema> property)
     {
-        // todo: map enums to a KVP list
         
         var apiProperty = new ApiSchemaProperty();
         var p = property.Value;
         
         apiProperty.Name = property.Key;
         
+        apiProperty.IsEnum = p.Enum?.Any() ?? false;
+
+        // Map enum values + names 
+        if (apiProperty.IsEnum)
+        {
+            // Find the first matching supported enum names extension (if one exists)
+            var enumNamesArrayKvp = p.Extensions
+                .Where(x => ExtensionConstants.EnumNamesExtension.Contains(x.Key))
+                .FirstOrDefault(x=> x.Value is OpenApiArray arr && arr.Count == p.Enum.Count);
+            
+            var enumNamesArray = enumNamesArrayKvp.Value as OpenApiArray;
+            
+            // iterate through each enum value 
+            for (var i=0; i<p.Enum!.Count; i++)
+            {
+                var enumValue = p.Enum[i].WriteAsString();
+                
+                if (enumNamesArray?.Any() == true)
+                {
+                    var enumName = enumNamesArray[i].WriteAsString();
+                    apiProperty.EnumOptions.Add(new ApiEnumOption { Name = enumName, Value = enumValue });
+                }
+                else
+                {
+                    apiProperty.EnumOptions.Add(new ApiEnumOption { Name = $"Option{enumValue}", Value = enumValue });
+                }
+            }
+        }
+
         // set the example property to a string representation of the example value
-        apiProperty.Example = p.Example?.ToString() ?? string.Empty; // todo: this does not work.
+        apiProperty.Example = p.Example?.WriteAsString() ?? string.Empty;
         apiProperty.Format = p.Format ?? string.Empty;
         
         var isArray =  p.Type == "array";
@@ -61,7 +93,6 @@ public class ApiSchemaProperty
         }
             
         return apiProperty;
-
-
+        
     }
 }
