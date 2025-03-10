@@ -11,7 +11,8 @@ public class ApiParameter
     public string Description { get; set; } = string.Empty;
     public bool IsRequired { get; set; } = false;
     public bool AllowEmptyValue { get; set; } = false;
-    
+
+    public bool IsArray { get; set; }
     public ApiDataType Type { get; set; } = ApiDataType.String;
     
     public string Format { get; set; } = string.Empty;
@@ -33,9 +34,18 @@ public class ApiParameter
         {
             typeString = "string";
         }
-        
-        apiParameter.Type = ApiDataTypeMapper.FromString(typeString);
+
         apiParameter.Format = parameter.Schema.Format ?? string.Empty;
+        
+        if (typeString.ToLower() == "array")
+        {
+            apiParameter.IsArray = true;
+            typeString = parameter.Schema.Items.Type;
+            apiParameter.Format = parameter.Schema.Items.Format ?? string.Empty;
+        }
+
+
+        apiParameter.Type = ApiDataTypeMapper.FromString(typeString);
 
         return apiParameter;
     }
