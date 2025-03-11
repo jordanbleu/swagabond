@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Readers;
 using Swagabond.Core.Mappers;
+using Swagabond.Core.Parsers;
 
 namespace Swagabond.Core.Extensions;
 
@@ -15,7 +16,11 @@ public static class ServiceRegistrationExtensions
             services.AddLogging();
         }
 
+        // stream reading / parsing
         services.AddTransient<OpenApiStreamReader>();
+        services.AddTransient<IMicrosoftSwaggerParser>();
+        
+        // mapping
         services.AddTransient<OpenApiMapper>();
         
         return services;
