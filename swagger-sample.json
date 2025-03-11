@@ -1,0 +1,463 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "TestWebApp",
+    "version": "1.0"
+  },
+  "paths": {
+    "/Test": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "parameters": [
+          {
+            "name": "ReqStringValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ReqStringArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "ReqEnumValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "$ref": "#/components/schemas/EnumExample"
+            }
+          },
+          {
+            "name": "ReqEnumExampleArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EnumExample"
+              }
+            }
+          },
+          {
+            "name": "ReqByteValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ReqByteArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string",
+              "format": "byte"
+            }
+          },
+          {
+            "name": "ReqShortValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ReqShortArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          {
+            "name": "ReqGuidValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "ReqGuidArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          },
+          {
+            "name": "ReqLongValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "ReqLongArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
+            "name": "ReqFloatValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "number",
+              "format": "float"
+            }
+          },
+          {
+            "name": "ReqFloatArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "float"
+              }
+            }
+          },
+          {
+            "name": "ReqDoubleValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "ReqDoubleArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double"
+              }
+            }
+          },
+          {
+            "name": "ReqDecimalValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "ReqDecimalArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double"
+              }
+            }
+          },
+          {
+            "name": "ReqBoolValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "ReqBoolArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "boolean"
+              }
+            }
+          },
+          {
+            "name": "ReqIntValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ReqIntArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          {
+            "name": "ReqInnerObjectValue.InnerString",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ReqInnerObjectArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/InnerObject"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Test"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComplexRequestObject"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComplexRequestObject"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComplexRequestObject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ComplexRequestObject": {
+        "type": "object",
+        "properties": {
+          "reqStringValue": {
+            "type": "string",
+            "nullable": true
+          },
+          "reqStringArray": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "reqEnumValue": {
+            "$ref": "#/components/schemas/EnumExample"
+          },
+          "reqEnumExampleArray": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EnumExample"
+            },
+            "nullable": true
+          },
+          "reqByteValue": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reqByteArray": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "reqShortValue": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reqShortArray": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "reqGuidValue": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reqGuidArray": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          },
+          "reqLongValue": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "reqLongArray": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          },
+          "reqFloatValue": {
+            "type": "number",
+            "format": "float"
+          },
+          "reqFloatArray": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "float"
+            },
+            "nullable": true
+          },
+          "reqDoubleValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "reqDoubleArray": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "nullable": true
+          },
+          "reqDecimalValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "reqDecimalArray": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "nullable": true
+          },
+          "reqBoolValue": {
+            "type": "boolean"
+          },
+          "reqBoolArray": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            },
+            "nullable": true
+          },
+          "reqIntValue": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reqIntArray": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "reqInnerObjectValue": {
+            "$ref": "#/components/schemas/InnerObject"
+          },
+          "reqInnerObjectArray": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InnerObject"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EnumExample": {
+        "enum": [
+          2,
+          4,
+          6,
+          8
+        ],
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "Taco2",
+          "Burger4",
+          "HotDawg6",
+          "Bizza8"
+        ]
+      },
+      "InnerObject": {
+        "type": "object",
+        "properties": {
+          "innerString": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

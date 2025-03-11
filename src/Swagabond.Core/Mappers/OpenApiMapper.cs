@@ -10,11 +10,13 @@ namespace Swagabond.Core.Mappers;
 /// </summary>
 public class OpenApiMapper
 {
-    private readonly ILogger _logger;
-
-    public OpenApiMapper(ILogger logger)
+    private readonly ILogger<OpenApiMapper> _logger;
+    private readonly OpenApiStreamReader _openApiReader;
+    
+    public OpenApiMapper(ILogger<OpenApiMapper> logger, OpenApiStreamReader openApiStreamReader)
     {
         _logger = logger;
+        _openApiReader = openApiStreamReader;
     }
 
     /// <summary>
@@ -29,8 +31,7 @@ public class OpenApiMapper
         _logger.LogInformation("Parsing OpenAPI document from stream");
         
         // This is first mapped by .net's library
-        var openApiReader = new OpenApiStreamReader();
-        var result = await openApiReader.ReadAsync(swaggerStream);
+        var result = await _openApiReader.ReadAsync(swaggerStream);
 
         ValidateApiSpec(request, result);
 

@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 
-namespace Swagabond.Cli.Console;
+namespace Swagabond.Cli.ConsoleServices;
 
 public class ConsoleHelper
 {
@@ -26,9 +26,9 @@ public class ConsoleHelper
 ▄▄▄▄▄██████████████▀
 ";
     
-    private readonly ILogger _logger;
+    private readonly ILogger<Program> _logger;
     
-    public ConsoleHelper(ILogger logger)
+    public ConsoleHelper(ILogger<Program> logger)
     {
         _logger = logger;
     }
