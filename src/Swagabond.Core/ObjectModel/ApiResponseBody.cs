@@ -4,6 +4,7 @@ namespace Swagabond.Core.ObjectModel;
 
 public class ApiResponseBody
 {
+    public bool IsEmpty { get; set; } = true;
     public string StatusCode { get; set; } = "200";
     public int ParsedStatusCode { get; set; } = 0;
     
@@ -22,7 +23,8 @@ public class ApiResponseBody
         var statusCode = response.Key;
         apiResponse.StatusCode = statusCode;
         apiResponse.Description = r.Description;
-
+        apiResponse.IsEmpty = false;
+        
         if (int.TryParse(statusCode, out var parsedStatusCode))
             apiResponse.ParsedStatusCode = parsedStatusCode;
         
@@ -38,8 +40,8 @@ public class ApiResponseBody
         apiResponse.RawContentType = rawContentType;
         apiResponse.ContentType = ApiContentTypeMapper.FromString(rawContentType);
         
-        apiResponse.Schema = ApiSchemaDefinition.FromOpenApi(content.Schema);
         
+        apiResponse.Schema = ApiSchemaDefinition.FromOpenApi(content.Schema);
         return apiResponse;
     }
 }

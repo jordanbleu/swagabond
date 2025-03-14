@@ -18,8 +18,8 @@ public class ApiParameter
     public ApiDataType Type { get; set; } = ApiDataType.String;
     
     public bool IsEnum { get; set; } = false;
-    public ICollection<string> EnumValues { get; set; } = Empty.Strings;
-    public ICollection<string> EnumNames { get; set; } = Empty.Strings;
+    public ICollection<string> EnumValues { get; set; } =  new List<string>();
+    public ICollection<string> EnumNames { get; set; } = new List<string>();
     public ICollection<ApiEnumOption> EnumOptions { get; set; } = new List<ApiEnumOption>();
     
     public string Format { get; set; } = string.Empty;
@@ -36,29 +36,10 @@ public class ApiParameter
 
         if (apiParameter.IsEnum)
         {
-            var schema = parameter.Schema;
-            // Find the first matching supported enum names extension (if one exists)
-            var enumNamesArrayKvp = schema.Extensions
-                .Where(x => ExtensionConstants.EnumNamesExtension.Contains(x.Key))
-                .FirstOrDefault(x=> x.Value is OpenApiArray arr && arr.Count == schema.Enum!.Count);
-
-            var enumNamesArray = enumNamesArrayKvp.Value as OpenApiArray;
-            
-            // iterate through each enum value 
-            for (var i=0; i<schema.Enum!.Count; i++)
-            {
-                var enumValue = schema.Enum[i].WriteAsString();
-                
-                if (enumNamesArray?.Any() == true)
-                {
-                    var enumName = enumNamesArray[i].WriteAsString();
-                    apiParameter.EnumOptions.Add(new ApiEnumOption { Name = enumName, Value = enumValue });
-                }
-                else
-                {
-                    apiParameter.EnumOptions.Add(new ApiEnumOption { Name = $"Option{enumValue}", Value = enumValue });
-                }
-            }
+            var enumOpts =  ApiEnumOption.FromOpenApi(parameter.Schema.Enum!, parameter.Extensions);
+            apiParameter.EnumOptions = enumOpts;
+            apiParameter.EnumValues = enumOpts.Select(x=>x.Value).ToList();
+            apiParameter.EnumNames = enumOpts.Select(x=>x.Name).ToList();
         }
         
         var mainSchemaType = parameter.Schema.Type;

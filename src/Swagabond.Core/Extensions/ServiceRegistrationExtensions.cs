@@ -18,7 +18,7 @@ public static class ServiceRegistrationExtensions
 
         // stream reading / parsing
         services.AddTransient<OpenApiStreamReader>();
-        services.AddTransient<IMicrosoftSwaggerParser>();
+        services.AddTransient<IMicrosoftSwaggerParser, MicrosoftSwaggerParser>();
         
         // mapping
         services.AddTransient<OpenApiMapper>();
