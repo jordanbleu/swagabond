@@ -5,7 +5,7 @@
 ### {{Summary}}
 
 {{Description}}
-
+{{# ------------------------------------ Query Parameters Section ------------------------- }}
 {{ if QueryParameters != empty}}
 ## Query Parameters: 
 {{for queryParam in QueryParameters}}{{#For each query param}}
@@ -30,7 +30,7 @@
 
 {{end}}{{#for}}
 {{end}}
-
+{{# ------------------------------------ Header Parameters Section ------------------------- }}
 {{ if HeaderParameters != empty}}
 ## Headers: 
 {{for header in HeaderParameters}}{{#For each header}}
@@ -58,7 +58,7 @@
 {{end}} 
 {{end}}{{#for}}
 {{end}}
-
+{{# ------------------------------------ Path Parameters Section ------------------------- }}
 {{ if PathParameters != empty}}
 ## Path Parameters: 
 {{for pathParam in PathParameters}}{{#For each pathParam}}
@@ -82,8 +82,8 @@
 {{end}} 
 {{end}}{{#for}}
 {{end}}
-
-## RequestBody 
+{{# ------------------------------------ Request Body Section ------------------------- }}
+## Request Body 
 
 {{if RequestBody.IsRequired}}
 !! Required
@@ -92,8 +92,6 @@
 {{RequestBody.Description}}
 
 **ContentType:** {{RequestBody.RawContentType}}
-
-#### Schema - {{RequestBody.Schema.Title}} - SchemaID = {{RequestBody.Schema.SchemaID}}
 
 {{for prop in RequestBody.Schema.Properties}}
 * {{prop.Name}} {{if prop.IsArray}}[]{{end}}
@@ -107,10 +105,32 @@
 {{for enumOpt in prop.EnumOptions}}
         * {{enumOpt.Name}} ==> {{enumOpt.Value}}
 {{end}}{{#/prop.IsEnum}}
-
 {{end}}{{#/prop is enum}}
-{{end}}
+{{end}}{{#/for loop}}
+{{# ------------------------------------ Response Body Section ------------------------- }}
+## Response Bodies
 
+{{ for responseBody in Responses}}
+{{responseBody.Description}}
+**ContentType:** {{responseBody.RawContentType}}
+
+{{for prop in responseBody.Schema.Properties}}
+* {{prop.Name}} {{if prop.IsArray}}[]{{end}}
+    * **Example:** `{{prop.Example}}`
+    * **Type:** {{prop.Type}}
+    * **Format:** {{prop.Format}}
+    * **IsArray:** {{prop.IsArray}}
+    * **IsEnum:** {{prop.IsEnum}}
+{{ if prop.IsEnum }}
+    * **Enum Options:**
+{{for enumOpt in prop.EnumOptions}}
+        * {{enumOpt.Name}} ==> {{enumOpt.Value}}
+{{end}}{{#/prop.IsEnum}}
+{{end}}{{#/prop is enum}}
+    * Schema Reference: {{prop.SchemaId}}
+{{end}}{{#/for props}}
+{{end}}{{#/for response body in responses}}
+{{# ------------------------------------ Tags Section ------------------------- }}
 ## Tags
 
 {{for tag in Tags}}

@@ -1,6 +1,6 @@
 # {{Info.Title}}
 
-### v{{ Info.Version }}
+### version {{ Info.Version }}
 
 **Terms of Service:** [{{ Info.TermsOfServiceUrl }}]()
 
