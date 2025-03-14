@@ -14,7 +14,7 @@ public static class ExtensionConstants
     /// The only supported extensions we recognize need to be just a basic list of strings, and the list
     /// of strings needs to be the same length as the enum values since we match them index by index.
     /// </summary>
-    public static readonly ICollection<string> EnumNamesExtension = new List<string> 
+    public static readonly ICollection<string> EnumNamesExtensionKeys = new List<string> 
     {
         "x-enumNames",
         "x-enum-varnames",

@@ -63,22 +63,31 @@ public class ApiInfo
     
     public static ApiInfo FromOpenApi(OpenApiInfo info)
     {
-        var apiInfo = new ApiInfo();
+        if (info is null)
+            return new();
         
+        var apiInfo = new ApiInfo();
+
         apiInfo.Title = info.Title;
         apiInfo.Description = info.Description;
         apiInfo.Version = info.Version;
         apiInfo.TermsOfServiceUrl = info.TermsOfService?.ToString() ?? string.Empty;
 
         var contact = info.Contact;
-        apiInfo.ContactName = contact?.Name ?? string.Empty;
-        apiInfo.ContactEmail = contact?.Email ?? string.Empty;
-        apiInfo.ContactUrl = contact?.Url?.ToString() ?? string.Empty;
+        if (contact is not null)
+        {
+            apiInfo.ContactName = contact?.Name ?? string.Empty;
+            apiInfo.ContactEmail = contact?.Email ?? string.Empty;
+            apiInfo.ContactUrl = contact?.Url?.ToString() ?? string.Empty;
+        }
 
         var license = info.License;
-        apiInfo.LicenseName = license?.Name ?? string.Empty;
-        apiInfo.LicenseUrl = license?.Url?.ToString() ?? string.Empty;
-        
+        if (license is not null)
+        {
+            apiInfo.LicenseName = license?.Name ?? string.Empty;
+            apiInfo.LicenseUrl = license?.Url?.ToString() ?? string.Empty;
+        }
+
         return apiInfo;
     }
 }

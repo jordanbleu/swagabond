@@ -18,15 +18,20 @@ public class ApiSchemaProperty
     public bool IsArray { get; set; } = false;
 
     public bool IsEnum { get; set; } = false; 
+    
+    public bool IsPrimitive => Type != ApiDataType.Object;
 
-    public ICollection<string> EnumValues { get; set; } = Empty.Strings;
+    public ICollection<string> EnumValues { get; set; } =  new List<string>();
 
-    public ICollection<string> EnumNames { get; set; } = Empty.Strings;
+    public ICollection<string> EnumNames { get; set; } =  new List<string>();
     
     public ICollection<ApiEnumOption> EnumOptions { get; set; } = new List<ApiEnumOption>();
     
     public List<ApiSchemaProperty> Properties { get; set; } = new();
-    
+
+    public string SchemaId { get; set; } = string.Empty;
+
+
     public static ApiSchemaProperty FromOpenApi(KeyValuePair<string, OpenApiSchema> property)
     {
         
@@ -40,28 +45,10 @@ public class ApiSchemaProperty
         // Map enum values + names 
         if (apiProperty.IsEnum)
         {
-            // Find the first matching supported enum names extension (if one exists)
-            var enumNamesArrayKvp = p.Extensions
-                .Where(x => ExtensionConstants.EnumNamesExtension.Contains(x.Key))
-                .FirstOrDefault(x=> x.Value is OpenApiArray arr && arr.Count == p.Enum.Count);
-            
-            var enumNamesArray = enumNamesArrayKvp.Value as OpenApiArray;
-            
-            // iterate through each enum value 
-            for (var i=0; i<p.Enum!.Count; i++)
-            {
-                var enumValue = p.Enum[i].WriteAsString();
-                
-                if (enumNamesArray?.Any() == true)
-                {
-                    var enumName = enumNamesArray[i].WriteAsString();
-                    apiProperty.EnumOptions.Add(new ApiEnumOption { Name = enumName, Value = enumValue });
-                }
-                else
-                {
-                    apiProperty.EnumOptions.Add(new ApiEnumOption { Name = $"Option{enumValue}", Value = enumValue });
-                }
-            }
+            var enumOpts =  ApiEnumOption.FromOpenApi(p.Enum!, p.Extensions);
+            apiProperty.EnumOptions = enumOpts;
+            apiProperty.EnumValues = enumOpts.Select(x=>x.Value).ToList();
+            apiProperty.EnumNames = enumOpts.Select(x=>x.Name).ToList();
         }
 
         // set the example property to a string representation of the example value
@@ -82,15 +69,32 @@ public class ApiSchemaProperty
             apiProperty.Type = ApiDataTypeMapper.FromString(p.Type);
         }
 
-        if (p.Type != "object") 
+        if (apiProperty.Type != ApiDataType.Object) 
             return apiProperty;
-            
-        // If it is an object, map the inner properties as well
-        foreach (var prop in p.Properties)
+
+        if (apiProperty.IsArray)
         {
-            // recursively map each inner property
-            apiProperty.Properties.Add(FromOpenApi(prop));
+            apiProperty.SchemaId = p.Items.Reference.Id ?? string.Empty;
+
+            foreach (var prop in p.Items.Properties)
+            {
+                // recursively map each inner property
+                apiProperty.Properties.Add(FromOpenApi(prop));
+            }
         }
+        else
+        {
+            apiProperty.SchemaId = p.Reference.Id ?? string.Empty;
+                
+            // If it is an object, map the inner properties as well
+            foreach (var prop in p.Properties)
+            {
+                // recursively map each inner property
+                apiProperty.Properties.Add(FromOpenApi(prop));
+            }
+        }
+
+
             
         return apiProperty;
         

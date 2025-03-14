@@ -8,6 +8,7 @@ namespace Swagabond.Core.ObjectModel;
 /// </summary>
 public class ApiRequestBody
 {
+    public bool IsEmpty { get;set; } = true;
     public string Description { get; set; } = string.Empty;
     public bool IsRequired { get; set; } = false;
     
@@ -20,6 +21,7 @@ public class ApiRequestBody
         
         apiRequestBody.Description = requestBody.Description ?? string.Empty;
         apiRequestBody.IsRequired = requestBody.Required;
+        apiRequestBody.IsEmpty = false;
 
         if (requestBody?.Content?.Any() == false)
             return apiRequestBody;

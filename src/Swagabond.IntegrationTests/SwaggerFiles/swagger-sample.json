@@ -1,0 +1,895 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "TestWebApp",
+    "description": "This is a sample swagger file to test Swagabond",
+    "termsOfService": "https://en.wikipedia.org/wiki/Lorem_ipsum",
+    "contact": {
+      "name": "Hugh Man",
+      "url": "https://www.google.com",
+      "email": "test@gmail.com",
+      "x-contactExtension": "hello world"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT",
+      "x-licenseExtension": "hello world"
+    },
+    "version": "v1",
+    "x-infoExtension": "hello world"
+  },
+  "paths": {
+    "/Test/complex": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "Get Complex Request Object",
+        "description": "This is a test description for a GET operation.",
+        "parameters": [
+          {
+            "name": "ReqStringValue",
+            "in": "query",
+            "description": "string value",
+            "style": "form",
+            "schema": {
+              "type": "string",
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqStringArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "x-schemaExtension": "hello world"
+              },
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqEnumValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "$ref": "#/components/schemas/TestWebApp.Controllers.EnumExample"
+            }
+          },
+          {
+            "name": "ReqEnumExampleArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/TestWebApp.Controllers.EnumExample"
+              },
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqByteValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqByteArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string",
+              "format": "byte",
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqShortValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqShortArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32",
+                "x-schemaExtension": "hello world"
+              },
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqGuidValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqGuidArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid",
+                "x-schemaExtension": "hello world"
+              },
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqLongValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqLongArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64",
+                "x-schemaExtension": "hello world"
+              },
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqFloatValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "number",
+              "format": "float",
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqFloatArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "float",
+                "x-schemaExtension": "hello world"
+              },
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqDoubleValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqDoubleArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double",
+                "x-schemaExtension": "hello world"
+              },
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqDecimalValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqDecimalArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double",
+                "x-schemaExtension": "hello world"
+              },
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqBoolValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "boolean",
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqBoolArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "boolean",
+                "x-schemaExtension": "hello world"
+              },
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqIntValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqIntArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32",
+                "x-schemaExtension": "hello world"
+              },
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqInnerObjectValue.InnerString",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string",
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqInnerObjectValue.InnerInnerObject.InnerInnerInt",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "ReqInnerObjectArray",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/TestWebApp.Controllers.InnerObject"
+              },
+              "x-schemaExtension": "hello world"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexResponseObject"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexResponseObject"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexResponseObject"
+                }
+              }
+            }
+          }
+        },
+        "x-operationExtension": "hello world"
+      },
+      "post": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "Post Complex Request Object",
+        "description": "This is a test description for a POSt operation.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexRequestObject"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexRequestObject"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexRequestObject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexResponseObject"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexResponseObject"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexResponseObject"
+                }
+              }
+            }
+          }
+        },
+        "x-operationExtension": "hello world"
+      }
+    },
+    "/Test/simple": {
+      "post": {
+        "tags": [
+          "Test"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "x-schemaExtension": "hello world"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string",
+                "x-schemaExtension": "hello world"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string",
+                "x-schemaExtension": "hello world"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "x-schemaExtension": "hello world"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "x-schemaExtension": "hello world"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "x-schemaExtension": "hello world"
+                }
+              }
+            }
+          }
+        },
+        "x-operationExtension": "hello world"
+      },
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "parameters": [
+          {
+            "name": "reqStringValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string",
+              "x-schemaExtension": "hello world"
+            }
+          },
+          {
+            "name": "reqIntValue",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "x-schemaExtension": "hello world"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "x-schemaExtension": "hello world"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "x-schemaExtension": "hello world"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "x-schemaExtension": "hello world"
+                }
+              }
+            }
+          }
+        },
+        "x-operationExtension": "hello world"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TestWebApp.Controllers.ComplexRequestObject": {
+        "type": "object",
+        "properties": {
+          "reqStringValue": {
+            "type": "string",
+            "description": "string value",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "reqStringArray": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "reqEnumValue": {
+            "$ref": "#/components/schemas/TestWebApp.Controllers.EnumExample"
+          },
+          "reqEnumExampleArray": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TestWebApp.Controllers.EnumExample"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "reqByteValue": {
+            "type": "integer",
+            "format": "int32",
+            "x-schemaExtension": "hello world"
+          },
+          "reqByteArray": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "reqShortValue": {
+            "type": "integer",
+            "format": "int32",
+            "x-schemaExtension": "hello world"
+          },
+          "reqShortArray": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "reqGuidValue": {
+            "type": "string",
+            "format": "uuid",
+            "x-schemaExtension": "hello world"
+          },
+          "reqGuidArray": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "reqLongValue": {
+            "type": "integer",
+            "format": "int64",
+            "x-schemaExtension": "hello world"
+          },
+          "reqLongArray": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "reqFloatValue": {
+            "type": "number",
+            "format": "float",
+            "x-schemaExtension": "hello world"
+          },
+          "reqFloatArray": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "float",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "reqDoubleValue": {
+            "type": "number",
+            "format": "double",
+            "x-schemaExtension": "hello world"
+          },
+          "reqDoubleArray": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "reqDecimalValue": {
+            "type": "number",
+            "format": "double",
+            "x-schemaExtension": "hello world"
+          },
+          "reqDecimalArray": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "reqBoolValue": {
+            "type": "boolean",
+            "x-schemaExtension": "hello world"
+          },
+          "reqBoolArray": {
+            "type": "array",
+            "items": {
+              "type": "boolean",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "reqIntValue": {
+            "type": "integer",
+            "format": "int32",
+            "x-schemaExtension": "hello world"
+          },
+          "reqIntArray": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "reqInnerObjectValue": {
+            "$ref": "#/components/schemas/TestWebApp.Controllers.InnerObject"
+          },
+          "reqInnerObjectArray": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TestWebApp.Controllers.InnerObject"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Complex Request Object",
+        "x-schemaExtension": "hello world"
+      },
+      "TestWebApp.Controllers.ComplexResponseObject": {
+        "type": "object",
+        "properties": {
+          "stringValue": {
+            "type": "string",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "stringArray": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "enumValue": {
+            "$ref": "#/components/schemas/TestWebApp.Controllers.EnumExample"
+          },
+          "enumExampleArray": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TestWebApp.Controllers.EnumExample"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "byteValue": {
+            "type": "integer",
+            "format": "int32",
+            "x-schemaExtension": "hello world"
+          },
+          "byteArray": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "shortValue": {
+            "type": "integer",
+            "format": "int32",
+            "x-schemaExtension": "hello world"
+          },
+          "shortArray": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "guidValue": {
+            "type": "string",
+            "format": "uuid",
+            "x-schemaExtension": "hello world"
+          },
+          "guidArray": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "longValue": {
+            "type": "integer",
+            "format": "int64",
+            "x-schemaExtension": "hello world"
+          },
+          "longArray": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "floatValue": {
+            "type": "number",
+            "format": "float",
+            "x-schemaExtension": "hello world"
+          },
+          "floatArray": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "float",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "doubleValue": {
+            "type": "number",
+            "format": "double",
+            "x-schemaExtension": "hello world"
+          },
+          "doubleArray": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "decimalValue": {
+            "type": "number",
+            "format": "double",
+            "x-schemaExtension": "hello world"
+          },
+          "decimalArray": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "boolValue": {
+            "type": "boolean",
+            "x-schemaExtension": "hello world"
+          },
+          "boolArray": {
+            "type": "array",
+            "items": {
+              "type": "boolean",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "intValue": {
+            "type": "integer",
+            "format": "int32",
+            "x-schemaExtension": "hello world"
+          },
+          "intArray": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32",
+              "x-schemaExtension": "hello world"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "innerObjectValue": {
+            "$ref": "#/components/schemas/TestWebApp.Controllers.InnerObject"
+          },
+          "innerObjectArray": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TestWebApp.Controllers.InnerObject"
+            },
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Complex Response Object",
+        "x-schemaExtension": "hello world"
+      },
+      "TestWebApp.Controllers.EnumExample": {
+        "enum": [
+          2,
+          4,
+          6,
+          8
+        ],
+        "type": "integer",
+        "description": "EnumExample",
+        "format": "int32",
+        "x-enumNames": [
+          "Taco2",
+          "Burger4",
+          "HotDawg6",
+          "Bizza8"
+        ],
+        "x-schemaExtension": "hello world"
+      },
+      "TestWebApp.Controllers.InnerInnerObject": {
+        "type": "object",
+        "properties": {
+          "innerInnerInt": {
+            "type": "integer",
+            "format": "int32",
+            "x-schemaExtension": "hello world"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Inner Inner Object (nested three deep).  Testing the recursive property mapping.",
+        "x-schemaExtension": "hello world"
+      },
+      "TestWebApp.Controllers.InnerObject": {
+        "type": "object",
+        "properties": {
+          "innerString": {
+            "type": "string",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "innerInnerObject": {
+            "$ref": "#/components/schemas/TestWebApp.Controllers.InnerInnerObject"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Inner Object",
+        "x-schemaExtension": "hello world"
+      }
+    }
+  }
+}

@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Readers;
 using Swagabond.Core.Exceptions;
 using Swagabond.Core.ObjectModel;
+using Swagabond.Core.Parsers;
 
 namespace Swagabond.Core.Mappers;
 
@@ -10,11 +11,13 @@ namespace Swagabond.Core.Mappers;
 /// </summary>
 public class OpenApiMapper
 {
-    private readonly ILogger _logger;
-
-    public OpenApiMapper(ILogger logger)
+    private readonly ILogger<OpenApiMapper> _logger;
+    private readonly IMicrosoftSwaggerParser _swaggerParser;
+    
+    public OpenApiMapper(ILogger<OpenApiMapper> logger, IMicrosoftSwaggerParser swaggerParser)
     {
         _logger = logger;
+        _swaggerParser = swaggerParser;
     }
 
     /// <summary>
@@ -29,8 +32,7 @@ public class OpenApiMapper
         _logger.LogInformation("Parsing OpenAPI document from stream");
         
         // This is first mapped by .net's library
-        var openApiReader = new OpenApiStreamReader();
-        var result = await openApiReader.ReadAsync(swaggerStream);
+        var result = await _swaggerParser.ParseAsOpenApiDocument(swaggerStream);
 
         ValidateApiSpec(request, result);
 

@@ -39,10 +39,14 @@ public class Api
         api.Tags = document.Tags.Select(t => ApiTag.FromOpenApi(t, document, api)).ToList();
 
         // Map paths 
-        foreach (var openApiPath in document.Paths)
+        if (document.Paths?.Any() == true)
         {
-            api.Paths.Add(ApiPath.FromOpenApi(openApiPath, document, api));
+            foreach (var openApiPath in document.Paths)
+            {
+                api.Paths.Add(ApiPath.FromOpenApi(openApiPath, document, api));
+            }
         }
+
 
         api.Metadata = mapperRequest.Metadata;
 

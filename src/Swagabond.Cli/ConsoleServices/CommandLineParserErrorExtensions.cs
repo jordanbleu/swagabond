@@ -1,6 +1,6 @@
 using CommandLine;
 
-namespace Swagabond.Cli.Console;
+namespace Swagabond.Cli.ConsoleServices;
 
 public static class CommandLineParserErrorExtensions
 {
