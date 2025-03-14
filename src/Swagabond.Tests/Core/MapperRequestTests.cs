@@ -15,6 +15,12 @@ namespace Swagabond.Tests.Core;
 public class MapperRequestTests
 {
     [Fact]
+    public void FailedTes()
+    {
+        Assert.Fail("asdf");
+    }
+
+    [Fact]
     public async Task MapFromStream_DoesNotThrowExceptionForInvalidSpec_WhenConfiguredNotTo()
     {
         var autoMocker = new AutoMocker();
