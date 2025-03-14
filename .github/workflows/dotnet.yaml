@@ -22,9 +22,13 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore
+      working-directory: ./src
     - name: Build
       run: dotnet build --no-restore
+      working-directory: ./src
     - name: UnitTests
-      run: dotnet test ./src/Swagabond.Tests
+      run: dotnet test ./Swagabond.Tests
+      working-directory: ./src
     - name: IntegrationTests
-      run: dotnet test ./src/Swagabond.IntegrationTests
+      run: dotnet test ./Swagabond.IntegrationTests
+      working-directory: ./src
