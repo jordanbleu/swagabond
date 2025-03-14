@@ -16,19 +16,25 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+      working-directory: ./src
+
     - name: Restore dependencies
       run: dotnet restore
       working-directory: ./src
+      
     - name: Build
       run: dotnet build --no-restore
       working-directory: ./src
+
     - name: UnitTests
       run: dotnet test ./Swagabond.Tests
       working-directory: ./src
+      
     - name: IntegrationTests
       run: dotnet test ./Swagabond.IntegrationTests
       working-directory: ./src
