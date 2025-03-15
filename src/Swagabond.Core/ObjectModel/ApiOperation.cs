@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using Swagabond.Core.Extensions;
 
 namespace Swagabond.Core.ObjectModel;
 
@@ -125,7 +126,7 @@ public class ApiOperation
         
         // Request body is (generally) a complex json-based object
         if (op.RequestBody is not null)
-            apiOperation.RequestBody = ApiRequestBody.FromOpenApi(op.RequestBody);
+            apiOperation.RequestBody = ApiRequestBody.FromOpenApi(BuildSchemaName(method, path.Route, "Request"), op.RequestBody);
 
         // Map basic parameters as well 
         foreach (var param in op.Parameters)
@@ -145,12 +146,18 @@ public class ApiOperation
             }
         }
         
-        // Add a response body for each http status code
         foreach (var response in op.Responses)
         {
-            apiOperation.Responses.Add(ApiResponseBody.FromOpenApi(response));
+            var name = BuildSchemaName(method, path.Route, $"{response.Key} Response");
+            apiOperation.Responses.Add(ApiResponseBody.FromOpenApi(name, response));
         }
         
         return apiOperation;
     }
+
+    
+    private static string BuildSchemaName(string method, string path, string suffix) =>
+        $"{path} {method} {suffix}".ToAlphaNumericCamelCase();
+
+
 }

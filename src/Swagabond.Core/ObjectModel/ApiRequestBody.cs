@@ -12,10 +12,10 @@ public class ApiRequestBody
     public string Description { get; set; } = string.Empty;
     public bool IsRequired { get; set; } = false;
     
-    public ApiSchemaDefinition Schema { get; set; } = new();
+    public ApiSchema Schema { get; set; } = new();
     public ApiContentType ContentType { get; set; } = ApiContentType.PlainText;
     public string RawContentType { get; set; } = string.Empty;
-    public static ApiRequestBody FromOpenApi(OpenApiRequestBody requestBody)
+    public static ApiRequestBody FromOpenApi(string name, OpenApiRequestBody requestBody)
     {
         var apiRequestBody = new ApiRequestBody();
         
@@ -37,7 +37,8 @@ public class ApiRequestBody
         apiRequestBody.ContentType = ApiContentTypeMapper.FromString(rawContentType);
         
         var contentBody = content.Value.Value;
-        apiRequestBody.Schema = ApiSchemaDefinition.FromOpenApi(contentBody.Schema);
+        
+        apiRequestBody.Schema = ApiSchema.FromOpenApi(name, contentBody.Schema);
         
         return apiRequestBody;
     }

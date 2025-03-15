@@ -13,9 +13,9 @@ public class ApiResponseBody
     
     public string Description { get; set; } = string.Empty;
     
-    public ApiSchemaDefinition Schema { get; set; } = new();
+    public ApiSchema Schema { get; set; } = new();
     
-    public static ApiResponseBody FromOpenApi(KeyValuePair<string, OpenApiResponse> response)
+    public static ApiResponseBody FromOpenApi(string name, KeyValuePair<string, OpenApiResponse> response)
     {
         var apiResponse = new ApiResponseBody();
         var r = response.Value;
@@ -41,7 +41,7 @@ public class ApiResponseBody
         apiResponse.ContentType = ApiContentTypeMapper.FromString(rawContentType);
         
         
-        apiResponse.Schema = ApiSchemaDefinition.FromOpenApi(content.Schema);
+        apiResponse.Schema = ApiSchema.FromOpenApi(name, content.Schema);
         return apiResponse;
     }
 }

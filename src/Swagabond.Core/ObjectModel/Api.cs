@@ -23,6 +23,8 @@ public class Api
 
     public List<ApiPath> Paths { get; set; } = new();
 
+    public List<ApiSchema> Schemas { get; set; } = new();
+
     public Dictionary<string, string> Metadata { get; set; }  = new();
 
     public static Api FromOpenApi(OpenApiDocument document, OpenApiDiagnostic diag, MapperRequest mapperRequest)
@@ -46,7 +48,15 @@ public class Api
                 api.Paths.Add(ApiPath.FromOpenApi(openApiPath, document, api));
             }
         }
-
+        
+        // Map schemas
+        if (document.Components?.Schemas?.Any() == true)
+        {
+            foreach (var schema in document.Components.Schemas)
+            {
+                api.Schemas.Add(ApiSchema.FromOpenApi(schema));
+            }
+        }
 
         api.Metadata = mapperRequest.Metadata;
 

@@ -220,6 +220,7 @@ public class BasicTest
         response.Schema.EnumValues.ShouldBeEmpty();
         response.Schema.EnumOptions.ShouldBeEmpty();
         response.Schema.SchemaId.ShouldBe("TestWebApp.Controllers.ComplexResponseObject");
+
         response.Schema.Description.ShouldBe("Complex Response Object");
 
         foreach (var prop in response.Schema.Properties)

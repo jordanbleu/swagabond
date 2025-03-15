@@ -113,7 +113,23 @@ public class ExecutionPlanBuilder
             () => RenderOutputToFile(startingDirectory, instructionSet, instruction, operation, outputFileName));
         
     }
+    
+    public async Task AddSchemaScopedInstruction(string startingDirectory, InstructionSet instructionSet,
+        ProcessTemplateInstruction instruction, ApiSchema operation)
+    {
+        var templateEngine = _templateEngineFactory.GetEngine(instruction.TemplateType);
 
+        var fileNameTemplate = instruction.OutputFileNameTemplate;
+        var outputFileName = await templateEngine.RenderTemplate(fileNameTemplate, operation);
+
+        if (_executionPlan.ContainsKey(outputFileName))
+            throw new InvalidOperationException($"Output template text '{fileNameTemplate}' would result in overlapping filenames: '{outputFileName}'." +
+                                                $"Please double check that each opearation scoped instruction writes out a unique filename.");
+        
+        _executionPlan.Add(outputFileName,
+            () => RenderOutputToFile(startingDirectory, instructionSet, instruction, operation, outputFileName));
+        
+    }
 
     public async Task Execute(int maxDegreeOfParallelism)
     {
