@@ -18,7 +18,10 @@ public class Arguments
 
     [Option('p', 
         "maxDop",
-        HelpText = "Max Degree of Parallelism.  Basically, this controls how many files you can generate at once.  Lower values are slower but use less memory / CPU.  Higher values are faster and use more memory / CPU.",
+        HelpText = "Max Degree of Parallelism.  Basically, this controls how many files you can generate at once.  Lower value means slower but use less memory / CPU threads.  Higher value means faster and use more memory / CPU threads.",
         Required = false)]
     public int MaxDegreeOfParallelism { get; set; } = 5;
+    
+    [Option(shortName: 'c', longName: "cleanOutput", HelpText = "If true, the output directory will be cleaned before generating new files.", Required = false)]
+    public bool CleanOutputDirectory { get; set; } = false;
 }

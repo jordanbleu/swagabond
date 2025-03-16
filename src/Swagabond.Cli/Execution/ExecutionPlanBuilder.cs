@@ -49,9 +49,18 @@ public class ExecutionPlanBuilder
 
         _logger.LogInformation("Rendering template {0} for {1}", instruction.TemplateFile, typeof(T).Name);
 
-        var templateEngine = _templateEngineFactory.GetEngine(instruction.TemplateType);
-        var output = await templateEngine.RenderTemplate(templateContents, model);
-        
+        string output;
+        try
+        {
+            var templateEngine = _templateEngineFactory.GetEngine(instruction.TemplateType);
+            output = await templateEngine.RenderTemplate(templateContents, model);
+        } 
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error rendering template {0} for {1}", instruction.TemplateFile, typeof(T).Name);
+            throw;
+        }
+
         var instructionSetBaseOutputDirectory = instructionSet.OutputBaseDirectory;
         var finalOutputPath = Path.Combine(startingDirectory, instructionSetBaseOutputDirectory, outputFile);
         var finalOutputPathDirectory = Path.GetDirectoryName(finalOutputPath) ?? ".";
@@ -115,19 +124,19 @@ public class ExecutionPlanBuilder
     }
     
     public async Task AddSchemaScopedInstruction(string startingDirectory, InstructionSet instructionSet,
-        ProcessTemplateInstruction instruction, ApiSchema operation)
+        ProcessTemplateInstruction instruction, ApiSchema schema)
     {
         var templateEngine = _templateEngineFactory.GetEngine(instruction.TemplateType);
 
         var fileNameTemplate = instruction.OutputFileNameTemplate;
-        var outputFileName = await templateEngine.RenderTemplate(fileNameTemplate, operation);
+        var outputFileName = await templateEngine.RenderTemplate(fileNameTemplate, schema);
 
         if (_executionPlan.ContainsKey(outputFileName))
             throw new InvalidOperationException($"Output template text '{fileNameTemplate}' would result in overlapping filenames: '{outputFileName}'." +
-                                                $"Please double check that each opearation scoped instruction writes out a unique filename.");
+                                                $"Please double check that each schema scoped instruction writes out a unique filename.");
         
         _executionPlan.Add(outputFileName,
-            () => RenderOutputToFile(startingDirectory, instructionSet, instruction, operation, outputFileName));
+            () => RenderOutputToFile(startingDirectory, instructionSet, instruction, schema, outputFileName));
         
     }
 

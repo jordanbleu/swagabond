@@ -1,4 +1,5 @@
 using System.Text.Encodings.Web;
+using System.Text.RegularExpressions;
 
 namespace Swagabond.Templates.Functions;
 
@@ -20,4 +21,48 @@ public class TemplateFunctions
     
     public static string Coalesce(string input, string defaultValue)
         => string.IsNullOrWhiteSpace(input) ? defaultValue : input;
+
+    /// <summary>
+    /// Splits your string on any non alpha numeric tokens and combines them using PascalCase notation.
+    /// </summary>
+    public static string PascalCase(string str)
+    {
+        if (string.IsNullOrWhiteSpace(str))
+            return str;
+
+        var words = str.Split(new[] { '_', '-', ' ', '.' }, StringSplitOptions.RemoveEmptyEntries);
+
+        if (words.Length == 1)
+        {
+            var word = words[0];
+            return char.ToUpperInvariant(word[0]) + word.Substring(1);
+        }
+
+        return string.Concat(words.Select(word =>
+            char.ToUpperInvariant(word[0]) + word.Substring(1).ToLowerInvariant()));
+    }
+
+    /// <summary>
+    /// Splits your string on any non alpha numeric tokens and combines them using PascalCase notation.
+    /// </summary>
+    public static string CamelCase(string str)
+    {
+        if (string.IsNullOrEmpty(str))
+            return string.Empty;
+        
+        var pascalCase = PascalCase(str);
+        
+        // just lowercase the first letter 
+        return char.ToLower(pascalCase[0]) + pascalCase[1..];
+    }
+    
+    public static string LastDottedSegment(string str)
+    {
+        if (string.IsNullOrEmpty(str))
+            return string.Empty;
+        
+        var parts = str.Split('.');
+        return parts.LastOrDefault() ?? string.Empty;
+        
+    }
 }

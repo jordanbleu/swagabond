@@ -1,5 +1,7 @@
 using System.Reflection;
+using System.Text;
 using Scriban;
+using Scriban.Parsing;
 using Scriban.Runtime;
 using Swagabond.Templates.Functions;
 
@@ -10,7 +12,7 @@ public class ScribanTemplateEngine : ITemplateEngine
     public async Task<string> RenderTemplate<T>(string templateContent, T model)
     {
         var template = Template.Parse(templateContent);
-        
+
         var context = new TemplateContext();
         context.MemberRenamer = member => member.Name; 
 

@@ -31,26 +31,40 @@ public class ApiSchema
 
     public bool IsDeprecated { get; set; } = false;
     
-    public string SchemaId { get; set; } = string.Empty;
-
+    public string ReferenceSchemaId { get; set; } = string.Empty;
+    
     public string Description { get; set; } = string.Empty;
+
+    public Api Api { get; set; } = new();
 
     public bool IsEmpty { get; set; } = true;
 
-    public static ApiSchema FromOpenApi(string name, OpenApiSchema schema)
+    public ApiOperation Operation { get; set; } = ApiOperation.Empty;
+
+    public static ApiSchema FromOpenApi(string name, OpenApiSchema schema, Api fullApi, ApiOperation? apiOperation = null)
     {
         var apiSchema = new ApiSchema();
 
         apiSchema.Name = name;
         apiSchema.IsDeprecated = schema.Deprecated;
-        apiSchema.IsEnum = schema.Enum?.Any() ?? false;
+        apiSchema.IsEnum = schema.Enum?.Any() == true || schema.Items?.Enum?.Any() == true;
         apiSchema.Description = schema.Description ?? string.Empty;
         apiSchema.IsEmpty = false;
+        apiSchema.Api = fullApi;
+                
+        var isArray =  schema.Type == "array";
+        apiSchema.IsArray = isArray;
+
+        if (apiOperation is not null)
+            apiSchema.Operation = apiOperation;
 
         // Map enum values + names 
         if (apiSchema.IsEnum)
         {
-            var enumOpts =  ApiEnumOption.FromOpenApi(schema.Enum!, schema.Extensions);
+            var enumToMap = apiSchema.IsArray ? schema.Items?.Enum : schema.Enum ?? schema.Enum;
+            
+            var enumOpts =  ApiEnumOption.FromOpenApi(enumToMap!, schema.Extensions);
+            
             apiSchema.EnumOptions = enumOpts;
             apiSchema.EnumValues = enumOpts.Select(x=>x.Value).ToList();
             apiSchema.EnumNames = enumOpts.Select(x=>x.Name).ToList();
@@ -59,9 +73,7 @@ public class ApiSchema
         // set the example property to a string representation of the example value
         apiSchema.Example = schema.Example?.WriteAsString() ?? string.Empty;
         apiSchema.Format = schema.Format ?? string.Empty;
-        
-        var isArray =  schema.Type == "array";
-        apiSchema.IsArray = isArray;
+
 
         // If it is an array we set the type to the type of array elements.
         // This is different from the OpenAPI spec because we don't support multi-type arrays.
@@ -74,34 +86,34 @@ public class ApiSchema
             apiSchema.Type = ApiDataTypeMapper.FromString(schema.Type);
         }
 
-        if (apiSchema.Type != ApiDataType.Object) 
+        if (apiSchema.Type != ApiDataType.Object && !apiSchema.IsEnum) 
             return apiSchema;
 
         if (apiSchema.IsArray)
         {
-            apiSchema.SchemaId = schema.Items.Reference.Id ?? string.Empty;
+            apiSchema.ReferenceSchemaId = schema.Items.Reference?.Id ?? string.Empty;
 
             foreach (var prop in schema.Items.Properties)
             {
                 // recursively map each inner property
-                apiSchema.Properties.Add(FromOpenApi(prop));
+                apiSchema.Properties.Add(FromOpenApi(prop, fullApi));
             }
         }
         else
         {
-            apiSchema.SchemaId = schema.Reference.Id ?? string.Empty;
+            apiSchema.ReferenceSchemaId = schema.Reference?.Id ?? string.Empty;
                 
             // If it is an object, map the inner properties as well
             foreach (var prop in schema.Properties)
             {
                 // recursively map each inner property
-                apiSchema.Properties.Add(FromOpenApi(prop));
+                apiSchema.Properties.Add(FromOpenApi(prop, fullApi));
             }
         }
     
         return apiSchema;
     }
 
-    public static ApiSchema FromOpenApi(KeyValuePair<string, OpenApiSchema> property) =>
-        FromOpenApi(property.Key, property.Value);
+    public static ApiSchema FromOpenApi(KeyValuePair<string, OpenApiSchema> property, Api fullApi) =>
+        FromOpenApi(property.Key, property.Value, fullApi);
 }

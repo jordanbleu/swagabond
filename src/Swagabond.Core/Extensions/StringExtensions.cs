@@ -4,11 +4,6 @@ namespace Swagabond.Core.Extensions;
 
 public static class StringExtensions
 {
-    /// <summary>
-    /// Converts input into camelcase that could reasonably be used as a class name 
-    /// </summary>
-    /// <param name="str"></param>
-    /// <returns></returns>
     public static string ToAlphaNumericCamelCase(this string str)
     {
         if (string.IsNullOrEmpty(str))

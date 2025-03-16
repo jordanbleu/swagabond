@@ -95,6 +95,10 @@
 
 {{for prop in RequestBody.Schema.Properties}}
 * {{prop.Name}} {{if prop.IsArray}}[]{{end}}
+{{ if !prop.IsPrimitive }}
+    * **Reference:**
+        * **Name:** [{{prop.ReferenceSchemaId}}](../schema/{{prop.ReferenceSchemaId}}.md)
+{{end}}{{#/if !prop.IsPrimitive}}
     * **Example:** `{{prop.Example}}`
     * **Type:** {{prop.Type}}
     * **Format:** {{prop.Format}}
@@ -127,7 +131,7 @@
         * {{enumOpt.Name}} ==> {{enumOpt.Value}}
 {{end}}{{#/prop.IsEnum}}
 {{end}}{{#/prop is enum}}
-    * Schema Reference: {{prop.SchemaId}}
+    * Schema Reference: [{{prop.ReferenceSchemaId}}](../schema/{{prop.ReferenceSchemaId}}.md)
 {{end}}{{#/for props}}
 {{end}}{{#/for response body in responses}}
 {{# ------------------------------------ Tags Section ------------------------- }}

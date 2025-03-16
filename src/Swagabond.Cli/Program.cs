@@ -176,11 +176,37 @@ public class Program
                     }
                 }
             }
+
+            foreach (var schemaInst in instructionSet.SchemaScopedInstructions)
+            {
+                foreach (var schema in api.Schemas)
+                {
+                    await executionPlan.AddSchemaScopedInstruction(instructionSetBaseDir, instructionSet, schemaInst,
+                        schema);
+                }
+            }
         }
         catch (Exception ex)
         {
             consoleHelper.WriteError("There was an error building an execution plan :(", new[] { ex.Message }, ex);
             throw;
+        }
+
+        if (arguments.CleanOutputDirectory)
+        {
+            var templateDir = Path.GetDirectoryName(arguments.InstructionSetFilePath);
+            var instructionSetOutputDir = instructionSet.OutputBaseDirectory;
+            var pathToClean = Path.Combine(templateDir, instructionSetOutputDir);
+            
+            if (Directory.Exists(pathToClean))
+            {
+                logger.LogInformation($"Cleaning existing output directory {pathToClean}...");
+                Directory.Delete(pathToClean, true);
+            }
+            else
+            {
+                logger.LogInformation($"Output directory {pathToClean} does not exist yet, nothing to clean.");
+            }
         }
 
         // ************************************************

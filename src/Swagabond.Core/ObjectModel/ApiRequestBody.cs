@@ -8,6 +8,8 @@ namespace Swagabond.Core.ObjectModel;
 /// </summary>
 public class ApiRequestBody
 {
+    
+    
     public bool IsEmpty { get;set; } = true;
     public string Description { get; set; } = string.Empty;
     public bool IsRequired { get; set; } = false;
@@ -15,14 +17,28 @@ public class ApiRequestBody
     public ApiSchema Schema { get; set; } = new();
     public ApiContentType ContentType { get; set; } = ApiContentType.PlainText;
     public string RawContentType { get; set; } = string.Empty;
-    public static ApiRequestBody FromOpenApi(string name, OpenApiRequestBody requestBody)
+
+    public Api Api { get; set; } = new();
+
+    /// <summary>
+    /// When accessed from an operation, this will contain the operation that this request body is associated with.
+    /// </summary>
+    public ApiOperation Operation { get; set; }
+    
+    public static ApiRequestBody Empty = new();
+
+    public static ApiRequestBody FromOpenApi(string name, OpenApiRequestBody requestBody, Api api, ApiOperation? apiOperation)
     {
         var apiRequestBody = new ApiRequestBody();
         
         apiRequestBody.Description = requestBody.Description ?? string.Empty;
         apiRequestBody.IsRequired = requestBody.Required;
         apiRequestBody.IsEmpty = false;
-
+        apiRequestBody.Api = api;
+        
+        if (apiOperation is not null)
+            apiRequestBody.Operation = apiOperation;
+        
         if (requestBody?.Content?.Any() == false)
             return apiRequestBody;
         
@@ -38,7 +54,7 @@ public class ApiRequestBody
         
         var contentBody = content.Value.Value;
         
-        apiRequestBody.Schema = ApiSchema.FromOpenApi(name, contentBody.Schema);
+        apiRequestBody.Schema = ApiSchema.FromOpenApi(name, contentBody.Schema, api, apiOperation);
         
         return apiRequestBody;
     }

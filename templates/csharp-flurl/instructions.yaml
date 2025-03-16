@@ -1,13 +1,13 @@
 template_base_directory: .
-output_base_directory: output
-
-for_api:
-- use_template_file: apiClient.scriban
-  write_outputs_to: '{Name}Template.cs'
+output_base_directory: ../../template-output/csharp-flurl/SwagabondClientGen/FlurlClients
 
 for_schema_definitions:
 - use_template_file: schema.scriban
-  write_outputs_to: '{Name}.cs'
+  write_output_to: './{{f_PascalCase Api.Info.Title}}Client/Models/{{ f_PascalCase (f_LastDottedSegment Name) }}.cs'
+
+for_api:
+- use_template_file: client-interface.scriban
+  write_output_to: './I{{f_PascalCase Info.Title}}FlurlClient.cs'
 
 metadata:
   Company: JBleu,inc.
