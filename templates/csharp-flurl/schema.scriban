@@ -14,7 +14,7 @@ namespace {{f_PascalCase Api.Info.Title}}Client.Models;
 
 {{if IsEnum}}
 /// <summary>
-/// {{Description}}
+/// {{f_StripNewlines Description}}
 /// </summary>
 public enum {{ f_PascalCase (f_LastDottedSegment Name) }}
 {

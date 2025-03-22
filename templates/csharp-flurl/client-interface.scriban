@@ -10,12 +10,14 @@
 
 using System;
 using System.Collections.Generic;
+using Flurl;
+using Flurl.Http;
 using {{f_PascalCase Info.Title}}Client.Models;
 
 namespace {{f_PascalCase Info.Title}}Client;
 
 /// <summary>
-/// {{Info.Description}}
+/// {{f_StripNewlines Info.Description}}
 /// </summary>
 /// <remarks>API Version {{Info.Version}}</remarks>
 public interface I{{f_PascalCase Info.Title}}FlurlClient

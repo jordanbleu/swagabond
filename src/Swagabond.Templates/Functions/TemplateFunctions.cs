@@ -22,6 +22,9 @@ public class TemplateFunctions
     public static string Coalesce(string input, string defaultValue)
         => string.IsNullOrWhiteSpace(input) ? defaultValue : input;
 
+    public static string StripNewlines(string input)
+        => input.ReplaceLineEndings(" ");
+
     /// <summary>
     /// Splits your string on any non alpha numeric tokens and combines them using PascalCase notation.
     /// </summary>
