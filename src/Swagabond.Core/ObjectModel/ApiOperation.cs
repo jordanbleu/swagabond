@@ -105,6 +105,12 @@ public class ApiOperation
     public bool IsEmpty { get; set; } = true;
 
     public static ApiOperation Empty = new();
+    
+    public bool HasRequestBody => RequestBody?.IsEmpty == false;
+    
+    public bool HasPathParameters => PathParameters.Any();
+    
+    public bool HasQueryParameters => QueryParameters.Any();
 
 // todo: Security definition
     // todo: extensions 

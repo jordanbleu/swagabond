@@ -9,7 +9,7 @@ namespace Swagabond.Templates.Engines;
 
 public class ScribanTemplateEngine : ITemplateEngine
 {
-    public async Task<string> RenderTemplate<T>(string templateContent, T model)
+    public async Task<string> RenderTemplate<T>(string templateContent, T model, Action<string> logCallback)
     {
         var template = Template.Parse(templateContent);
 
@@ -24,8 +24,14 @@ public class ScribanTemplateEngine : ITemplateEngine
         globals.Import(model, renamer:m=>m.Name);
         // Import all functions the same way but prefix with a lowercase f_
         globals.Import(typeof(TemplateFunctions), renamer:  m=> "f_" + m.Name);
-        context.PushGlobal(globals);
+
+        globals.Import("f_Log", new Action<string>(logCallback));
     
+        // // Special 'log' function so template can talk to your output
+        // globals.Add("f_Log", new Func<string, object>(x=> { logCallback(x); return null; }));
+        //
+        context.PushGlobal(globals);
+
         return await template.RenderAsync(context);
     }
     

@@ -1,0 +1,46 @@
+# {{ Api.Info.Title }}
+
+{{ if IsDeprecated }}
+> DEPRECATED
+{{ end }}
+
+
+## {{ Name }}
+
+{{ Description }}
+
+### Example
+
+```
+{{ f_Coalesce Example "(No examples here...)"}}
+```
+
+{{ if IsEnum }}
+### Enum Values:
+
+#### **Type:** {{Type}}
+#### **Format: {{Format}}
+
+````
+{{for enumOpt in EnumOptions}}
+    {{enumOpt.Name}} = {{enumOpt.Value}},
+{{end}}
+```
+{{end}} {{# /if isenum }}
+{{ if !IsEnum }}
+{{ for prop in Properties }}
+{{if prop.IsPrimitive }}
+* **Name:** {{ prop.Name }} - {{prop.Description}}
+    * **Type:** {{prop.Type}}
+    * **Format:** {{prop.Format}}
+    * **IsArray:** {{prop.IsArray}}
+    * **Example:** `{{f_Coalesce prop.Example "No example values."}}`
+    * **ReferenceSchemaId:** {{prop.ReferenceSchemaId}}
+{{else}}
+* **Name:** {{prop.Name}} - {{prop.Description}}
+    * **Type:** {{prop.ReferenceSchemaId}}
+    * **IsArray:** {{prop.IsArray}}
+{{end}}{{#/if isPrimitive}}
+{{ end }} {{# /for prop in props}}
+{{ end }} {{# /if !IsEnum}}
+[🏠 Home](../{{f_UrlEncode Api.Info.Title}}.Readme.md)

@@ -7,8 +7,8 @@ namespace Swagabond.Core.ObjectModel;
 
 public class ApiEnumOption
 {
-    public string Name { get; set; } = string.Empty;
-    public string Value { get; set; } = string.Empty;
+    public string Name { get; internal set; } = string.Empty;
+    public string Value { get; internal set; } = string.Empty;
     
     public static List<ApiEnumOption> FromOpenApi(IList<IOpenApiAny> enumValues, IDictionary<string, IOpenApiExtension> extensions)
     {

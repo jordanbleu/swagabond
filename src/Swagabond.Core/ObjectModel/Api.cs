@@ -8,19 +8,19 @@ namespace Swagabond.Core.ObjectModel;
 /// </summary>
 public class Api
 {
-    public string SpecVersion { get; set; } = string.Empty;
+    public string SpecVersion { get; internal set; } = string.Empty;
 
-    public ApiSpecType Type { get; set; } = ApiSpecType.OpenApi;
+    public ApiSpecType Type { get; internal set; } = ApiSpecType.OpenApi;
     
-    public ApiInfo Info { get; set; } = ApiInfo.Empty;
+    public ApiInfo Info { get; internal set; } = ApiInfo.Empty;
     
-    public ApiExternalLink ExternalDocs { get; set; } = new();
+    public ApiExternalLink ExternalDocs { get; internal set; } = new();
 
-    public List<ApiPath> Paths { get; set; } = new();
+    public List<ApiPath> Paths { get; internal set; } = new();
 
-    public List<ApiSchema> Schemas { get; set; } = new();
+    public List<ApiSchema> Schemas { get; internal set; } = new();
 
-    public Dictionary<string, string> Metadata { get; set; }  = new();
+    public Dictionary<string, string> Metadata { get; internal set; }  = new();
     
     /// <summary>
     /// Selects all operations from all paths on the api

@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.Extensions.Logging;
 using Swagabond.Cli.IO;
 using Swagabond.Configuration.Instructions;
@@ -33,7 +34,8 @@ public class ExecutionPlanBuilder
     private async Task RenderOutputToFile<T>(string startingDirectory, 
         InstructionSet instructionSet, ProcessTemplateInstruction instruction, T model, string outputFile)
     {
-        _logger.LogInformation("Begin rendering template {0} to {1}", instruction.TemplateFile, outputFile);
+        var taskId = Guid.NewGuid();
+        _logger.LogInformation("[{}] Begin rendering template {} to {}", taskId, instruction.TemplateFile, outputFile);
 
         var instructionSetBaseTemplateDirectory = instructionSet.TemplateBaseDirectory;
         var instructionTemplateFilePath = instruction.TemplateFile;
@@ -42,22 +44,67 @@ public class ExecutionPlanBuilder
         if (!File.Exists(fullPathToTemplateFile))
             throw new FileNotFoundException($"Template file not found at {fullPathToTemplateFile}.");
 
-        _logger.LogInformation("Downloading template {0}", instruction.TemplateFile);
-
+        _logger.LogInformation("[{}] Downloading template {} content", taskId, instruction.TemplateFile);
         await using var templateContentStream = await _dataRetriever.GetDataStream(fullPathToTemplateFile);
         var templateContents = await _dataRetriever.ReadStreamAsText(templateContentStream);
 
-        _logger.LogInformation("Rendering template {0} for {1}", instruction.TemplateFile, typeof(T).Name);
+        var templatePrefixContent = string.Empty;
+        if (instruction.IncludeFilesBefore.Any())
+        {
+            var sb = new StringBuilder();
+            foreach (var f in instruction.IncludeFilesBefore)
+            {
+                var fullPath = Path.Combine(startingDirectory, instructionSetBaseTemplateDirectory, f);
+                
+                if (!File.Exists(fullPath))
+                    throw new FileNotFoundException($"include_before file not found at {fullPath}.");
+                
+                _logger.LogInformation("[{}] Downloading include_before file '{}' content", taskId, f);
+                
+                await using var includeFileStream = await _dataRetriever.GetDataStream(fullPath);
+                var includeFileContents = await _dataRetriever.ReadStreamAsText(includeFileStream);
+                
+                sb.AppendLine(includeFileContents);
+            }
+
+            templatePrefixContent = sb.ToString();
+        }
+        
+        var templateSuffixContent = string.Empty;
+        if (instruction.IncludeFilesAfter.Any())
+        {
+            var sb = new StringBuilder();
+            foreach (var f in instruction.IncludeFilesAfter)
+            {
+                var fullPath = Path.Combine(startingDirectory, instructionSetBaseTemplateDirectory, f);
+                
+                if (!File.Exists(fullPath))
+                    throw new FileNotFoundException($"include_after file not found at {fullPath}.");
+                
+                _logger.LogInformation("[{}] Downloading include_after file '{}' content", taskId, f);
+                
+                await using var includeFileStream = await _dataRetriever.GetDataStream(fullPath);
+                var includeFileContents = await _dataRetriever.ReadStreamAsText(includeFileStream);
+                
+                sb.AppendLine(includeFileContents);
+            }
+
+            templateSuffixContent = sb.ToString();
+        }
+
+
+        _logger.LogInformation("[{}] Rendering full template {} for {}", taskId, instruction.TemplateFile, typeof(T).Name);
 
         string output;
         try
         {
+            var fullTemplate = templatePrefixContent + "\n" + templateContents + "\n" + templateSuffixContent;
             var templateEngine = _templateEngineFactory.GetEngine(instruction.TemplateType);
-            output = await templateEngine.RenderTemplate(templateContents, model);
+            output = await templateEngine.RenderTemplate(fullTemplate, model, str => _logger.LogInformation("[{}]:[{} f_Log]: {}", taskId, instruction.TemplateFile, str));
         } 
         catch (Exception e)
         {
-            _logger.LogError(e, "Error rendering template {0} for {1}", instruction.TemplateFile, typeof(T).Name);
+            _logger.LogError(e, "[{}] Error rendering template {} for {}", taskId, instruction.TemplateFile, typeof(T).Name);
             throw;
         }
 
@@ -68,11 +115,11 @@ public class ExecutionPlanBuilder
         // ensure the directory exists
         if (!Directory.Exists(finalOutputPathDirectory))
         {
-            _logger.LogInformation("Creating missing dir {}", finalOutputPathDirectory);
+            _logger.LogInformation("[{}] Creating missing dir {}", taskId, finalOutputPathDirectory);
             Directory.CreateDirectory(finalOutputPathDirectory);
         }
         
-        _logger.LogInformation("Writing template output to {0}", finalOutputPath);
+        _logger.LogInformation("[{}] Writing template output to {0}", taskId, finalOutputPath);
         await File.WriteAllTextAsync(finalOutputPath, output);
     }
 
@@ -81,7 +128,7 @@ public class ExecutionPlanBuilder
         var templateEngine = _templateEngineFactory.GetEngine(instruction.TemplateType);
 
         var fileNameTemplate = instruction.OutputFileNameTemplate;
-        var outputFileName = await templateEngine.RenderTemplate(fileNameTemplate, api);
+        var outputFileName = await templateEngine.RenderTemplate(fileNameTemplate, api, s => _logger.LogInformation("Template Log-> {}", s));
 
         if (_executionPlan.ContainsKey(outputFileName))
             throw new InvalidOperationException($"Output template text '{fileNameTemplate}' would result in overlapping filenames: '{outputFileName}'." +
@@ -96,7 +143,7 @@ public class ExecutionPlanBuilder
         var templateEngine = _templateEngineFactory.GetEngine(instruction.TemplateType);
 
         var fileNameTemplate = instruction.OutputFileNameTemplate;
-        var outputFileName = await templateEngine.RenderTemplate(fileNameTemplate, path);
+        var outputFileName = await templateEngine.RenderTemplate(fileNameTemplate, path, s => _logger.LogInformation("Template Log-> {}", s));
 
         if (_executionPlan.ContainsKey(outputFileName))
             throw new InvalidOperationException($"Output template text '{fileNameTemplate}' would result in overlapping filenames: '{outputFileName}'." +
@@ -112,7 +159,7 @@ public class ExecutionPlanBuilder
         var templateEngine = _templateEngineFactory.GetEngine(instruction.TemplateType);
 
         var fileNameTemplate = instruction.OutputFileNameTemplate;
-        var outputFileName = await templateEngine.RenderTemplate(fileNameTemplate, operation);
+        var outputFileName = await templateEngine.RenderTemplate(fileNameTemplate, operation, s => _logger.LogInformation("Template Log-> {}", s));
 
         if (_executionPlan.ContainsKey(outputFileName))
             throw new InvalidOperationException($"Output template text '{fileNameTemplate}' would result in overlapping filenames: '{outputFileName}'." +
@@ -129,7 +176,7 @@ public class ExecutionPlanBuilder
         var templateEngine = _templateEngineFactory.GetEngine(instruction.TemplateType);
 
         var fileNameTemplate = instruction.OutputFileNameTemplate;
-        var outputFileName = await templateEngine.RenderTemplate(fileNameTemplate, schema);
+        var outputFileName = await templateEngine.RenderTemplate(fileNameTemplate, schema, s => _logger.LogInformation("Template Log-> {}", s));
 
         if (_executionPlan.ContainsKey(outputFileName))
             throw new InvalidOperationException($"Output template text '{fileNameTemplate}' would result in overlapping filenames: '{outputFileName}'." +

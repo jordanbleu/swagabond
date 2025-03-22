@@ -10,12 +10,12 @@ public class ApiExternalLink
     /// <summary>
     /// A brief description of the link
     /// </summary>
-    public string Description { get; set; } = string.Empty;
+    public string Description { get; internal set; } = string.Empty;
     
     /// <summary>
     /// The URL for the link 
     /// </summary>
-    public string Url { get; set; } = string.Empty;
+    public string Url { get; internal set; } = string.Empty;
 
     public static ApiExternalLink FromOpenApi(OpenApiExternalDocs documentExternalDocs)
     {

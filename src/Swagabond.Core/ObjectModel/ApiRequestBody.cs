@@ -8,8 +8,6 @@ namespace Swagabond.Core.ObjectModel;
 /// </summary>
 public class ApiRequestBody
 {
-    
-    
     public bool IsEmpty { get;set; } = true;
     public string Description { get; set; } = string.Empty;
     public bool IsRequired { get; set; } = false;
@@ -24,6 +22,7 @@ public class ApiRequestBody
     /// When accessed from an operation, this will contain the operation that this request body is associated with.
     /// </summary>
     public ApiOperation Operation { get; set; }
+    
     
     public static ApiRequestBody Empty = new();
 
