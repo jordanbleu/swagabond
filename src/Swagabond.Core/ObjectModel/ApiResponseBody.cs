@@ -13,9 +13,14 @@ public class ApiResponseBody
     
     public string Description { get; set; } = string.Empty;
     
-    public ApiSchemaDefinition Schema { get; set; } = new();
-    
-    public static ApiResponseBody FromOpenApi(KeyValuePair<string, OpenApiResponse> response)
+    public ApiSchema Schema { get; set; } = new();
+    public Api Api { get; set; } = new();
+
+    public ApiOperation Operation { get; set; } = new();
+    public static ApiResponseBody Empty = new();
+
+
+    public static ApiResponseBody FromOpenApi(string name, KeyValuePair<string, OpenApiResponse> response, Api api, ApiOperation operation)
     {
         var apiResponse = new ApiResponseBody();
         var r = response.Value;
@@ -24,6 +29,8 @@ public class ApiResponseBody
         apiResponse.StatusCode = statusCode;
         apiResponse.Description = r.Description;
         apiResponse.IsEmpty = false;
+        apiResponse.Api = api;
+        apiResponse.Operation = operation;
         
         if (int.TryParse(statusCode, out var parsedStatusCode))
             apiResponse.ParsedStatusCode = parsedStatusCode;
@@ -41,7 +48,7 @@ public class ApiResponseBody
         apiResponse.ContentType = ApiContentTypeMapper.FromString(rawContentType);
         
         
-        apiResponse.Schema = ApiSchemaDefinition.FromOpenApi(content.Schema);
+        apiResponse.Schema = ApiSchema.FromOpenApi(name, content.Schema, api, operation);
         return apiResponse;
     }
 }

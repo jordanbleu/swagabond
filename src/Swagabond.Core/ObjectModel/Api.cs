@@ -8,23 +8,27 @@ namespace Swagabond.Core.ObjectModel;
 /// </summary>
 public class Api
 {
-    public string SpecVersion { get; set; } = string.Empty;
+    public string SpecVersion { get; internal set; } = string.Empty;
 
-    public ApiSpecType Type { get; set; } = ApiSpecType.OpenApi;
+    public ApiSpecType Type { get; internal set; } = ApiSpecType.OpenApi;
     
-    public ApiInfo Info { get; set; } = ApiInfo.Empty;
+    public ApiInfo Info { get; internal set; } = ApiInfo.Empty;
     
-    public ApiExternalLink ExternalDocs { get; set; } = new();
+    public ApiExternalLink ExternalDocs { get; internal set; } = new();
 
+    public List<ApiPath> Paths { get; internal set; } = new();
+
+    public List<ApiSchema> Schemas { get; internal set; } = new();
+
+    public Dictionary<string, string> Metadata { get; internal set; }  = new();
+    
     /// <summary>
-    /// Global list of all tags used on the API
+    /// Selects all operations from all paths on the api
     /// </summary>
-    public List<ApiTag> Tags { get; set; } = new();
+    public IEnumerable<ApiOperation> Operations => Paths.SelectMany(p => p.Operations);
 
-    public List<ApiPath> Paths { get; set; } = new();
-
-    public Dictionary<string, string> Metadata { get; set; }  = new();
-
+    public static Api Empty = new();
+    
     public static Api FromOpenApi(OpenApiDocument document, OpenApiDiagnostic diag, MapperRequest mapperRequest)
     {
         var api = new Api
@@ -34,10 +38,7 @@ public class Api
             Info = ApiInfo.FromOpenApi(document.Info),
             ExternalDocs = ApiExternalLink.FromOpenApi(document.ExternalDocs),
         };
-
-        // Map tags, and create a fake hierarchy of tags -> paths -> operations
-        api.Tags = document.Tags.Select(t => ApiTag.FromOpenApi(t, document, api)).ToList();
-
+        
         // Map paths 
         if (document.Paths?.Any() == true)
         {
@@ -46,7 +47,15 @@ public class Api
                 api.Paths.Add(ApiPath.FromOpenApi(openApiPath, document, api));
             }
         }
-
+        
+        // Map schemas
+        if (document.Components?.Schemas?.Any() == true)
+        {
+            foreach (var schema in document.Components.Schemas)
+            {
+                api.Schemas.Add(ApiSchema.FromOpenApi(schema, api));
+            }
+        }
 
         api.Metadata = mapperRequest.Metadata;
 

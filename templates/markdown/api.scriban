@@ -12,6 +12,11 @@
 * [{{ path.Route }}](./paths/{{path.Name}}.md)
 {{ end }}
 
+## Schema Definitions
+{{ for schema in Schemas }}
+* [{{schema.Name}}](./schema/{{schema.Name}}.md) - {{schema.Description}}
+{{end}}
+
 {{ if Info.HasLicenseInfo }}
 ## License / Terms
 

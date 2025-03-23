@@ -51,4 +51,11 @@ public class ProcessTemplateInstruction
 
     [YamlMember(Alias = "use_template_processor")]
     public TemplateType TemplateType { get; set; } = TemplateType.Scriban;
+    
+    [YamlMember(Alias = "include_before")]
+    public List<string> IncludeFilesBefore { get; set; } = new();
+    
+    [YamlMember(Alias = "include_after")]
+    public List<string> IncludeFilesAfter { get; set; } = new();
 }
+

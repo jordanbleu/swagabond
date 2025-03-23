@@ -1,15 +1,28 @@
 template_base_directory: .
-output_base_directory: output
+output_base_directory: ../../template-output/csharp-flurl
 
 for_api:
-- use_template_file: apiClient.scriban
-  write_outputs_to: '{Name}Template.cs'
+- use_template_file: csproj.scriban
+  write_output_to: ./{{f_PascalCase Info.Title}}Api/{{f_PascalCase Info.Title}}Api.csproj
+
+- use_template_file: client-interface.scriban
+  write_output_to: ./{{f_PascalCase Info.Title}}Api/I{{f_PascalCase Info.Title}}FlurlClient.cs
+  use_template_processor: Scriban
+  include_before:
+  - functions.scriban
+
+- use_template_file: client-impl.scriban
+  write_output_to: ./{{f_PascalCase Info.Title}}Api/{{f_PascalCase Info.Title}}FlurlClient.cs
+  use_template_processor: Scriban
+  include_before:
+  - functions.scriban
 
 for_schema_definitions:
 - use_template_file: schema.scriban
-  write_outputs_to: '{Name}.cs'
+  write_output_to: ./{{f_PascalCase Api.Info.Title}}Api/Models/{{ f_PascalCase (f_LastDottedSegment Name) }}.cs
+  use_template_processor: Scriban
+  include_before:
+  - functions.scriban
 
 metadata:
-  Company: JBleu,inc.
-  Dummy: Hello World
-
+  Company: Jordan Bleu

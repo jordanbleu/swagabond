@@ -1,4 +1,6 @@
+using System.Runtime.CompilerServices;
 using Microsoft.OpenApi.Models;
+using Swagabond.Core.Extensions;
 
 namespace Swagabond.Core.ObjectModel;
 
@@ -8,11 +10,6 @@ public class ApiOperation
     /// For HTTP requests, this will be the HTTP Method.
     /// </summary>
     public string Method { get; set; } = string.Empty;
-    
-    /// <summary>
-    ///  Tags used for grouping operations
-    /// </summary>
-    public List<ApiTag> Tags { get; set; } = new();
     
     public string Summary { get; set; } = string.Empty;
     
@@ -24,7 +21,7 @@ public class ApiOperation
     /// For operations that accept a request body, this will contain a
     /// reference to the schema definition for the request body.
     /// </summary>
-    public ApiRequestBody RequestBody { get; set; } = new();
+    public ApiRequestBody RequestBody { get; set; } = ApiRequestBody.Empty;
     public List<ApiResponseBody> Responses { get; set; } = new();
     public List<ApiParameter> QueryParameters { get; set; } = new();
     
@@ -60,7 +57,7 @@ public class ApiOperation
                 return _successResponse;
             }
 
-            _successResponse = new();
+            _successResponse = ApiResponseBody.Empty;
             return _successResponse;
         }
     }
@@ -93,7 +90,8 @@ public class ApiOperation
             }
 
             // if not responses are defined then just populate an empty one.
-            _errorResponse = new();
+            _errorResponse = ApiResponseBody.Empty;
+            
             return _errorResponse;
         
         }
@@ -102,18 +100,27 @@ public class ApiOperation
     /// <summary>
     /// The path that this operation belongs to
     /// </summary>
-    public ApiPath? Path { get; set; }
+    public ApiPath? Path { get; set; } = ApiPath.Empty;
 
+    public bool IsEmpty { get; set; } = true;
 
+    public static ApiOperation Empty = new();
+    
+    public bool HasRequestBody => RequestBody?.IsEmpty == false;
+    
+    public bool HasPathParameters => PathParameters.Any();
+    
+    public bool HasQueryParameters => QueryParameters.Any();
 
 // todo: Security definition
     // todo: extensions 
-// todo: Tags
 
-    public static ApiOperation FromOpenApi(KeyValuePair<OperationType, OpenApiOperation> operation, OpenApiDocument api, ApiPath path)
+    public static ApiOperation FromOpenApi(KeyValuePair<OperationType, OpenApiOperation> operation, OpenApiDocument api, Api fullApi, ApiPath path)
     {
         var apiOperation = new ApiOperation();
         apiOperation.Path = path;
+
+        apiOperation.IsEmpty = false;
         
         var method = operation.Key.ToString();
         var op = operation.Value;
@@ -125,7 +132,7 @@ public class ApiOperation
         
         // Request body is (generally) a complex json-based object
         if (op.RequestBody is not null)
-            apiOperation.RequestBody = ApiRequestBody.FromOpenApi(op.RequestBody);
+            apiOperation.RequestBody = ApiRequestBody.FromOpenApi(BuildSchemaName(method, path.Route, "Request"), op.RequestBody, fullApi, apiOperation);
 
         // Map basic parameters as well 
         foreach (var param in op.Parameters)
@@ -145,12 +152,18 @@ public class ApiOperation
             }
         }
         
-        // Add a response body for each http status code
         foreach (var response in op.Responses)
         {
-            apiOperation.Responses.Add(ApiResponseBody.FromOpenApi(response));
+            var name = BuildSchemaName(method, path.Route, $"{response.Key} Response");
+            apiOperation.Responses.Add(ApiResponseBody.FromOpenApi(name, response, fullApi, apiOperation));
         }
         
         return apiOperation;
     }
+
+    
+    private static string BuildSchemaName(string method, string path, string suffix) =>
+        $"{path} {method} {suffix}".ToAlphaNumericCamelCase();
+
+
 }

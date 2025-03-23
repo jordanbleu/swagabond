@@ -7,47 +7,47 @@ public class ApiInfo
     /// <summary>
     /// A title for your API
     /// </summary>
-    public string Title { get; set; } = string.Empty;
+    public string Title { get; internal set; } = string.Empty;
 
     /// <summary>
     /// A description of your API
     /// </summary>
-    public string Description { get; set; } = string.Empty;
+    public string Description { get; internal set; } = string.Empty;
     
     /// <summary>
     /// The version of your API
     /// </summary>
-    public string Version { get; set; } = string.Empty;
+    public string Version { get; internal set; } = string.Empty;
 
     /// <summary>
     /// Contact info for your API (name)
     /// </summary>
-    public string ContactName { get; set; } = string.Empty;
+    public string ContactName { get; internal set; } = string.Empty;
     
     /// <summary>
     /// Contact info for your API (url)
     /// </summary>
-    public string ContactUrl { get; set; } = string.Empty;
+    public string ContactUrl { get; internal set; } = string.Empty;
     
     /// <summary>
     /// Contact info for your API (email)
     /// </summary>
-    public string ContactEmail { get; set; } = string.Empty;
+    public string ContactEmail { get; internal set; } = string.Empty;
 
     /// <summary>
     /// URL to TOS for your API
     /// </summary>
-    public string TermsOfServiceUrl { get; set; } = string.Empty;
+    public string TermsOfServiceUrl { get; internal set; } = string.Empty;
 
     /// <summary>
     ///  URL to license for your API
     /// </summary>
-    public string LicenseUrl { get; set; } = string.Empty;
+    public string LicenseUrl { get; internal set; } = string.Empty;
     
     /// <summary>
     /// Name of the license for your API
     /// </summary>
-    public string LicenseName {get; set; } = string.Empty;
+    public string LicenseName {get; internal set; } = string.Empty;
 
     public static readonly ApiInfo Empty = new();
 

@@ -93,7 +93,7 @@ public class BasicTest
         
         // should not have properties since this is a simple return value
         schema.Properties.ShouldBeEmpty();
-        schema.SchemaId.ShouldBeEmpty();
+        schema.ReferenceSchemaId.ShouldBeEmpty();
         schema.Type.ShouldBe(ApiDataType.String);
         schema.Format.ShouldBeEmpty();
     }
@@ -160,7 +160,7 @@ public class BasicTest
         response.Schema.EnumNames.ShouldBeEmpty();
         response.Schema.EnumValues.ShouldBeEmpty();
         response.Schema.EnumOptions.ShouldBeEmpty();
-        response.Schema.SchemaId.ShouldBe("TestWebApp.Controllers.ComplexResponseObject");
+        response.Schema.ReferenceSchemaId.ShouldBe("TestWebApp.Controllers.ComplexResponseObject");
         response.Schema.Description.ShouldBe("Complex Response Object");
 
         foreach (var prop in response.Schema.Properties)
@@ -172,24 +172,19 @@ public class BasicTest
                 prop.EnumValues.ShouldNotBeEmpty();
                 prop.EnumOptions.ShouldNotBeEmpty();
                 prop.EnumNames.ShouldNotBeEmpty();
-            }
-            
-            if (prop.IsPrimitive)
+            } 
+            else if (prop.IsPrimitive)
             {
                 prop.Properties.ShouldBeEmpty();
                 prop.Type.ShouldNotBe(ApiDataType.Object);
-                prop.SchemaId.ShouldBeNullOrEmpty();
+                prop.ReferenceSchemaId.ShouldBeNullOrEmpty();
             }
-            else
+            else if (!prop.IsPrimitive)
             {
                 prop.Type.ShouldBe(ApiDataType.Object);
-                prop.SchemaId.ShouldNotBeNullOrEmpty();
-
+                prop.ReferenceSchemaId.ShouldNotBeNullOrEmpty();
                 prop.Properties.ShouldNotBeEmpty();
-                
-
             }
-
         }
     }
 
@@ -219,7 +214,8 @@ public class BasicTest
         response.Schema.EnumNames.ShouldBeEmpty();
         response.Schema.EnumValues.ShouldBeEmpty();
         response.Schema.EnumOptions.ShouldBeEmpty();
-        response.Schema.SchemaId.ShouldBe("TestWebApp.Controllers.ComplexResponseObject");
+        response.Schema.ReferenceSchemaId.ShouldBe("TestWebApp.Controllers.ComplexResponseObject");
+
         response.Schema.Description.ShouldBe("Complex Response Object");
 
         foreach (var prop in response.Schema.Properties)
@@ -231,22 +227,18 @@ public class BasicTest
                 prop.EnumValues.ShouldNotBeEmpty();
                 prop.EnumOptions.ShouldNotBeEmpty();
                 prop.EnumNames.ShouldNotBeEmpty();
-            }
-            
-            if (prop.IsPrimitive)
+            } 
+            else if (prop.IsPrimitive)
             {
                 prop.Properties.ShouldBeEmpty();
                 prop.Type.ShouldNotBe(ApiDataType.Object);
-                prop.SchemaId.ShouldBeNullOrEmpty();
+                prop.ReferenceSchemaId.ShouldBeNullOrEmpty();
             }
-            else
+            else if (!prop.IsPrimitive)
             {
                 prop.Type.ShouldBe(ApiDataType.Object);
-                prop.SchemaId.ShouldNotBeNullOrEmpty();
-
+                prop.ReferenceSchemaId.ShouldNotBeNullOrEmpty();
                 prop.Properties.ShouldNotBeEmpty();
-                
-
             }
 
         }

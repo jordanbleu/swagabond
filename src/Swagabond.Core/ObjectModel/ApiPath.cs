@@ -34,7 +34,11 @@ public class ApiPath
     /// <summary>
     /// The API this path belongs to
     /// </summary>
-    public Api? Api { get; set; } 
+    public Api Api { get; set; } = Api.Empty;
+
+    public bool IsEmpty { get; set; } = true;
+
+    public static ApiPath Empty = new();
 
     public static ApiPath FromOpenApi(KeyValuePair<string, OpenApiPathItem> path, OpenApiDocument document, Api api)
     {
@@ -45,10 +49,11 @@ public class ApiPath
         apiPath.Description = p.Description ?? string.Empty;
         apiPath.Summary = p.Summary ?? string.Empty;
         apiPath.Api = api;
+        apiPath.IsEmpty = false;
         
         foreach (var operation in p.Operations)
         {
-            apiPath.Operations.Add(ApiOperation.FromOpenApi(operation, document, apiPath));
+            apiPath.Operations.Add(ApiOperation.FromOpenApi(operation, document, api, apiPath));
         }
         
         return apiPath;
