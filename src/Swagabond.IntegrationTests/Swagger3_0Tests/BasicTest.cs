@@ -172,24 +172,19 @@ public class BasicTest
                 prop.EnumValues.ShouldNotBeEmpty();
                 prop.EnumOptions.ShouldNotBeEmpty();
                 prop.EnumNames.ShouldNotBeEmpty();
-            }
-            
-            if (prop.IsPrimitive)
+            } 
+            else if (prop.IsPrimitive)
             {
                 prop.Properties.ShouldBeEmpty();
                 prop.Type.ShouldNotBe(ApiDataType.Object);
                 prop.ReferenceSchemaId.ShouldBeNullOrEmpty();
             }
-            else
+            else if (!prop.IsPrimitive)
             {
                 prop.Type.ShouldBe(ApiDataType.Object);
                 prop.ReferenceSchemaId.ShouldNotBeNullOrEmpty();
-
                 prop.Properties.ShouldNotBeEmpty();
-                
-
             }
-
         }
     }
 
@@ -232,22 +227,18 @@ public class BasicTest
                 prop.EnumValues.ShouldNotBeEmpty();
                 prop.EnumOptions.ShouldNotBeEmpty();
                 prop.EnumNames.ShouldNotBeEmpty();
-            }
-            
-            if (prop.IsPrimitive)
+            } 
+            else if (prop.IsPrimitive)
             {
                 prop.Properties.ShouldBeEmpty();
                 prop.Type.ShouldNotBe(ApiDataType.Object);
                 prop.ReferenceSchemaId.ShouldBeNullOrEmpty();
             }
-            else
+            else if (!prop.IsPrimitive)
             {
                 prop.Type.ShouldBe(ApiDataType.Object);
                 prop.ReferenceSchemaId.ShouldNotBeNullOrEmpty();
-
                 prop.Properties.ShouldNotBeEmpty();
-                
-
             }
 
         }
