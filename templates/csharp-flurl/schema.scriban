@@ -12,7 +12,7 @@ using System;
 
 namespace {{f_PascalCase Api.Info.Title}}Client.Models;
 
-{{if IsEnum}}
+{{if isCSharpSupportedEnum this}} {{# For now, we only support integer enums }}
 /// <summary>
 /// {{f_StripNewlines Description}}
 /// </summary>
@@ -23,14 +23,14 @@ public enum {{ f_PascalCase (f_LastDottedSegment Name) }}
 {{~end~}} 
 {{~#/enumOpt in EnumOptions~}}
 }
-{{~else~}} {{~# Not enum~}}
+{{~else~}} {{~#/ if IsEnum~}}
 /// <summary>
 /// {{Description}}
 /// </summary>
 public record {{ f_PascalCase (f_LastDottedSegment Name)}}
 {
 {{~ for prop in Properties ~}}
-{{if prop.IsPrimitive && !prop.IsEnum}}
+{{if prop.IsPrimitive && !(isCSharpSupportedEnum(prop))}}
     /// <summary>
     /// {{prop.Description}}
     /// </summary>

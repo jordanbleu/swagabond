@@ -40,8 +40,17 @@ func cSharpType(type, format)
     ret "string"
 end
 
+# If true, this schema definition can be treated as an enum for CSharp 
+func isCSharpSupportedEnum(schema)
+    ret schema.Type == "Integer" && schema.IsEnum
+end
+
 
 func cSharpTypeFromSchema(schema)
+    if isCSharpSupportedEnum(schema)
+        ret f_LastDottedSegment(schema.ReferenceSchemaId)
+    end
+
     if !schema.IsEmpty && f_Lower(schema.Type) == "object"
         ret f_LastDottedSegment(schema.ReferenceSchemaId)
     end
@@ -64,13 +73,14 @@ func buildMethodSignatureForOperation(operation)
         $returnObject = "Task<" + $csharpReturnType + ">"
     end
 
-    # Add a request body if one exists
+    # add the headers parameter (everyone gets this)
     $parameterString = "Dictionary<string, string> headers"
-
+    
     if (operation.HasQueryParameters || operation.HasPathParameters || operation.HasRequestBody)
         $parameterString = $parameterString + ", "
     end
-
+    
+    # Add a request body if one exists
     if (operation.HasRequestBody)
         $parameterString = $parameterString + cSharpTypeFromSchema(operation.RequestBody.Schema) + " request"
         
@@ -82,14 +92,14 @@ func buildMethodSignatureForOperation(operation)
     
     # Add Path Parameters 
     $index = 0
-    for pathParam in operation.pathParameters
+    for pathParam in operation.PathParameters
         $pathParamType = cSharpType(pathParam.Type, pathParam.Format)
         $pathParamName = f_CamelCase(pathParam.Name)
         $parameterString = $parameterString + $pathParamType + " " + $pathParamName
 
         $index = $index + 1
 
-        if ($index < operation.PathParameters.size or operation.HasQueryParameters) 
+        if ($index < operation.PathParameters.size || operation.HasQueryParameters) 
             $parameterString = $parameterString + ", "
         end
     end

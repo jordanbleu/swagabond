@@ -28,7 +28,7 @@ public interface I{{f_PascalCase Info.Title}}FlurlClient
     /// {{operation.Description}}
     /// </summary>
     /// <remarks>
-    /// {{operation.Method}} {{operation.Path.Route}}
+    /// {{f_Upper operation.Method}} {{operation.Path.Route}}
     /// </remarks>
     {{~end~}}
     {{buildMethodSignatureForOperation(operation)}};
