@@ -1,149 +1,221 @@
-# {{Path.Api.Info.Title}}
+# {{ Api.Title }}
 
-## {{f_Upper Method}} {{Path.Route}}
+## {{Title}}
 
-### {{Summary}}
+{{~ Description ~}}
 
-{{Description}}
-{{# ------------------------------------ Query Parameters Section ------------------------- }}
+{{~ if PathParameters != empty}}
+## Path Parameters
+{{ for p in PathParameters }}
+* {{"{"}}{{p.Name}}{{"}"}} {{if p.Description != ''}} - {{p.Description}}{{end}}
+    * **Schema Name:** {{p.Schema.Name}} {{if p.Schema.IsArray}}[]{{end}}
+    * **Schema Description:** {{p.Schema.Description}}
+    * **Type:** {{p.Schema.DataType}}
+    * **Example:** `{{p.Schema.Example}}`
+    * **Is Enum?:** {{p.Schema.IsEnum}}
+    {{~if p.Schema.IsEnum~}}
+    * **Enum Options:**
+    {{~for opt in p.Schema.EnumOptions~}}
+    * {{opt.Name}} = {{opt.Value}}
+    {{~end~}}{{#/for opt in p.EnumOptions}}
+    {{~end~}} {{~#if p.Schema.IsEnum~}}
+    * **Is Array?:** {{p.Schema.IsArray}}
+{{ end }}{{#/for p in PathParameters}}
+{{~ end ~}}{{#/ if PathParameters != Empty}}
+
 {{ if QueryParameters != empty}}
-## Query Parameters: 
-{{for queryParam in QueryParameters}}{{#For each query param}}
-* **{{queryParam.Name}}**: {{if queryParam.IsArray}}[]{{end}}  {{queryParam.Description}}
-{{if queryParam.IsRequired}}
-    * ‼️ Required
-{{end}}
-    * **Type:** {{queryParam.Type}}
-    * **Format:** {{f_Coalesce queryParam.Format "[N/A]"}}
-    * **IsArray:** {{queryParam.IsArray}}
-    * **IsEnum:** {{queryParam.IsEnum}}
-{{ if queryParam.IsEnum}}
-        * **Enum Options**
-{{ for enumOpt in queryParam.EnumOptions}}
-            * {{enumOpt.Name}} ==> {{enumOpt.Value}}
-{{end}}{{#for enumOpt}}
-{{end}} {{#/if queryParam.IsEnum}}
+## Query Parameters
+{{ for p in QueryParameters }}
+* ?{{p.Name}} {{if p.Description != ''}} - {{p.Description}}{{end}}
+    * **Schema Name:** {{p.Schema.Name}} {{if p.Schema.IsArray}}[]{{end}}
+    * **Schema Description:** {{p.Schema.Description}}
+    * **Type:** {{p.Schema.DataType}}
+    * **Example:** `{{p.Schema.Example}}`
+    * **Is Enum?:** {{p.Schema.IsEnum}}
+    {{~if p.Schema.IsEnum~}}
+    * **Enum Options:**
+        {{~for opt in p.Schema.EnumOptions~}}
+        * {{opt.Name}} = {{opt.Value}}
+        {{~end~}}{{#/for opt in p.EnumOptions}}
+    {{~end~}} {{~#if p.Schema.IsEnum~}}
+    * **Is Array?:** {{p.Schema.IsArray}}
+{{ end }}{{#/for p in QueryParameters}}
+{{~ end ~}}{{#/ if QueryParameters != Empty}}
 
-{{if queryParam.AllowEmptyValue}}
-    * 🪹 Allows Empty
-{{end}} 
-
-{{end}}{{#for}}
-{{end}}
-{{# ------------------------------------ Header Parameters Section ------------------------- }}
 {{ if HeaderParameters != empty}}
-## Headers: 
-{{for header in HeaderParameters}}{{#For each header}}
-* **{{header.Name}}**: {{header.Description}}
-{{if header.IsRequired}}
-    * ‼️ Required
-{{end}}
-    * **Type:** {{header.Type}}
-    * **Format:** {{f_Coalesce header.Format "[N/A]"}}
-    * **IsArray:** {{header.IsArray}}
-    * **IsEnum:** {{header.IsEnum}}
-{{ if header.IsEnum}}
-        * **Enum Options**
-{{ for enumOpt in header.EnumOptions}}
-            * {{enumOpt.Name}} ==> {{enumOpt.Value}}
-{{end}}{{#for enumOpt}}
-{{end}} {{#/if header.IsEnum}}
-
-{{if header.IsRequired}}
-    * ‼️ Required
-{{end}}
-
-{{if header.AllowEmptyValue}}
-    * 🪹 Allows Empty
-{{end}} 
-{{end}}{{#for}}
-{{end}}
-{{# ------------------------------------ Path Parameters Section ------------------------- }}
-{{ if PathParameters != empty}}
-## Path Parameters: 
-{{for pathParam in PathParameters}}{{#For each pathParam}}
-* **{{pathParam.Name}}**: {{pathParam.Description}}
-{{if pathParam.IsRequired}}
-    * ‼️ Required
-{{end}}
-    * **Type:** {{pathParam.Type}}
-    * **Format:** {{f_Coalesce pathParam.Format "[N/A]"}}
-    * **IsArray:** {{pathParam.IsArray}}
-    * **IsEnum:** {{pathParam.IsEnum}}
-{{ if pathParam.IsEnum}}
-        * **Enum Options**
-{{ for enumOpt in pathParam.EnumOptions}}
-            * {{enumOpt.Name}} ==> {{enumOpt.Value}}
-{{end}}{{#for enumOpt}}
-{{end}} {{#/if pathParam.IsEnum}}
-
-{{if pathParam.AllowEmptyValue}}
-    * 🪹 Allows Empty
-{{end}} 
-{{end}}{{#for}}
-{{end}}
-{{# ------------------------------------ Request Body Section ------------------------- }}
-## Request Body 
-
-{{if RequestBody.IsRequired}}
-!! Required
-{{end}}
-
-{{RequestBody.Description}}
-
-**ContentType:** {{RequestBody.RawContentType}}
-
-{{for prop in RequestBody.Schema.Properties}}
-* {{prop.Name}} {{if prop.IsArray}}[]{{end}}
-{{ if !prop.IsPrimitive }}
-    * **Reference:**
-        * **Name:** [{{prop.ReferenceSchemaId}}](../schema/{{prop.ReferenceSchemaId}}.md)
-{{end}}{{#/if !prop.IsPrimitive}}
-    * **Example:** `{{prop.Example}}`
-    * **Type:** {{prop.Type}}
-    * **Format:** {{prop.Format}}
-    * **IsArray:** {{prop.IsArray}}
-    * **IsEnum:** {{prop.IsEnum}}
-{{ if prop.IsEnum }}
+## Headers
+{{ for p in HeaderParameters }}
+* {{p.Name}} {{if p.Description != ''}} - {{p.Description}}{{end}}
+    * **Schema Name:** {{p.Schema.Name}} {{if p.Schema.IsArray}}[]{{end}}
+    * **Schema Description:** {{p.Schema.Description}}
+    * **Type:** {{p.Schema.DataType}}
+    * **Example:** `{{p.Schema.Example}}`
+    * **Is Enum?:** {{p.Schema.IsEnum}}
+    {{~if p.Schema.IsEnum~}}
     * **Enum Options:**
-{{for enumOpt in prop.EnumOptions}}
-        * {{enumOpt.Name}} ==> {{enumOpt.Value}}
-{{end}}{{#/prop.IsEnum}}
-{{end}}{{#/prop is enum}}
-{{end}}{{#/for loop}}
-{{# ------------------------------------ Response Body Section ------------------------- }}
-## Response Bodies
+        {{~for opt in p.Schema.EnumOptions~}}
+        * {{opt.Name}} = {{opt.Value}}
+        {{~end~}}{{#/for opt in p.EnumOptions}}
+    {{~end~}} {{~#if p.Schema.IsEnum~}}
+    * **Is Array?:** {{p.Schema.IsArray}}
+{{ end }}{{#/for p in HeaderParameters}}
+{{~ end ~}}{{#/ if HeaderParameters != Empty}}
 
-{{ for responseBody in Responses}}
-{{responseBody.Description}}
-**ContentType:** {{responseBody.RawContentType}}
-
-{{for prop in responseBody.Schema.Properties}}
-* {{prop.Name}} {{if prop.IsArray}}[]{{end}}
-    * **Example:** `{{prop.Example}}`
-    * **Type:** {{prop.Type}}
-    * **Format:** {{prop.Format}}
-    * **IsArray:** {{prop.IsArray}}
-    * **IsEnum:** {{prop.IsEnum}}
-{{ if prop.IsEnum }}
+{{ if CookieParameters != empty}}
+## Cookies
+{{ for p in CookieParameters }}
+* {{p.Name}} {{if p.Description != ''}} - {{p.Description}}{{end}}
+    * **Schema Name:** {{p.Schema.Name}} {{if p.Schema.IsArray}}[]{{end}}
+    * **Schema Description:** {{p.Schema.Description}}
+    * **Type:** {{p.Schema.DataType}}
+    * **Example:** `{{p.Schema.Example}}`
+    * **Is Enum?:** {{p.Schema.IsEnum}}
+    {{~if p.Schema.IsEnum~}}
     * **Enum Options:**
-{{for enumOpt in prop.EnumOptions}}
-        * {{enumOpt.Name}} ==> {{enumOpt.Value}}
-{{end}}{{#/prop.IsEnum}}
-{{end}}{{#/prop is enum}}
-    * Schema Reference: [{{prop.ReferenceSchemaId}}](../schema/{{prop.ReferenceSchemaId}}.md)
-{{end}}{{#/for props}}
-{{end}}{{#/for response body in responses}}
-{{# ------------------------------------ Tags Section ------------------------- }}
-## Tags
+        {{~for opt in p.Schema.EnumOptions~}}
+        * {{opt.Name}} = {{opt.Value}}
+        {{~end~}}{{#/for opt in p.EnumOptions}}
+    {{~end~}} {{~#if p.Schema.IsEnum~}}
+    * **Is Array?:** {{p.Schema.IsArray}}
+{{ end }}{{#/for p in CookieParameters}}
+{{~ end ~}}{{#/ if CookieParameters != Empty}}
 
-{{for tag in Tags}}
-* {{tag.Name}} - {{tag.Description}}
-    {{if tag.ExternalDocs}}
-    * [{{tag.ExternalDocs.Url}}]() - {{tag.ExternalDocs.Description}}
-    {{end}}
-{{end}}
+## Request Body
+{{ if RequestBody.IsEmpty }}
+* N/A - This endpoint does not have a request body
+{{else}}
+* **Title:** {{RequestBody.Title}}
+* **Name:** {{RequestBody.Name}}
+* **Description:** {{RequestBody.Description}}
+{{if RequestBody.Schema.IsPrimitive}} {{# this would be true in rare cases where the request body itself was a primitive value (not common) }}
+* **Primitive Type:** RequestBody.Schema.DataType{{if RequestBody.Schema.IsArray}}[]{{end}}
+* **IsEnum:**: RequestBody.IsEnum
+* **Example:** {{RequestBody.Schema.Example}}
+{{~if RequestBody.Schema.IsEnum~}}
+* **Enum Options:**
+    {{~for opt in RequestBody.Schema.EnumOptions~}}
+    * {{opt.Name}} = {{opt.Value}}
+    {{~end~}}{{#/for opt in RequestBody.EnumOptions}}
+{{~end~}} {{~#if p.Schema.IsEnum~}}
+* **IsArray:** RequestBody.Schema.IsArray
+{{else}} {{# This is the most common case here, so output each property }}
+* **Properties:**
+{{for p in RequestBody.Schema.Properties}}
+    * *{{p.Name}}*
+        * **Description:** {{f_Coalesce p.Description "[N/A]"}}
+        * **Schema Name:** {{p.Schema.Name}}{{if p.Schema.IsArray}}[]{{end}}
+        * **Schema:** {{p.Schema.Type}}
+            * **Schema Description:** {{f_Coalesce p.Schema.Description "[N/A]"}}
+        {{~if p.Schema.IsPrimitive}} 
+            * **Type:** {{p.Schema.DataType}}
+            * **Example:** `{{p.Schema.Example}}`
+            * **Is Enum?:** {{p.Schema.IsEnum}}
+            {{~if p.Schema.IsEnum~}}
+            * **Enum Options:**
+                {{~for opt in p.Schema.EnumOptions~}}
+                * {{opt.Name}} = {{opt.Value}}
+                {{~end~}}{{#/for opt in p.EnumOptions}}
+            {{~end~}} {{~#if p.Schema.IsEnum~}}
+            * **Is Array?:** {{p.Schema.IsArray}}
+        {{else}} {{#/This is not a primitive, it is an Object}}
+            * **Reference ID:** {{p.Schema.ReferenceId}}
+            * [Object Details...](../schema/{{p.Schema.Name}}.md)
+        {{end}}{{#/if p.Schema.IsPrimitive}}
+{{end}} {{#for p in RequestBody.Properties}}
+{{end}} {{#if RequestBody.Schema.IsPrimitive}}
+{{end}}{{#if RequestBody.IsEmpty}}
 
-[👈🏻 Go Back](../paths/{{f_UrlEncode Path.Name}}.md)
+## Responses
+{{for responseBody in ResponseBodies}}
+* *{{responseBody.StatusCode}} Response*
+    * **Title:** {{responseBody.Title}}
+    * **Name:** {{responseBody.Name}}
+    * **Description:** {{responseBody.Description}}
+    {{if responseBody.Schema.IsPrimitive}} {{# this would be true in rare cases where the response body itself was a primitive value (not common) }}
+    * *Response is a primitive value (such as plain text, etc.)*
+    * **Primitive Type:** {{responseBody.Schema.DataType}}{{if responseBody.Schema.IsArray}}[]{{end}}
+    * **IsEnum:** {{responseBody.Schema.IsEnum}}
+    * **Example:** {{responseBody.Schema.Example}}
+    {{~if responseBody.Schema.IsEnum~}}
+    * **Enum Options:**
+        {{~for opt in responseBody.Schema.EnumOptions~}}
+        * {{opt.Name}} = {{opt.Value}}
+        {{~end~}}{{#/for opt in responseBody.EnumOptions}}
+    {{~end~}} {{~#if p.Schema.IsEnum~}}
+    * **IsArray:** {{responseBody.Schema.IsArray}}
+    {{else}} {{# This is the most common case here, so output each property }}
+    * **Properties:**
+    {{for p in responseBody.Schema.Properties}}
+        * *{{p.Name}}*
+            * **Description:** {{f_Coalesce p.Description "[N/A]"}}
+            * **Schema Name:** {{p.Schema.Name}}{{if p.Schema.IsArray}}[]{{end}}
+            * **Schema:** {{p.Schema.Type}}
+                * **Schema Description:** {{f_Coalesce p.Schema.Description "[N/A]"}}
+            {{~if p.Schema.IsPrimitive}} 
+                * **Type:** {{p.Schema.DataType}}
+                * **Example:** `{{p.Schema.Example}}`
+                * **Is Enum?:** {{p.Schema.IsEnum}}
+                {{~if p.Schema.IsEnum~}}
+                * **Enum Options:**
+                    {{~for opt in p.Schema.EnumOptions~}}
+                    * {{opt.Name}} = {{opt.Value}}
+                    {{~end~}}{{#/for opt in p.EnumOptions}}
+                {{~end~}} {{~#if p.Schema.IsEnum~}}
+                * **Is Array?:** {{p.Schema.IsArray}}
+            {{else}} {{#/This is not a primitive, it is an Object}}
+                * **Reference ID:** {{p.Schema.ReferenceId}}
+                * [Object Details...](../schema/{{p.Schema.Name}}.md)
+            {{end}}{{#/if p.Schema.IsPrimitive}}
+    {{end}} {{#for p in responseBody.Properties}}
+    {{end}} {{#if responseBody.Schema.IsPrimitive}}
+{{end}}{{#/for responseBody in ResponseBodies}}
+{{~if !DefaultResponseBody.IsEmpty~}}
+* *Default / Fallback Response (for any status code that is not explicitly defined, this response can be assumed)*
+    * **Title:** {{DefaultResponseBody.Title}}
+    * **Name:** {{DefaultResponseBody.Name}}
+    * **Description:** {{DefaultResponseBody.Description}}
+    {{if DefaultResponseBody.Schema.IsPrimitive}} {{# this would be true in rare cases where the response body itself was a primitive value (not common) }}
+    * *Response is a primitive value (such as plain text, etc.)*
+    * **Primitive Type:** {{DefaultResponseBody.Schema.DataType}}{{if DefaultResponseBody.Schema.IsArray}}[]{{end}}
+    * **IsEnum:** {{DefaultResponseBody.Schema.IsEnum}}
+    * **Example:** {{DefaultResponseBody.Schema.Example}}
+    {{~if DefaultResponseBody.Schema.IsEnum~}}
+    * **Enum Options:**
+        {{~for opt in DefaultResponseBody.Schema.EnumOptions~}}
+        * {{opt.Name}} = {{opt.Value}}
+        {{~end~}}{{#/for opt in DefaultResponseBody.EnumOptions}}
+    {{~end~}} {{~#if p.Schema.IsEnum~}}
+    * **IsArray:** {{DefaultResponseBody.Schema.IsArray}}
+    {{else}} {{# This is the most common case here, so output each property }}
+    * **Properties:**
+    {{for p in DefaultResponseBody.Schema.Properties}}
+        * *{{p.Name}}*
+            * **Description:** {{f_Coalesce p.Description "[N/A]"}}
+            * **Schema Name:** {{p.Schema.Name}}{{if p.Schema.IsArray}}[]{{end}}
+            * **Schema:** {{p.Schema.Type}}
+                * **Schema Description:** {{f_Coalesce p.Schema.Description "[N/A]"}}
+            {{~if p.Schema.IsPrimitive}} 
+                * **Type:** {{p.Schema.DataType}}
+                * **Example:** `{{p.Schema.Example}}`
+                * **Is Enum?:** {{p.Schema.IsEnum}}
+                {{~if p.Schema.IsEnum~}}
+                * **Enum Options:**
+                    {{~for opt in p.Schema.EnumOptions~}}
+                    * {{opt.Name}} = {{opt.Value}}
+                    {{~end~}}{{#/for opt in p.EnumOptions}}
+                {{~end~}} {{~#if p.Schema.IsEnum~}}
+                * **Is Array?:** {{p.Schema.IsArray}}
+            {{else}} {{#/This is not a primitive, it is an Object}}
+                * **Reference ID:** {{p.Schema.ReferenceId}}
+                * [Object Details...](../schema/{{p.Schema.Name}}.md)
+            {{end}}{{#/if p.Schema.IsPrimitive}}
+    {{end}} {{#for p in DefaultResponseBody.Properties}}
+    {{end}} {{#if DefaultResponseBody.Schema.IsPrimitive}}
+{{end}}{{#if DefaultResponseBody != empty}}
 
-[🏠 Home](../{{f_UrlEncode Path.Api.Info.Title}}.Readme.md)
+### [< Back to Path](../Paths/{{Path.Name}}.md)
+### [<< Back to API](../{{Api.Name}}.Readme.md)
+
+*** 
+
+*[Documentation generated with Swagabond](https://github.com/jordanbleu/swagabond)*

@@ -139,7 +139,7 @@ public class Program
             Metadata = instructionSet.Metadata
         };
 
-        var api = await mapper.MapFromStream(request, swaggerStream);
+        var api = await mapper.MapFromStreamV1(request, swaggerStream);
 
         // ************************************************
         // Build an execution plan for generating this stuff

@@ -1,15 +1,17 @@
-# {{ Api.Info.Title }}
+# {{ Api.Title }}
 
-## {{ Route }}
+## {{ f_Lower Route }}
 
-### {{ Summary }}
+### Operations
 
-{{ Description }}
+{{~for o in Operations~}}
+* [{{o.Title}}](../operations/{{o.Name~}}.md){{ if o.Description != Empty}} - {{o.Description}}{{end}} {{# example: GET /api/blah - This is a description}}
 
-## Operations
+{{end}} {{#/ for o in operations}}
 
-{{ for op in Operations}}
-* [{{ op.Method }}](../operations/{{f_UrlEncode Name}}__{{op.Method}}.md) - {{op.Summary}}
-{{ end }}
 
-[🏠 Home](../{{f_UrlEncode Api.Info.Title}}.Readme.md)
+### [<< Back to API](../{{Api.Name}}.Readme.md)
+
+*** 
+
+*[Documentation generated with Swagabond](https://github.com/jordanbleu/swagabond)*

@@ -12,6 +12,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swagabond.Tests", "Swagabon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swagabond.IntegrationTests", "Swagabond.IntegrationTests\Swagabond.IntegrationTests.csproj", "{D4C981A4-6626-440E-BEC4-A7F4456B9449}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swagabond.ObjectModelV1", "Swagabond.ObjectModelV1\Swagabond.ObjectModelV1.csproj", "{040EF6EB-6687-4F11-A4E4-6AC95949B518}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ObjectModels", "ObjectModels", "{3590658A-372B-465B-A5FC-BD0469B4AA23}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0E3FE832-CD29-418A-B941-4F4DA90492D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +48,14 @@ Global
 		{D4C981A4-6626-440E-BEC4-A7F4456B9449}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4C981A4-6626-440E-BEC4-A7F4456B9449}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4C981A4-6626-440E-BEC4-A7F4456B9449}.Release|Any CPU.Build.0 = Release|Any CPU
+		{040EF6EB-6687-4F11-A4E4-6AC95949B518}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{040EF6EB-6687-4F11-A4E4-6AC95949B518}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{040EF6EB-6687-4F11-A4E4-6AC95949B518}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{040EF6EB-6687-4F11-A4E4-6AC95949B518}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{040EF6EB-6687-4F11-A4E4-6AC95949B518} = {3590658A-372B-465B-A5FC-BD0469B4AA23}
+		{A05125ED-5A34-44DE-B1FC-88010F03E83B} = {0E3FE832-CD29-418A-B941-4F4DA90492D0}
+		{D4C981A4-6626-440E-BEC4-A7F4456B9449} = {0E3FE832-CD29-418A-B941-4F4DA90492D0}
 	EndGlobalSection
 EndGlobal

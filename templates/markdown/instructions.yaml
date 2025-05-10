@@ -3,7 +3,7 @@ output_base_directory: ../../template-output/markdown
 
 for_api:
 - use_template_file: api.scriban
-  write_output_to: '{{Info.Title}}.Readme.md'
+  write_output_to: '{{Name}}.Readme.md'
 
 for_paths:
 - use_template_file: path.scriban
@@ -11,13 +11,13 @@ for_paths:
 
 for_operations:
 - use_template_file: operation.scriban
-  write_output_to: 'operations/{{Path.Name}}__{{Method}}.md'
+  write_output_to: 'operations/{{Name}}.md'
 
 for_schema_definitions:
 - use_template_file: schema.scriban
-  write_output_to: 'schema/{{ReferenceSchemaId}}.md'
+  write_output_to: 'schema/{{Name}}.md'
 
 metadata:
   Company: Jordan Bleu
-  Dummy: Hello World
+  TemplateVersion: 1
 
