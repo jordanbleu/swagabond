@@ -134,8 +134,8 @@ public class Program
 
         var request = new MapperRequest()
         {
-            FailOnDefinitionError = arguments.FailOnApiSpecError,
-            FailOnDefinitionWarning = arguments.FailOnApiSpecWarning,
+            FailOnDefinitionError = arguments.FailOnApiSpecError.ToLowerInvariant() == "true",
+            FailOnDefinitionWarning = arguments.FailOnApiSpecWarning.ToLowerInvariant() == "true",
             Metadata = instructionSet.Metadata
         };
 
@@ -192,7 +192,7 @@ public class Program
             throw;
         }
 
-        if (arguments.CleanOutputDirectory)
+        if (arguments.CleanOutputDirectory.ToLowerInvariant() == "true")
         {
             var templateDir = Path.GetDirectoryName(arguments.InstructionSetFilePath) ?? string.Empty;
             var instructionSetOutputDir = instructionSet.OutputBaseDirectory;
