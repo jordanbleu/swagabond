@@ -1,8 +1,9 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Readers;
 using Swagabond.Core.Exceptions;
-using Swagabond.Core.ObjectModel;
 using Swagabond.Core.Parsers;
+using Swagabond.ObjectModelV1;
+using Swagabond.ObjectModelV1.Transformer;
 
 namespace Swagabond.Core.Mappers;
 
@@ -13,11 +14,13 @@ public class OpenApiMapper
 {
     private readonly ILogger<OpenApiMapper> _logger;
     private readonly IMicrosoftSwaggerParser _swaggerParser;
+    private IApiV1Transformer _apiV1Transformer;
     
-    public OpenApiMapper(ILogger<OpenApiMapper> logger, IMicrosoftSwaggerParser swaggerParser)
+    public OpenApiMapper(ILogger<OpenApiMapper> logger, IMicrosoftSwaggerParser swaggerParser, IApiV1Transformer apiV1Transformer)
     {
         _logger = logger;
         _swaggerParser = swaggerParser;
+        _apiV1Transformer = apiV1Transformer;
     }
 
     /// <summary>
@@ -27,7 +30,7 @@ public class OpenApiMapper
     /// <param name="request">Details for your request / how to handle some mappings</param>
     /// <param name="swaggerStream">a stream that points to either a swagger.json or a swagger.yaml</param>
     /// <returns></returns>
-    public async Task<Api> MapFromStream(MapperRequest request, Stream swaggerStream)
+    public async Task<ApiV1> MapFromStreamV1(MapperRequest request, Stream swaggerStream)
     {
         _logger.LogInformation("Parsing OpenAPI document from stream");
         
@@ -39,7 +42,10 @@ public class OpenApiMapper
         var openApiDocument = result.OpenApiDocument;
         
         // The .net library's object is then mapped to our object model which is easier to write templates for.
-        var api = Api.FromOpenApi(openApiDocument, result.OpenApiDiagnostic, request);
+        var api = _apiV1Transformer.FromOpenApi(new() 
+        {
+            Metadata = request.Metadata 
+        }, openApiDocument, result.OpenApiDiagnostic.SpecificationVersion.ToString());
  
         await swaggerStream.DisposeAsync();
         return api;

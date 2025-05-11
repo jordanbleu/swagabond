@@ -1,37 +1,51 @@
-# {{Info.Title}}
+# {{ Title }}
 
-### version {{ Info.Version }}
+{{ Name }} version {{Version}}
 
-**Terms of Service:** [{{ Info.TermsOfServiceUrl }}]()
 
-{{ Info.Description }}
+## About this API
 
-## Routes
+### Description
 
-{{ for path in Paths}}
-* [{{ path.Route }}](./paths/{{path.Name}}.md)
-{{ end }}
+{{ Description }}
+
+{{~if Info.HasContactInfo~}}
+### Contact 
+* **Name:** {{f_Coalesce Info.ContactName "[N/A]"}}
+* **Email:** {{f_Coalesce Info.ContactEmail "[N/A]"}}
+* **URL:** {{f_Coalesce Info.ContactUrl "[N/A]"}}
+{{~end~}}{{# Info.HasContactInfo}}
+
+{{~if Info.HasLicenseInfo~}}
+### License
+* **Name:** {{Info.LicenseName}}
+* **URL:** [{{Info.LicenseUrl}}]()
+{{~end~}}{{# Info.HasLicenseInfo}}
+
+### Terms of Service
+* [{{Info.TermsOfServiceUrl}}]()
+
+{{~if !ExternalDocumentationLink.IsEmpty ~}}
+### External Documentation 
+* [{{ExternalDocumentationLink.Text}}](ExternalDocumentationLink.Url)
+{{~end~}}{{#  !ExternalDocumentationLink.IsEmpty}}
+
+## All Routes
+{{ for p in Paths }}
+* [{{p.Route}}](./paths/{{p.Name}}.md)
+{{end}} {{# for p in Paths}}
 
 ## Schema Definitions
-{{ for schema in Schemas }}
-* [{{schema.Name}}](./schema/{{schema.Name}}.md) - {{schema.Description}}
-{{end}}
+{{for s in Schemas}}
+* [{{s.Name}}](./schema/{{s.Name}}.md){{~if s.Description != empty}} - {{s.Description}}{{end}}
+{{end}}{{#/for s in schemas}}
 
-{{ if Info.HasLicenseInfo }}
-## License / Terms
+## Additional Information
+* *Company Name:* {{ Metadata.Company }}
+* *Template Version:* {{ Metadata.TemplateVersion }}
 
-**License:** {{ Info.LicenseName }}
+**Original API Spec:** {{SpecType}} / {{SpecVersion}}
 
-**License URL:** [{{ Info.LicenseUrl }}]()
-{{ end }}
+***
 
-
-{{ if Info.HasContactInfo }}
-## Contact Information
-
-**Name:** {{ Info.ContactName }}
-
-**Email:** {{ Info.ContactEmail }}
-
-**URL:** {{ Info.ContactUrl }}
-{{ end }}
+*[Documentation generated with Swagabond](https://github.com/jordanbleu/swagabond)*

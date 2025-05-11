@@ -45,7 +45,7 @@ public class ConsoleHelper
         System.Console.WriteLine($"|- {text} ".PadRight(border.Length-3) + " -|");
     }
     
-    public void WriteError(string message, IEnumerable<string> details, Exception ex = null)
+    public void WriteError(string message, IEnumerable<string> details, Exception? ex = null)
     {
         DrawFailWhale();
         _logger.LogError($"{message}\n{string.Join("\n", details)}", ex);

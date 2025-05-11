@@ -1,46 +1,59 @@
-# {{ Api.Info.Title }}
+# {{ Api.Title }}
 
-{{ if IsDeprecated }}
-> DEPRECATED
-{{ end }}
+## {{Title}}
 
+{{~Name}}
 
-## {{ Name }}
+{{~Description~}}
 
-{{ Description }}
+{{if IsEnum}}
+`Enum`
 
-### Example
+### Enum Options
+{{~for opt in EnumOptions~}}
+* {{opt.Name}} - {{opt.Value}}
+{{~end~}}{{#/for opt in EnumOptions}}
 
-```
-{{ f_Coalesce Example "(No examples here...)"}}
-```
+### More Information
 
-{{ if IsEnum }}
-### Enum Values:
+* **Backing Type:** {{DataType}}
+* **Is Array:** {{IsArray}}
+* **Example Value:** {{f_Coalesce Example "(no example available)"}}
+* **Schema Reference ID:** {{ReferenceId}}
 
-#### **Type:** {{Type}}
-#### **Format: {{Format}}
+{{else}}{{# Not an enum}}
 
-````
-{{for enumOpt in EnumOptions}}
-    {{enumOpt.Name}} = {{enumOpt.Value}},
-{{end}}
-```
-{{end}} {{# /if isenum }}
-{{ if !IsEnum }}
-{{ for prop in Properties }}
-{{if prop.IsPrimitive }}
-* **Name:** {{ prop.Name }} - {{prop.Description}}
-    * **Type:** {{prop.Type}}
-    * **Format:** {{prop.Format}}
-    * **IsArray:** {{prop.IsArray}}
-    * **Example:** `{{f_Coalesce prop.Example "No example values."}}`
-    * **ReferenceSchemaId:** {{prop.ReferenceSchemaId}}
-{{else}}
-* **Name:** {{prop.Name}} - {{prop.Description}}
-    * **Type:** {{prop.ReferenceSchemaId}}
-    * **IsArray:** {{prop.IsArray}}
-{{end}}{{#/if isPrimitive}}
-{{ end }} {{# /for prop in props}}
-{{ end }} {{# /if !IsEnum}}
-[🏠 Home](../{{f_UrlEncode Api.Info.Title}}.Readme.md)
+`Object`
+
+### Properties
+
+{{for p in Properties}}
+* *{{p.Name}}*
+    * **Description:** {{f_Coalesce p.Description "[N/A]"}}
+    * **Schema Name:** {{p.Schema.Name}}{{if p.Schema.IsArray}}[]{{end}}
+    * **Schema:** {{p.Schema.Type}}
+        * **Schema Description:** {{f_Coalesce p.Schema.Description "[N/A]"}}
+    {{~if p.Schema.IsPrimitive}} 
+        * **Type:** {{p.Schema.DataType}}
+        * **Example:** `{{p.Schema.Example}}`
+        * **Is Enum?:** {{p.Schema.IsEnum}}
+        {{~if p.Schema.IsEnum~}}
+        * **Enum Options:**
+            {{~for opt in p.Schema.EnumOptions~}}
+            * {{opt.Name}} = {{opt.Value}}
+            {{~end~}}{{#/for opt in p.EnumOptions}}
+        {{~end~}} {{~#if p.Schema.IsEnum~}}
+        * **Is Array?:** {{p.Schema.IsArray}}
+    {{else}} {{#/This is not a primitive, it is an Object}}
+        * **Reference ID:** {{p.Schema.ReferenceId}}
+        * [Object Details...](../schema/{{p.Schema.Name}}.md)
+    {{end}}{{#/if p.Schema.IsPrimitive}}
+{{end}}{{#for p in Properties}}
+
+{{end}}{{#/if IsEnum}}
+
+### [<< Back to API](../{{Api.Name}}.Readme.md)
+
+*** 
+
+*[Documentation generated with Swagabond](https://github.com/jordanbleu/swagabond)*

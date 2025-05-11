@@ -11,45 +11,58 @@ using System;
 using System.Collections.Generic;
 using Flurl;
 using Flurl.Http;
-using {{f_PascalCase Info.Title}}Client.Models;
+using {{Name}}Api.Models;
 
-namespace {{f_PascalCase Info.Title}}Client;
+namespace {{Name}}Api;
 
-public class {{f_PascalCase Info.Title}}FlurlClient : I{{f_PascalCase Info.Title}}FlurlClient
+{{~if !f_IsBlank Description ~}}
+/// <summary>
+/// {{f_PrefixNewlines Description "/// "}}
+/// </summary>
+{{~end~}}{{~#/if description != empty~}}
+public class {{Name}}FlurlClient : I{{Name}}Client
 {
     private readonly string _baseUrl = string.Empty;
 
-    public {{f_PascalCase Info.Title}}FlurlClient(string baseUrl)
+    public {{Name}}FlurlClient(string baseUrl)
     {
         _baseUrl = baseUrl;
     }
 
-{{~for operation in Operations~}}
-    public async {{buildMethodSignatureForOperation(operation)}}
+    {{~for operation in Operations~}}
+    {{~if !f_IsBlank operation.Description~}}
+    /// <summary>
+    /// {{f_PrefixNewlines operation.Description "/// "}}
+    /// </summary
+    {{~end~}}{{~#/if operation.Description != empty~}}
+    /// <remarks>
+    /// {{f_Upper operation.Method}} {{operation.Path.Route}}
+    /// </remarks>
+    public async {{x_BuildMethodSignatureForOperation operation}}
     {
         var path = "{{operation.Path.Route}}";
-        {{~if operation.HasPathParameters~}}
-        // todo: implement path params :) 
+        {{~for pathParam in operation.PathParameters~}}
+        path = path.Replace("{{"{"}}{{pathParam.OriginalName}}{{"}"}}", {{f_CamelCase pathParam.Name}}.ToString(), StringComparison.OrdinalIgnoreCase);
         {{~end~}}
+
         var response = await _baseUrl
             .AppendPathSegment(path)
-            .WithHeaders(headers)
+            .WithHeaders(requestHeaders)
             {{~for queryParam in operation.QueryParameters~}}
-            .SetQueryParam("{{queryParam.Name}}", {{f_CamelCase queryParam.Name}})
+            .SetQueryParam("{{queryParam.OriginalName}}", {{f_CamelCase queryParam.Name}})
             {{~end~}}{{~#/ for queryParam in operation.QueryParameters~}}
             .{{operation.Method}}Async();
 
-        {{~if !operation.SuccessResponse.IsEmpty~}}
-        return await DeserializeFlurlResponse<{{cSharpTypeFromSchema(operation.SuccessResponse.Schema)}}>(response);
+        {{~if !operation.SuccessResponseBody.IsEmpty~}}
+        return await DeserializeFlurlResponse<{{x_CSharpType operation.SuccessResponseBody.Schema.DataType operation.SuccessResponseBody.Schema.IsEnum operation.SuccessResponseBody.Schema.IsArray operation.SuccessResponseBody.Schema.Name}}>(response);
         {{~end~}} {{#/if !operation.SuccessResponse.IsEmpty}}
     }
-
-{{~end~}}{{#/operation in Operations}}
+    {{~end~}} {{#/for op in Operations}}
 
     /// <summary>
-    /// Uses hacky logic to properly deserialize strings or objects.
+    /// Deserializes a FlurlResponse as the proper type <typeparam="T"/>
     /// </summary>
-    private async Task<T> DeserializeFlurlResponse<T>(IFlurlResponse response)
+    private static async Task<T> DeserializeFlurlResponse<T>(IFlurlResponse response)
     {
         // if T is string return getstringasync
         if (typeof(T) == typeof(string))
@@ -61,6 +74,7 @@ public class {{f_PascalCase Info.Title}}FlurlClient : I{{f_PascalCase Info.Title
             return await response.GetJsonAsync<T>();
         }
     }
-}
 
-// Template written by {{Metadata.Company}}
+
+
+}

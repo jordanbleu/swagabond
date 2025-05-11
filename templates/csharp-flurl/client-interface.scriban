@@ -8,30 +8,26 @@
 // </auto-generated> 
 //------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using Flurl;
-using Flurl.Http;
-using {{f_PascalCase Info.Title}}Client.Models;
+using {{Name}}Api.Models;
 
-namespace {{f_PascalCase Info.Title}}Client;
+namespace {{Name}}Api;
 
+{{~if !f_IsBlank Description ~}}
 /// <summary>
-/// {{f_StripNewlines Info.Description}}
+/// {{f_PrefixNewlines Description "/// "}}
 /// </summary>
-/// <remarks>API Version {{Info.Version}}</remarks>
-public interface I{{f_PascalCase Info.Title}}FlurlClient
+{{~end~}}{{~#/if description != empty~}}
+public interface I{{Name}}Client
 {
 {{~for operation in Operations~}}
-    {{~if operation.Description != empty~}}
+    {{~if !f_IsBlank operation.Description~}}
     /// <summary>
-    /// {{operation.Description}}
-    /// </summary>
+    /// {{f_PrefixNewlines operation.Description "/// "}}
+    /// </summary
+    {{~end~}}{{~#/if operation.Description != empty~}}
     /// <remarks>
     /// {{f_Upper operation.Method}} {{operation.Path.Route}}
     /// </remarks>
-    {{~end~}}
-    {{buildMethodSignatureForOperation(operation)}};
-
-{{~end~}}{{#/operation in Operations}}
+    {{x_BuildMethodSignatureForOperation operation}};
+{{~end~}} {{#/for op in Operations}}
 }

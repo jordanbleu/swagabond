@@ -139,7 +139,7 @@ public class Program
             Metadata = instructionSet.Metadata
         };
 
-        var api = await mapper.MapFromStream(request, swaggerStream);
+        var api = await mapper.MapFromStreamV1(request, swaggerStream);
 
         // ************************************************
         // Build an execution plan for generating this stuff
@@ -194,7 +194,7 @@ public class Program
 
         if (arguments.CleanOutputDirectory)
         {
-            var templateDir = Path.GetDirectoryName(arguments.InstructionSetFilePath);
+            var templateDir = Path.GetDirectoryName(arguments.InstructionSetFilePath) ?? string.Empty;
             var instructionSetOutputDir = instructionSet.OutputBaseDirectory;
             var pathToClean = Path.Combine(templateDir, instructionSetOutputDir);
             

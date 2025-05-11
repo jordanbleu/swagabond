@@ -2,7 +2,7 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 using Swagabond.Cli.IO;
 using Swagabond.Configuration.Instructions;
-using Swagabond.Core.ObjectModel;
+using Swagabond.ObjectModelV1;
 using Swagabond.Templates;
 
 namespace Swagabond.Cli.Execution;
@@ -123,7 +123,7 @@ public class ExecutionPlanBuilder
         await File.WriteAllTextAsync(finalOutputPath, output);
     }
 
-    public async Task AddApiScopedInstruction(string startingDirectory, InstructionSet instructionSet, ProcessTemplateInstruction instruction, Api api)
+    public async Task AddApiScopedInstruction(string startingDirectory, InstructionSet instructionSet, ProcessTemplateInstruction instruction, ApiV1 api)
     {
         var templateEngine = _templateEngineFactory.GetEngine(instruction.TemplateType);
 
@@ -138,7 +138,7 @@ public class ExecutionPlanBuilder
             () => RenderOutputToFile(startingDirectory, instructionSet, instruction, api, outputFileName));
     }
     
-    public async Task AddPathScopedInstruction(string startingDirectory, InstructionSet instructionSet, ProcessTemplateInstruction instruction, ApiPath path)
+    public async Task AddPathScopedInstruction(string startingDirectory, InstructionSet instructionSet, ProcessTemplateInstruction instruction, PathV1 path)
     {
         var templateEngine = _templateEngineFactory.GetEngine(instruction.TemplateType);
 
@@ -154,7 +154,7 @@ public class ExecutionPlanBuilder
     }
 
     public async Task AddOperationScopedInstruction(string startingDirectory, InstructionSet instructionSet,
-        ProcessTemplateInstruction instruction, ApiOperation operation)
+        ProcessTemplateInstruction instruction, OperationV1 operation)
     {
         var templateEngine = _templateEngineFactory.GetEngine(instruction.TemplateType);
 
@@ -171,7 +171,7 @@ public class ExecutionPlanBuilder
     }
     
     public async Task AddSchemaScopedInstruction(string startingDirectory, InstructionSet instructionSet,
-        ProcessTemplateInstruction instruction, ApiSchema schema)
+        ProcessTemplateInstruction instruction, SchemaDefinitionV1 schema)
     {
         var templateEngine = _templateEngineFactory.GetEngine(instruction.TemplateType);
 
