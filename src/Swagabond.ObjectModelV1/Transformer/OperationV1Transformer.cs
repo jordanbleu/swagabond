@@ -65,7 +65,6 @@ public class OperationV1Transformer : IOperationV1Transformer
         }
 
         var responses = o.Responses;
-
         if (!responses.Any())
             return apiOperation;
 
@@ -89,7 +88,7 @@ public class OperationV1Transformer : IOperationV1Transformer
         // If we still don't have a default response body, use the first success response body
         if (apiOperation.DefaultResponseBody.IsEmpty)
         {
-            apiOperation.DefaultResponseBody = apiOperation.SuccessResponse;
+            apiOperation.DefaultResponseBody = apiOperation.SuccessResponseBody;
         }
 
         apiOperation.Path = path;

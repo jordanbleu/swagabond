@@ -6,6 +6,7 @@ public class ResponseBodyV1 : IObjectV1, INamedObject
 {
     public bool IsEmpty { get; set; } = true;
     public string Name { get; set; } = string.Empty;
+    
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 

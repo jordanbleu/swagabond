@@ -41,7 +41,7 @@ public class OperationV1 : IObjectV1, INamedObject
     /// If the response body will be the same for any success http status (200 - 299) this will
     /// be the first success response body or the default fallback.
     /// </summary>
-    public ResponseBodyV1 SuccessResponse 
+    public ResponseBodyV1 SuccessResponseBody 
     {
         get 
         {
@@ -58,7 +58,7 @@ public class OperationV1 : IObjectV1, INamedObject
     /// If the response body will be the same for any error http status ( >299 ) this will
     /// be the first error response body or the default fallback.
     /// </summary>
-    public ResponseBodyV1 ErrorResponse 
+    public ResponseBodyV1 ErrorResponseBody 
     {
         get 
         {

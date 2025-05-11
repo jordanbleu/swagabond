@@ -1,0 +1,145 @@
+{{-
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# Custom functions that can be used in any scriban file.
+# By convention each function should be prefixed with x_ so it's easier to tell built-in funcs from custom ones
+# (and swagabond funcs are prefixed with c_ )
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# Write out the proper C# type
+func x_CSharpType(dataType, isEnum, isArray, schemaName)
+
+    $type = f_Lower(dataType)
+
+    $arrayBrackets = ""
+    if (isArray)
+        $arrayBrackets = "[]"
+    end
+
+    # Objects and enums should return their own name 
+    if ($type == "object" || isEnum) 
+        ret schemaName + $arrayBrackets
+    end 
+
+    # Primitive types should return the corresponding C# type
+    if ($type == "string")
+        ret "string" + $arrayBrackets
+    end
+
+    if ($type == "int32")
+        ret "int" + $arrayBrackets
+    end
+
+    if ($type == "int64")
+        ret "long" + $arrayBrackets
+    end
+
+    if ($type == "guid")
+        ret "Guid" + $arrayBrackets
+    end
+
+    if ($type == "datetime")
+        ret "DateTime" + $arrayBrackets
+    end
+
+    if ($type == "boolean")
+        ret "bool" + $arrayBrackets
+    end
+
+    if ($type == "float")
+        ret "float"  + $arrayBrackets
+    end
+
+    if ($type == "double")
+        ret "double" + $arrayBrackets
+    end
+
+    if ($type == "decimal")
+        ret "decimal" + $arrayBrackets
+    end
+
+    # if we get to this point then we have some wacky data.
+    f_Log("Not sure how to map arguments into a cSharpType, so defaulting to string.  dataType=" + $type + ", isEnum=" + isEnum + ", isArray=" + isArray + ", schemaName=" + schemaName)
+    ret "string"
+end
+
+func x_BuildMethodSignatureForOperation(operation)
+
+    # Build a method name 
+    $httpMethod = operation.Method
+    $pathName = f_PascalCase(operation.Path.Name)
+    $methodName = $httpMethod + $pathName + "Async"
+
+    # Figure out a response object
+    $returnObject = "Task"
+    if !operation.SuccessResponseBody.IsEmpty
+        $csharpReturnType = x_CSharpType(operation.SuccessResponseBody.Schema.DataType, operation.SuccessResponseBody.Schema.IsEnum, operation.SuccessResponseBody.Schema.IsArray, operation.SuccessResponseBody.Schema.Name)
+        $returnObject = "Task<" + $csharpReturnType + ">"
+    end
+
+    # Always add an arbitrary dictionary for headers
+    $parameterString = "Dictionary<string, string> requestHeaders"
+
+    # Note - I didn't implement cookie parameters because I am lazy 
+
+    # If the endpoint has any sort of input parameters, add a comma and space
+    if (!operation.RequestBody.IsEmpty || operation.PathParameters != empty || operation.QueryParameters != empty)
+        $parameterString = $parameterString + ", "
+    end
+
+    # First add path parameters
+    $index = 0
+    if (operation.PathParameters != empty)
+        for $pathParam in operation.PathParameters
+            $pathParamType = x_CSharpType($pathParam.Schema.DataType, $pathParam.Schema.IsEnum, $pathParam.Schema.IsArray, $pathParam.Schema.Name)
+            $pathParamName = f_CamelCase($pathParam.Name)
+
+            $parameterString = @parameterString + $pathParamType + " " + $pathParamName
+
+            $index = $index + 1
+
+            # Only add ending comma if needed
+            if ($index < operation.PathParameters.size || operation.QueryParameters != empty)
+                $parameterString = $parameterString + ", "
+            end
+        end
+    end
+
+    # Next add query parameters, very similar logic
+    $index = 0
+    if (operation.QueryParameters != empty)
+        for $queryParam in operation.QueryParameters
+            $queryParamType = x_CSharpType($queryParam.Schema.DataType, $queryParam.Schema.IsEnum, $queryParam.Schema.IsArray, $queryParam.Schema.Name)
+            $queryParamName = f_CamelCase($queryParam.Name)
+
+            $parameterString = $parameterString + $queryParamType + " " + $queryParamName
+
+            $index = $index + 1
+
+            f_Log($index + " / queryParamsSize = " + operation.QueryParameters.size)
+            # Only add ending comma if needed
+            if ($index < operation.QueryParameters.size || !operation.RequestBody.IsEmpty)
+                $parameterString = $parameterString + ", "
+            end
+        end
+    end
+
+
+    # Finally, add the request body
+    if (!operation.RequestBody.IsEmpty)
+        $requestBodyType = x_CSharpType(operation.RequestBody.Schema.DataType, operation.RequestBody.Schema.IsEnum, operation.RequestBody.Schema.IsArray, operation.RequestBody.Schema.Name)
+        $requestBodyName = f_CamelCase(operation.RequestBody.Name)
+        $parameterString = $parameterString + $requestBodyType + " " + $requestBodyName
+    end
+
+
+    # build the final method signature
+    # Return object will be something like Task<BlahResponse>
+    # Method Name will be like GetBlahAsync
+    # Parameter string will be like Dictionary<string, string> headers, string thingId, int blahId
+    ret $returnObject + " " + $methodName + "(" + $parameterString + ")"
+end
+
+
+
+
+-}}

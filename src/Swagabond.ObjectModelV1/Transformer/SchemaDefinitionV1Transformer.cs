@@ -32,6 +32,8 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
     {
         var apiSchema = new SchemaDefinitionV1();
         // todo: extra properties 
+
+        var isArray = schema.Type == "array";
         
         // Map as an enum
         if (schema.Enum.Any())
@@ -41,8 +43,14 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         }
         
         // Map the type 
-        if (schema.Type == "array")
+        if (isArray)
         {
+            if (schema.Items.Enum.Any())
+            {
+                apiSchema.IsEnum = true;
+                apiSchema.EnumOptions = _enumOptionTransformer.FromOpenApi(schema.Items.Enum, schema.Items.Extensions);
+            }
+
             apiSchema.IsArray = true;
             apiSchema.DataType = _dataTypeV1Transformer.FromOpenApi(schema.Items.Type, schema.Items.Format);
         }
@@ -59,11 +67,9 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
                 // First recursively map each property 
                 var propSchema = FromOpenApi(prop.Value, api);
                 // then wrap in a reference with a name 
-                apiSchema.Properties.Add(_schemaReferenceV1Transformer.FromOpenApi(prop.Key.ToClassName(), propSchema, api ));
+                apiSchema.Properties.Add(_schemaReferenceV1Transformer.FromOpenApi(prop.Key, propSchema, api ));
             }
         }
-
-        var isArray = apiSchema.IsArray;
         
         // open api puts the interesting info in schema.items if this is an array
         var schemaToUse = isArray ? schema.Items : schema;
@@ -72,6 +78,7 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
 
         apiSchema.IsEmpty = false;
         apiSchema.Name = schemaId?.ToClassName() ?? apiSchema.DataType.ToString();
+        apiSchema.OriginalName = schemaId ?? apiSchema.DataType.ToString();
         apiSchema.Title = schemaId ?? apiSchema.Name;
         apiSchema.Description = WriteDescription(schemaToUse.Description, apiSchema.DataType, apiSchema.IsArray, apiSchema.IsEnum);
 

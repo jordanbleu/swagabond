@@ -9,38 +9,29 @@
 
 using System;
 
+namespace {{Api.Name}}Api.Models;
 
-namespace {{f_PascalCase Api.Info.Title}}Client.Models;
-
-{{if isCSharpSupportedEnum this}} {{# For now, we only support integer enums }}
+{{~if Description != empty~}}
 /// <summary>
-/// {{f_StripNewlines Description}}
+/// {{ f_StripNewlines Description }}
 /// </summary>
-public enum {{ f_PascalCase (f_LastDottedSegment Name) }}
+{{~end~}}{{~#/if Description != empty~}}
+{{~if IsEnum~}}
+public enum {{Name}}
 {
-{{for enumOpt in EnumOptions~}}  
-   {{enumOpt.Name}} = {{enumOpt.Value}},
-{{~end~}} 
-{{~#/enumOpt in EnumOptions~}}
-}
-{{~else~}} {{~#/ if IsEnum~}}
-/// <summary>
-/// {{Description}}
-/// </summary>
-public record {{ f_PascalCase (f_LastDottedSegment Name)}}
+    {{~for opt in EnumOptions~}}
+    {{opt.Name}} = {{opt.Value}},
+    {{~end~}}{{~#/for opt in EnumOptions}}
+{{~else~}}{{~# This is a class (not enum)~}}
+public record {{Name}}
 {
-{{~ for prop in Properties ~}}
-{{if prop.IsPrimitive && !(isCSharpSupportedEnum(prop))}}
+{{~for prop in Properties~}}
+    {{~if !f_IsBlank prop.Description~}}
     /// <summary>
-    /// {{prop.Description}}
+    /// {{f_StripNewlines prop.Description}}
     /// </summary>
-    public {{cSharpType prop.Type prop.Format}}{{if prop.IsArray}}[]{{end}} {{f_PascalCase prop.Name}} { get; set; }
-{{else}}
-    /// <summary>
-    /// {{prop.Description}} 
-    /// </summary>
-    public {{ f_PascalCase (f_LastDottedSegment prop.ReferenceSchemaId)}}{{if prop.IsArray}}[]{{end}} {{f_PascalCase prop.Name}} { get; init; }
-{{end}}{{#/prop.IsPrimitive && !prop.IsEnum}}
-{{ end ~}} {{#/prop in Properties}}
+    {{~end~}}{{~#/if prop.Description != empty~}}
+    public {{x_CSharpType prop.Schema.DataType prop.Schema.IsEnum prop.Schema.IsArray prop.Schema.Name}} {{prop.Name}} { get; set; }
+{{~end~}}{{~#/for prop in Properties~}}
+{{~end~}}{{~#/if IsEnum~}}
 }
-{{end~}} {{#/IsEnum}}

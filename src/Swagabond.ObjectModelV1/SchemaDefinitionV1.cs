@@ -8,6 +8,13 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
 {
     public bool IsEmpty { get; internal set; } = true;
     public string Name { get; internal set; } = string.Empty;
+    
+    /// <summary>
+    /// The full / unfiltered name.  Useful in cases where the exact name
+    /// must be used, including original casing.
+    /// </summary>
+    public string OriginalName { get; internal set; } = string.Empty;
+    
     public string Title { get; internal set; } = string.Empty;
     public string Description { get; internal set; } = string.Empty;
 
