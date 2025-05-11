@@ -11,10 +11,10 @@ public class Arguments
     public string InstructionSetFilePath { get; set; } = string.Empty;
 
     [Option('e', "failOnApiSpecError", HelpText = "If true, client generation will be halted if any errors exist with your API spec.", Required = false)]
-    public bool FailOnApiSpecError { get; set; } = true;
+    public string FailOnApiSpecError { get; set; } = "true";
     
     [Option('w', "failOnApiSpecWarning", HelpText = "If true, client generation will be halted if any warnings exist with your API spec.", Required = false)]
-    public bool FailOnApiSpecWarning{ get; set; } = true;
+    public string FailOnApiSpecWarning{ get; set; } = "true";
 
     [Option('p', 
         "maxDop",
@@ -23,5 +23,5 @@ public class Arguments
     public int MaxDegreeOfParallelism { get; set; } = 5;
     
     [Option(shortName: 'c', longName: "cleanOutput", HelpText = "If true, the output directory will be cleaned before generating new files.", Required = false)]
-    public bool CleanOutputDirectory { get; set; } = false;
+    public string CleanOutputDirectory { get; set; } = "false";
 }
