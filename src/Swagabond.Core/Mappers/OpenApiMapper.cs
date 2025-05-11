@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Readers;
 using Swagabond.Core.Exceptions;
-using Swagabond.Core.ObjectModel;
 using Swagabond.Core.Parsers;
 using Swagabond.ObjectModelV1;
 using Swagabond.ObjectModelV1.Transformer;

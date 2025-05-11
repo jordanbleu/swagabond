@@ -93,12 +93,12 @@ func x_BuildMethodSignatureForOperation(operation)
             $pathParamType = x_CSharpType($pathParam.Schema.DataType, $pathParam.Schema.IsEnum, $pathParam.Schema.IsArray, $pathParam.Schema.Name)
             $pathParamName = f_CamelCase($pathParam.Name)
 
-            $parameterString = @parameterString + $pathParamType + " " + $pathParamName
+            $parameterString = $parameterString + $pathParamType + " " + $pathParamName
 
             $index = $index + 1
 
             # Only add ending comma if needed
-            if ($index < operation.PathParameters.size || operation.QueryParameters != empty)
+            if ($index < operation.PathParameters.size || operation.QueryParameters != empty || !operation.RequestBody.IsEmpty)
                 $parameterString = $parameterString + ", "
             end
         end

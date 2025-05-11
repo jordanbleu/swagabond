@@ -5,10 +5,10 @@ namespace Swagabond.Cli.Args;
 public class Arguments
 {
     [Option('s', "swagger", HelpText = "File path or URL to the swagger file (json or yaml)", Required = true)]
-    public string SwaggerFilePath { get; set; }
+    public string SwaggerFilePath { get; set; } = string.Empty;
 
     [Option('i', "instructions", HelpText = "File path or URL to your instruction set (yaml)", Required = true)]
-    public string InstructionSetFilePath { get; set; }
+    public string InstructionSetFilePath { get; set; } = string.Empty;
 
     [Option('e', "failOnApiSpecError", HelpText = "If true, client generation will be halted if any errors exist with your API spec.", Required = false)]
     public bool FailOnApiSpecError { get; set; } = true;

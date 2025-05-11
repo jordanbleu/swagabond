@@ -17,7 +17,7 @@ namespace {{Name}}Api;
 
 {{~if !f_IsBlank Description ~}}
 /// <summary>
-/// {{Description}}
+/// {{f_PrefixNewlines Description "/// "}}
 /// </summary>
 {{~end~}}{{~#/if description != empty~}}
 public class {{Name}}FlurlClient : I{{Name}}Client
@@ -32,7 +32,7 @@ public class {{Name}}FlurlClient : I{{Name}}Client
     {{~for operation in Operations~}}
     {{~if !f_IsBlank operation.Description~}}
     /// <summary>
-    /// {{operation.Description}}
+    /// {{f_PrefixNewlines operation.Description "/// "}}
     /// </summary
     {{~end~}}{{~#/if operation.Description != empty~}}
     /// <remarks>
@@ -42,7 +42,7 @@ public class {{Name}}FlurlClient : I{{Name}}Client
     {
         var path = "{{operation.Path.Route}}";
         {{~for pathParam in operation.PathParameters~}}
-        path = path.Replace("{" + {{pathParam.OriginalName}} + "}", {{f_CamelCase pathParam.Name}}, StringComparison.OrdinalIgnoreCase);
+        path = path.Replace("{{"{"}}{{pathParam.OriginalName}}{{"}"}}", {{f_CamelCase pathParam.Name}}.ToString(), StringComparison.OrdinalIgnoreCase);
         {{~end~}}
 
         var response = await _baseUrl

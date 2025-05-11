@@ -14,7 +14,7 @@ namespace {{Name}}Api;
 
 {{~if !f_IsBlank Description ~}}
 /// <summary>
-/// {{Description}}
+/// {{f_PrefixNewlines Description "/// "}}
 /// </summary>
 {{~end~}}{{~#/if description != empty~}}
 public interface I{{Name}}Client
@@ -22,7 +22,7 @@ public interface I{{Name}}Client
 {{~for operation in Operations~}}
     {{~if !f_IsBlank operation.Description~}}
     /// <summary>
-    /// {{operation.Description}}
+    /// {{f_PrefixNewlines operation.Description "/// "}}
     /// </summary
     {{~end~}}{{~#/if operation.Description != empty~}}
     /// <remarks>

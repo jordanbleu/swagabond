@@ -44,10 +44,10 @@ public class InstructionSet
 public class ProcessTemplateInstruction
 {
     [YamlMember(Alias = "use_template_file")]
-    public string TemplateFile { get; set; }
+    public string TemplateFile { get; set; } = string.Empty;
 
     [YamlMember(Alias = "write_output_to")]
-    public string OutputFileNameTemplate { get; set; }
+    public string OutputFileNameTemplate { get; set; } = string.Empty;
 
     [YamlMember(Alias = "use_template_processor")]
     public TemplateType TemplateType { get; set; } = TemplateType.Scriban;

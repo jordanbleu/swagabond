@@ -194,7 +194,7 @@ public class Program
 
         if (arguments.CleanOutputDirectory)
         {
-            var templateDir = Path.GetDirectoryName(arguments.InstructionSetFilePath);
+            var templateDir = Path.GetDirectoryName(arguments.InstructionSetFilePath) ?? string.Empty;
             var instructionSetOutputDir = instructionSet.OutputBaseDirectory;
             var pathToClean = Path.Combine(templateDir, instructionSetOutputDir);
             

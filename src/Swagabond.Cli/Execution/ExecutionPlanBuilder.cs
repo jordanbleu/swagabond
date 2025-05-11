@@ -2,7 +2,6 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 using Swagabond.Cli.IO;
 using Swagabond.Configuration.Instructions;
-using Swagabond.Core.ObjectModel;
 using Swagabond.ObjectModelV1;
 using Swagabond.Templates;
 

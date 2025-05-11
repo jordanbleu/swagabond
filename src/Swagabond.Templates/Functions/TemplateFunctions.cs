@@ -71,6 +71,16 @@ public class TemplateFunctions
         return parts.LastOrDefault() ?? string.Empty;
     }
 
+    public static string PrefixNewlines(string str, string prefix)
+    {
+        if (string.IsNullOrEmpty(str))
+            return string.Empty;
+
+        var lines = str.Split(new[] { '\r', '\n' }, StringSplitOptions.None);
+        var prefixedLines = lines.Select(line => $"{prefix}{line}");
+        return string.Join(Environment.NewLine, prefixedLines);
+    }
+
     public static bool IsBlank(string str)
     {
         return string.IsNullOrWhiteSpace(str);
