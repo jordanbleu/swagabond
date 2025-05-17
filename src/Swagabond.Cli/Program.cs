@@ -75,12 +75,16 @@ public class Program
         }
 
         var arguments = argumentsResult.Value;
+        
+        var outputDir = arguments.OutputDirectory;
+
 
         // ************************************************
         // Tell the user what the input args are
         // ************************************************
         logger.LogInformation("Input Args:");
         logger.LogInformation($"SwaggerFile: {arguments.SwaggerFilePath}");
+        logger.LogInformation($"OutputDirectory: {outputDir}");
         logger.LogInformation($"InstructionSet: {arguments.InstructionSetFilePath}");
 
 
@@ -154,14 +158,14 @@ public class Program
         {
             foreach (var apiInst in instructionSet.ApiScopedInstructions)
             {
-                await executionPlan.AddApiScopedInstruction(instructionSetBaseDir, instructionSet, apiInst, api);
+                await executionPlan.AddApiScopedInstruction(instructionSetBaseDir, outputDir, instructionSet, apiInst, api);
             }
 
             foreach (var pathInst in instructionSet.PathScopedInstructions)
             {
                 foreach (var path in api.Paths)
                 {
-                    await executionPlan.AddPathScopedInstruction(instructionSetBaseDir, instructionSet, pathInst, path);
+                    await executionPlan.AddPathScopedInstruction(instructionSetBaseDir, outputDir, instructionSet, pathInst, path);
                 }
             }
 
@@ -171,7 +175,7 @@ public class Program
                 {
                     foreach (var operation in path.Operations)
                     {
-                        await executionPlan.AddOperationScopedInstruction(instructionSetBaseDir, instructionSet,
+                        await executionPlan.AddOperationScopedInstruction(instructionSetBaseDir, outputDir, instructionSet,
                             operationInst, operation);
                     }
                 }
@@ -181,7 +185,7 @@ public class Program
             {
                 foreach (var schema in api.Schemas)
                 {
-                    await executionPlan.AddSchemaScopedInstruction(instructionSetBaseDir, instructionSet, schemaInst,
+                    await executionPlan.AddSchemaScopedInstruction(instructionSetBaseDir, outputDir, instructionSet, schemaInst,
                         schema);
                 }
             }
@@ -192,10 +196,11 @@ public class Program
             throw;
         }
 
+
         if (arguments.CleanOutputDirectory.ToLowerInvariant() == "true")
         {
             var templateDir = Path.GetDirectoryName(arguments.InstructionSetFilePath) ?? string.Empty;
-            var instructionSetOutputDir = instructionSet.OutputBaseDirectory;
+            var instructionSetOutputDir = outputDir;
             var pathToClean = Path.Combine(templateDir, instructionSetOutputDir);
             
             if (Directory.Exists(pathToClean))

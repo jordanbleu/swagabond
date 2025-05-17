@@ -1,5 +1,4 @@
 template_base_directory: .
-output_base_directory: ../../template-output/csharp-flurl
 
 for_api:
 - use_template_file: csproj.scriban

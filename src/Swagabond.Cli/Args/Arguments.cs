@@ -7,6 +7,9 @@ public class Arguments
     [Option('s', "swagger", HelpText = "File path or URL to the swagger file (json or yaml)", Required = true)]
     public string SwaggerFilePath { get; set; } = string.Empty;
 
+    [Option('o', "output", HelpText = "Output directory for generated files", Required = false)]
+    public string OutputDirectory { get; set; } = "./output";
+
     [Option('i', "instructions", HelpText = "File path or URL to your instruction set (yaml)", Required = true)]
     public string InstructionSetFilePath { get; set; } = string.Empty;
 
