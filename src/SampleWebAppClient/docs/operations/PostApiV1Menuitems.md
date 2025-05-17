@@ -1,5 +1,5 @@
 
-# SampleWebApp
+# SampleWebApi
 
 ## POST /api/v1/menuitems
 
@@ -142,12 +142,12 @@
         
             * *NutritionFacts*
                 * **Description:** [N/A]
-                * **Schema Name:** SamplewebappControllersMenutitemnutritionfacts
+                * **Schema Name:** SamplewebapiControllersMenutitemnutritionfacts
                 * **Schema:** 
                     * **Schema Description:** A set of menu nutrition facts
  
-                * **Reference ID:** SampleWebApp.Controllers.MenutItemNutritionFacts
-                * [Object Details...](../schema/SamplewebappControllersMenutitemnutritionfacts.md)
+                * **Reference ID:** SampleWebApi.Controllers.MenutItemNutritionFacts
+                * [Object Details...](../schema/SamplewebapiControllersMenutitemnutritionfacts.md)
             
          
          
@@ -209,19 +209,19 @@
         
             * *NutritionFacts*
                 * **Description:** [N/A]
-                * **Schema Name:** SamplewebappControllersMenutitemnutritionfacts
+                * **Schema Name:** SamplewebapiControllersMenutitemnutritionfacts
                 * **Schema:** 
                     * **Schema Description:** A set of menu nutrition facts
  
-                * **Reference ID:** SampleWebApp.Controllers.MenutItemNutritionFacts
-                * [Object Details...](../schema/SamplewebappControllersMenutitemnutritionfacts.md)
+                * **Reference ID:** SampleWebApi.Controllers.MenutItemNutritionFacts
+                * [Object Details...](../schema/SamplewebapiControllersMenutitemnutritionfacts.md)
             
          
          
 
 
 ### [< Back to Path](../Paths/ApiV1Menuitems.md)
-### [<< Back to API](../SampleWebApp.Readme.md)
+### [<< Back to API](../SampleWebApi.Readme.md)
 
 *** 
 

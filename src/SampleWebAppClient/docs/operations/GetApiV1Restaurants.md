@@ -1,5 +1,5 @@
 
-# SampleWebApp
+# SampleWebApi
 
 ## GET /api/v1/restaurants
 
@@ -28,12 +28,12 @@
         
             * *Items*
                 * **Description:** [N/A]
-                * **Schema Name:** SamplewebappControllersRestaurantgetresponseitem[]
+                * **Schema Name:** SamplewebapiControllersRestaurantgetresponseitem[]
                 * **Schema:** 
                     * **Schema Description:** A single restaurant item, which includes the restaurant's name, address, phone number, website, and description.
  
-                * **Reference ID:** SampleWebApp.Controllers.RestaurantGetResponseItem
-                * [Object Details...](../schema/SamplewebappControllersRestaurantgetresponseitem.md)
+                * **Reference ID:** SampleWebApi.Controllers.RestaurantGetResponseItem
+                * [Object Details...](../schema/SamplewebapiControllersRestaurantgetresponseitem.md)
             
          
          
@@ -47,19 +47,19 @@
         
             * *Items*
                 * **Description:** [N/A]
-                * **Schema Name:** SamplewebappControllersRestaurantgetresponseitem[]
+                * **Schema Name:** SamplewebapiControllersRestaurantgetresponseitem[]
                 * **Schema:** 
                     * **Schema Description:** A single restaurant item, which includes the restaurant's name, address, phone number, website, and description.
  
-                * **Reference ID:** SampleWebApp.Controllers.RestaurantGetResponseItem
-                * [Object Details...](../schema/SamplewebappControllersRestaurantgetresponseitem.md)
+                * **Reference ID:** SampleWebApi.Controllers.RestaurantGetResponseItem
+                * [Object Details...](../schema/SamplewebapiControllersRestaurantgetresponseitem.md)
             
          
          
 
 
 ### [< Back to Path](../Paths/ApiV1Restaurants.md)
-### [<< Back to API](../SampleWebApp.Readme.md)
+### [<< Back to API](../SampleWebApi.Readme.md)
 
 *** 
 

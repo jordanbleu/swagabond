@@ -1,5 +1,5 @@
 
-# SampleWebApp
+# SampleWebApi
 
 ## GET /api/v1/franchises
 
@@ -39,7 +39,7 @@
 
 
 ### [< Back to Path](../Paths/ApiV1Franchises.md)
-### [<< Back to API](../SampleWebApp.Readme.md)
+### [<< Back to API](../SampleWebApi.Readme.md)
 
 *** 
 

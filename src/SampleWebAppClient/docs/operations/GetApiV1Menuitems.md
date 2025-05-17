@@ -1,5 +1,5 @@
 
-# SampleWebApp
+# SampleWebApi
 
 ## GET /api/v1/menuitems
 
@@ -28,12 +28,12 @@
         
             * *Items*
                 * **Description:** [N/A]
-                * **Schema Name:** SamplewebappControllersMenuitemresponseitem[]
+                * **Schema Name:** SamplewebapiControllersMenuitemresponseitem[]
                 * **Schema:** 
                     * **Schema Description:** A single menu item
  
-                * **Reference ID:** SampleWebApp.Controllers.MenuItemResponseItem
-                * [Object Details...](../schema/SamplewebappControllersMenuitemresponseitem.md)
+                * **Reference ID:** SampleWebApi.Controllers.MenuItemResponseItem
+                * [Object Details...](../schema/SamplewebapiControllersMenuitemresponseitem.md)
             
         
             * *TotalCount*
@@ -59,12 +59,12 @@
         
             * *Items*
                 * **Description:** [N/A]
-                * **Schema Name:** SamplewebappControllersMenuitemresponseitem[]
+                * **Schema Name:** SamplewebapiControllersMenuitemresponseitem[]
                 * **Schema:** 
                     * **Schema Description:** A single menu item
  
-                * **Reference ID:** SampleWebApp.Controllers.MenuItemResponseItem
-                * [Object Details...](../schema/SamplewebappControllersMenuitemresponseitem.md)
+                * **Reference ID:** SampleWebApi.Controllers.MenuItemResponseItem
+                * [Object Details...](../schema/SamplewebapiControllersMenuitemresponseitem.md)
             
         
             * *TotalCount*
@@ -83,7 +83,7 @@
 
 
 ### [< Back to Path](../Paths/ApiV1Menuitems.md)
-### [<< Back to API](../SampleWebApp.Readme.md)
+### [<< Back to API](../SampleWebApi.Readme.md)
 
 *** 
 

@@ -1,5 +1,5 @@
 
-# SampleWebApp
+# SampleWebApi
 
 ## GET /api/v1/menuitems/{id}/full
 
@@ -39,22 +39,22 @@
         
             * *Item*
                 * **Description:** [N/A]
-                * **Schema Name:** SamplewebappControllersMenuitemresponseitem
+                * **Schema Name:** SamplewebapiControllersMenuitemresponseitem
                 * **Schema:** 
                     * **Schema Description:** A single menu item
  
-                * **Reference ID:** SampleWebApp.Controllers.MenuItemResponseItem
-                * [Object Details...](../schema/SamplewebappControllersMenuitemresponseitem.md)
+                * **Reference ID:** SampleWebApi.Controllers.MenuItemResponseItem
+                * [Object Details...](../schema/SamplewebapiControllersMenuitemresponseitem.md)
             
         
             * *Franchise*
                 * **Description:** [N/A]
-                * **Schema Name:** SamplewebappControllersFranchiseinformation
+                * **Schema Name:** SamplewebapiControllersFranchiseinformation
                 * **Schema:** 
                     * **Schema Description:** An object containing franchise information
  
-                * **Reference ID:** SampleWebApp.Controllers.FranchiseInformation
-                * [Object Details...](../schema/SamplewebappControllersFranchiseinformation.md)
+                * **Reference ID:** SampleWebApi.Controllers.FranchiseInformation
+                * [Object Details...](../schema/SamplewebapiControllersFranchiseinformation.md)
             
          
          
@@ -68,29 +68,29 @@
         
             * *Item*
                 * **Description:** [N/A]
-                * **Schema Name:** SamplewebappControllersMenuitemresponseitem
+                * **Schema Name:** SamplewebapiControllersMenuitemresponseitem
                 * **Schema:** 
                     * **Schema Description:** A single menu item
  
-                * **Reference ID:** SampleWebApp.Controllers.MenuItemResponseItem
-                * [Object Details...](../schema/SamplewebappControllersMenuitemresponseitem.md)
+                * **Reference ID:** SampleWebApi.Controllers.MenuItemResponseItem
+                * [Object Details...](../schema/SamplewebapiControllersMenuitemresponseitem.md)
             
         
             * *Franchise*
                 * **Description:** [N/A]
-                * **Schema Name:** SamplewebappControllersFranchiseinformation
+                * **Schema Name:** SamplewebapiControllersFranchiseinformation
                 * **Schema:** 
                     * **Schema Description:** An object containing franchise information
  
-                * **Reference ID:** SampleWebApp.Controllers.FranchiseInformation
-                * [Object Details...](../schema/SamplewebappControllersFranchiseinformation.md)
+                * **Reference ID:** SampleWebApi.Controllers.FranchiseInformation
+                * [Object Details...](../schema/SamplewebapiControllersFranchiseinformation.md)
             
          
          
 
 
 ### [< Back to Path](../Paths/ApiV1MenuitemsidFull.md)
-### [<< Back to API](../SampleWebApp.Readme.md)
+### [<< Back to API](../SampleWebApi.Readme.md)
 
 *** 
 

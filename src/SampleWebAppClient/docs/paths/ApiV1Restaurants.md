@@ -1,5 +1,5 @@
 
-# SampleWebApp
+# SampleWebApi
 
 ## /api/v1/restaurants
 
@@ -12,7 +12,7 @@
  
 
 
-### [<< Back to API](../SampleWebApp.Readme.md)
+### [<< Back to API](../SampleWebApi.Readme.md)
 
 *** 
 

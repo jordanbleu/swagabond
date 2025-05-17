@@ -1,5 +1,5 @@
 
-# SampleWebApp
+# SampleWebApi
 
 ## /api/v1/menuitems/{id}/full
 
@@ -10,7 +10,7 @@
  
 
 
-### [<< Back to API](../SampleWebApp.Readme.md)
+### [<< Back to API](../SampleWebApi.Readme.md)
 
 *** 
 

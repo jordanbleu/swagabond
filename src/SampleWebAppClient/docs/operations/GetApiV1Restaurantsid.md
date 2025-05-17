@@ -1,5 +1,5 @@
 
-# SampleWebApp
+# SampleWebApi
 
 ## GET /api/v1/restaurants/{id}
 
@@ -111,7 +111,7 @@
         
             * *State*
                 * **Description:** [N/A]
-                * **Schema Name:** SamplewebappEntitiesState
+                * **Schema Name:** SamplewebapiEntitiesState
                 * **Schema:** 
                     * **Schema Description:** [N/A]
  
@@ -263,7 +263,7 @@
         
             * *State*
                 * **Description:** [N/A]
-                * **Schema Name:** SamplewebappEntitiesState
+                * **Schema Name:** SamplewebapiEntitiesState
                 * **Schema:** 
                     * **Schema Description:** [N/A]
  
@@ -336,7 +336,7 @@
 
 
 ### [< Back to Path](../Paths/ApiV1Restaurantsid.md)
-### [<< Back to API](../SampleWebApp.Readme.md)
+### [<< Back to API](../SampleWebApi.Readme.md)
 
 *** 
 

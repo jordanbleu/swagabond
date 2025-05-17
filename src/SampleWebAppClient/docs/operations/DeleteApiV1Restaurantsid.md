@@ -1,5 +1,5 @@
 
-# SampleWebApp
+# SampleWebApi
 
 ## DELETE /api/v1/restaurants/{id}
 
@@ -56,7 +56,7 @@
 
 
 ### [< Back to Path](../Paths/ApiV1Restaurantsid.md)
-### [<< Back to API](../SampleWebApp.Readme.md)
+### [<< Back to API](../SampleWebApi.Readme.md)
 
 *** 
 

@@ -1,5 +1,5 @@
 
-# SampleWebApp
+# SampleWebApi
 
 ## POST /api/v1/restaurants
 
@@ -82,7 +82,7 @@
 
     * *State*
         * **Description:** [N/A]
-        * **Schema Name:** SamplewebappEntitiesState
+        * **Schema Name:** SamplewebapiEntitiesState
         * **Schema:** 
             * **Schema Description:** [N/A]
  
@@ -237,7 +237,7 @@
         
             * *State*
                 * **Description:** [N/A]
-                * **Schema Name:** SamplewebappEntitiesState
+                * **Schema Name:** SamplewebapiEntitiesState
                 * **Schema:** 
                     * **Schema Description:** [N/A]
  
@@ -389,7 +389,7 @@
         
             * *State*
                 * **Description:** [N/A]
-                * **Schema Name:** SamplewebappEntitiesState
+                * **Schema Name:** SamplewebapiEntitiesState
                 * **Schema:** 
                     * **Schema Description:** [N/A]
  
@@ -462,7 +462,7 @@
 
 
 ### [< Back to Path](../Paths/ApiV1Restaurants.md)
-### [<< Back to API](../SampleWebApp.Readme.md)
+### [<< Back to API](../SampleWebApi.Readme.md)
 
 *** 
 
