@@ -1,0 +1,36 @@
+####################################################################################################
+#                
+# NOTE - This is version of the template instruction set does NOT include a csproj file.                
+#                
+# Use this if you are generating code into already existing projects.                 
+# You will need to ensure the Flurl nuget package is included:                
+#                 
+# <PackageReference Include="Flurl.Http" Version="4.0.2" />                
+#                
+####################################################################################################
+
+
+template_base_directory: .
+
+for_api:
+- use_template_file: client-interface.scriban
+  write_output_to: ./{{Name}}Api/I{{Name}}Client.cs
+  use_template_processor: Scriban
+  include_before:
+  - functions.scriban
+
+- use_template_file: client-impl.scriban
+  write_output_to: ./{{Name}}Api/{{Name}}FlurlClient.cs
+  use_template_processor: Scriban
+  include_before:
+  - functions.scriban
+
+for_schema_definitions:
+- use_template_file: schema.scriban
+  write_output_to: ./{{Api.Name}}Api/Models/{{Name}}.cs
+  use_template_processor: Scriban
+  include_before:
+  - functions.scriban
+
+metadata:
+  Company: Jordan Bleu

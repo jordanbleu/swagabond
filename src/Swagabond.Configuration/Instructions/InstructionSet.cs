@@ -14,13 +14,6 @@ public class InstructionSet
     /// </summary>
     [YamlMember(Alias = "template_base_directory")]
     public string TemplateBaseDirectory { get; set; } = ".";
-
-    /// <summary>
-    /// Where the base output directory should be for outputs that have been processed,
-    /// relative to where the instruction set is
-    /// </summary>
-    [YamlMember(Alias = "output_base_directory")]
-    public string OutputBaseDirectory { get; set; } = "./output";
     
     [YamlMember(Alias = "for_api")]
     public List<ProcessTemplateInstruction> ApiScopedInstructions { get; set; } = new();

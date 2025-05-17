@@ -32,10 +32,10 @@ public class ExecutionPlanBuilder
     /// <param name="instruction"></param>
     /// <returns></returns>
     private async Task RenderOutputToFile<T>(string startingDirectory, 
-        InstructionSet instructionSet, ProcessTemplateInstruction instruction, T model, string outputFile)
+        InstructionSet instructionSet, ProcessTemplateInstruction instruction, T model, string outputFilePath)
     {
         var taskId = Guid.NewGuid();
-        _logger.LogInformation("[{}] Begin rendering template {} to {}", taskId, instruction.TemplateFile, outputFile);
+        _logger.LogInformation("[{}] Begin rendering template {} to {}", taskId, instruction.TemplateFile, outputFilePath);
 
         var instructionSetBaseTemplateDirectory = instructionSet.TemplateBaseDirectory;
         var instructionTemplateFilePath = instruction.TemplateFile;
@@ -108,8 +108,7 @@ public class ExecutionPlanBuilder
             throw;
         }
 
-        var instructionSetBaseOutputDirectory = instructionSet.OutputBaseDirectory;
-        var finalOutputPath = Path.Combine(startingDirectory, instructionSetBaseOutputDirectory, outputFile);
+        var finalOutputPath = Path.Combine(startingDirectory, outputFilePath);
         var finalOutputPathDirectory = Path.GetDirectoryName(finalOutputPath) ?? ".";
         
         // ensure the directory exists
@@ -123,7 +122,7 @@ public class ExecutionPlanBuilder
         await File.WriteAllTextAsync(finalOutputPath, output);
     }
 
-    public async Task AddApiScopedInstruction(string startingDirectory, InstructionSet instructionSet, ProcessTemplateInstruction instruction, ApiV1 api)
+    public async Task AddApiScopedInstruction(string startingDirectory, string outputDir, InstructionSet instructionSet, ProcessTemplateInstruction instruction, ApiV1 api)
     {
         var templateEngine = _templateEngineFactory.GetEngine(instruction.TemplateType);
 
@@ -135,10 +134,10 @@ public class ExecutionPlanBuilder
                                                 $"Please double check that each api-scoped instruction writes out a unique filename.");
 
         _executionPlan.Add(outputFileName,
-            () => RenderOutputToFile(startingDirectory, instructionSet, instruction, api, outputFileName));
+            () => RenderOutputToFile(startingDirectory, instructionSet, instruction, api, Path.Combine(outputDir,outputFileName)));
     }
     
-    public async Task AddPathScopedInstruction(string startingDirectory, InstructionSet instructionSet, ProcessTemplateInstruction instruction, PathV1 path)
+    public async Task AddPathScopedInstruction(string startingDirectory, string outputDir, InstructionSet instructionSet, ProcessTemplateInstruction instruction, PathV1 path)
     {
         var templateEngine = _templateEngineFactory.GetEngine(instruction.TemplateType);
 
@@ -150,10 +149,10 @@ public class ExecutionPlanBuilder
                                                 $"Please double check that each path-scoped instruction writes out a unique filename.");
         
         _executionPlan.Add(outputFileName,
-            () => RenderOutputToFile(startingDirectory, instructionSet, instruction, path, outputFileName));
+            () => RenderOutputToFile(startingDirectory, instructionSet, instruction, path, Path.Combine(outputDir,outputFileName)));
     }
 
-    public async Task AddOperationScopedInstruction(string startingDirectory, InstructionSet instructionSet,
+    public async Task AddOperationScopedInstruction(string startingDirectory, string outputDir, InstructionSet instructionSet,
         ProcessTemplateInstruction instruction, OperationV1 operation)
     {
         var templateEngine = _templateEngineFactory.GetEngine(instruction.TemplateType);
@@ -166,11 +165,11 @@ public class ExecutionPlanBuilder
                                                 $"Please double check that each opearation scoped instruction writes out a unique filename.");
         
         _executionPlan.Add(outputFileName,
-            () => RenderOutputToFile(startingDirectory, instructionSet, instruction, operation, outputFileName));
+            () => RenderOutputToFile(startingDirectory, instructionSet, instruction, operation, Path.Combine(outputDir, outputFileName)));
         
     }
     
-    public async Task AddSchemaScopedInstruction(string startingDirectory, InstructionSet instructionSet,
+    public async Task AddSchemaScopedInstruction(string startingDirectory, string outputDir, InstructionSet instructionSet,
         ProcessTemplateInstruction instruction, SchemaDefinitionV1 schema)
     {
         var templateEngine = _templateEngineFactory.GetEngine(instruction.TemplateType);
@@ -183,7 +182,7 @@ public class ExecutionPlanBuilder
                                                 $"Please double check that each schema scoped instruction writes out a unique filename.");
         
         _executionPlan.Add(outputFileName,
-            () => RenderOutputToFile(startingDirectory, instructionSet, instruction, schema, outputFileName));
+            () => RenderOutputToFile(startingDirectory, instructionSet, instruction, schema, Path.Combine(outputDir, outputFileName)));
         
     }
 

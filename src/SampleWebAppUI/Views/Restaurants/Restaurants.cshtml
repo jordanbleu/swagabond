@@ -1,0 +1,18 @@
+@{
+    ViewData["Title"] = "Home Page";
+} 
+
+<h3>Restaurants</h3>
+
+@foreach(var restaurant in Model.Restaurants)
+{
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">@restaurant.FranchiseName - Store @restaurant.StoreNumber</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary"><i>@restaurant.FranchiseSlogan</i></h6>
+            <p class="card-text">@restaurant.Address, @restaurant.State @restaurant.Zip</p>
+            <a href="#" class="card-link">More Info</a>
+            <a href="#" class="card-link">Delete</a>
+        </div>
+    </div>
+}
