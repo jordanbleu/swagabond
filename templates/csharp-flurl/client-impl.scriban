@@ -54,7 +54,7 @@ public class {{Name}}FlurlClient : I{{Name}}Client
             .{{operation.Method}}Async();
 
         {{~if !operation.SuccessResponseBody.IsEmpty~}}
-        return await DeserializeFlurlResponse<{{x_CSharpType operation.SuccessResponseBody.Schema.DataType operation.SuccessResponseBody.Schema.IsEnum operation.SuccessResponseBody.Schema.IsArray operation.SuccessResponseBody.Schema.Name}}>(response);
+        return await DeserializeFlurlResponse<{{x_CSharpType operation.SuccessResponseBody.Schema.DataType operation.SuccessResponseBody.Schema.IsEnum operation.SuccessResponseBody.Schema.IsArray x_GetSchemaName(operation.SuccessResponseBody.Schema.OriginalName)}}>(response);
         {{~end~}} {{#/if !operation.SuccessResponse.IsEmpty}}
     }
     {{~end~}} {{#/for op in Operations}}
