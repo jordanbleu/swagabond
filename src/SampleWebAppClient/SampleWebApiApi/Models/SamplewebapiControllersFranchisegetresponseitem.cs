@@ -14,7 +14,7 @@ namespace SampleWebApiApi.Models;
 /// <summary>
 /// A single franchise response item.
 /// </summary>
-public record SamplewebapiControllersFranchisegetresponseitem
+public record FranchiseGetResponseItem
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

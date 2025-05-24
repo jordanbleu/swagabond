@@ -11,7 +11,7 @@ using System;
 
 namespace SampleWebApiApi.Models;
 
-public enum SamplewebapiEntitiesState
+public enum State
 {
     Alabama = 1,
     Alaska = 2,

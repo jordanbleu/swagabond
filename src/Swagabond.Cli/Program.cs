@@ -40,7 +40,6 @@ public class Program
 
     public static async Task Run(ServiceProvider provider, string[] args)
     {
-
         // ************************************************
         // Grab services from our DI container
         // ************************************************
@@ -62,7 +61,6 @@ public class Program
         consoleHelper.WriteBorder();
         Console.WriteLine();
 
-
         // parse input args
         var parser = new CommandLine.Parser();
         var argumentsResult = parser.ParseArguments<Arguments>(args);
@@ -75,9 +73,7 @@ public class Program
         }
 
         var arguments = argumentsResult.Value;
-        
         var outputDir = arguments.OutputDirectory;
-
 
         // ************************************************
         // Tell the user what the input args are
@@ -86,7 +82,6 @@ public class Program
         logger.LogInformation($"SwaggerFile: {arguments.SwaggerFilePath}");
         logger.LogInformation($"OutputDirectory: {outputDir}");
         logger.LogInformation($"InstructionSet: {arguments.InstructionSetFilePath}");
-
 
         // ************************************************
         // Parse instruction set
@@ -196,7 +191,6 @@ public class Program
             throw;
         }
 
-
         if (arguments.CleanOutputDirectory.ToLowerInvariant() == "true")
         {
             var templateDir = Path.GetDirectoryName(arguments.InstructionSetFilePath) ?? string.Empty;
@@ -228,7 +222,6 @@ public class Program
                 ex);
             throw;
         }
-
 
         logger.LogInformation("\n\n");
         consoleHelper.DrawRobotAscii("Done, please enjoy your output.", "Beep boop boop beep bop.");

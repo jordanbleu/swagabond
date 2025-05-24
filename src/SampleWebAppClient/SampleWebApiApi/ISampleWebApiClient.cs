@@ -19,39 +19,39 @@ public interface ISampleWebApiClient
     /// <remarks>
     /// GET /api/v1/franchises
     /// </remarks>
-    Task<SamplewebapiControllersFranchisegetresponseitem[]> GetApiV1FranchisesAsync(Dictionary<string, string> requestHeaders);
+    Task<FranchiseGetResponseItem[]> GetApiV1FranchisesAsync(Dictionary<string, string> requestHeaders);
     /// <remarks>
     /// GET /api/v1/franchises/{id}
     /// </remarks>
-    Task<SamplewebapiControllersFranchisegetresponseitem> GetApiV1FranchisesidAsync(Dictionary<string, string> requestHeaders, Guid id);
+    Task<FranchiseGetResponseItem> GetApiV1FranchisesidAsync(Dictionary<string, string> requestHeaders, Guid id);
     /// <remarks>
     /// GET /api/v1/menuitems
     /// </remarks>
-    Task<SamplewebapiControllersMenuitemresponse> GetApiV1MenuitemsAsync(Dictionary<string, string> requestHeaders);
+    Task<MenuItemResponse> GetApiV1MenuitemsAsync(Dictionary<string, string> requestHeaders);
     /// <remarks>
     /// POST /api/v1/menuitems
     /// </remarks>
-    Task<SamplewebapiControllersMenuitemresponseitem> PostApiV1MenuitemsAsync(Dictionary<string, string> requestHeaders, SamplewebapiControllersMenutitempostrequest apiV1MenuitemsPostRequest);
+    Task<MenuItemResponseItem> PostApiV1MenuitemsAsync(Dictionary<string, string> requestHeaders, MenutItemPostRequest apiV1MenuitemsPostRequest);
     /// <remarks>
     /// GET /api/v1/menuitems/{id}
     /// </remarks>
-    Task<SamplewebapiControllersMenuitemresponseitem> GetApiV1MenuitemsidAsync(Dictionary<string, string> requestHeaders, Guid id);
+    Task<MenuItemResponseItem> GetApiV1MenuitemsidAsync(Dictionary<string, string> requestHeaders, Guid id);
     /// <remarks>
     /// GET /api/v1/menuitems/{id}/full
     /// </remarks>
-    Task<SamplewebapiControllersFullmenuitemgetresponse> GetApiV1MenuitemsidFullAsync(Dictionary<string, string> requestHeaders, Guid id);
+    Task<FullMenuItemGetResponse> GetApiV1MenuitemsidFullAsync(Dictionary<string, string> requestHeaders, Guid id);
     /// <remarks>
     /// GET /api/v1/restaurants
     /// </remarks>
-    Task<SamplewebapiControllersRestaurantgetresponse> GetApiV1RestaurantsAsync(Dictionary<string, string> requestHeaders);
+    Task<RestaurantGetResponse> GetApiV1RestaurantsAsync(Dictionary<string, string> requestHeaders);
     /// <remarks>
     /// POST /api/v1/restaurants
     /// </remarks>
-    Task<SamplewebapiControllersRestaurantgetresponseitem> PostApiV1RestaurantsAsync(Dictionary<string, string> requestHeaders, SamplewebapiControllersRestaurantpostrequest apiV1RestaurantsPostRequest);
+    Task<RestaurantGetResponseItem> PostApiV1RestaurantsAsync(Dictionary<string, string> requestHeaders, RestaurantPostRequest apiV1RestaurantsPostRequest);
     /// <remarks>
     /// GET /api/v1/restaurants/{id}
     /// </remarks>
-    Task<SamplewebapiControllersRestaurantgetresponseitem> GetApiV1RestaurantsidAsync(Dictionary<string, string> requestHeaders, Guid id);
+    Task<RestaurantGetResponseItem> GetApiV1RestaurantsidAsync(Dictionary<string, string> requestHeaders, Guid id);
     /// <remarks>
     /// DELETE /api/v1/restaurants/{id}
     /// </remarks>

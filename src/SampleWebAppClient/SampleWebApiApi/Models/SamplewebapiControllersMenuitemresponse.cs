@@ -14,8 +14,8 @@ namespace SampleWebApiApi.Models;
 /// <summary>
 /// A response containing multiple menu items
 /// </summary>
-public record SamplewebapiControllersMenuitemresponse
+public record MenuItemResponse
 {
-    public SamplewebapiControllersMenuitemresponseitem[] Items { get; set; }
+    public MenuItemResponseItem[] Items { get; set; }
     public int TotalCount { get; set; }
 }

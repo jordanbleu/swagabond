@@ -14,7 +14,7 @@ namespace SampleWebApiApi.Models;
 /// <summary>
 /// An object containing franchise information
 /// </summary>
-public record SamplewebapiControllersFranchiseinformation
+public record FranchiseInformation
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

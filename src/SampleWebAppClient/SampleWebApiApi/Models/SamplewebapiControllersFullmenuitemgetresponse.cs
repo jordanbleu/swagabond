@@ -14,8 +14,8 @@ namespace SampleWebApiApi.Models;
 /// <summary>
 /// A full menu item response, as well as the franchise info
 /// </summary>
-public record SamplewebapiControllersFullmenuitemgetresponse
+public record FullMenuItemGetResponse
 {
-    public SamplewebapiControllersMenuitemresponseitem Item { get; set; }
-    public SamplewebapiControllersFranchiseinformation Franchise { get; set; }
+    public MenuItemResponseItem Item { get; set; }
+    public FranchiseInformation Franchise { get; set; }
 }

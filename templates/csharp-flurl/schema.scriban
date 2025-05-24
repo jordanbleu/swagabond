@@ -17,13 +17,13 @@ namespace {{Api.Name}}Api.Models;
 /// </summary>
 {{~end~}}{{~#/if Description != empty~}}
 {{~if IsEnum~}}
-public enum {{Name}}
+public enum {{f_LastDottedSegment OriginalName}}
 {
     {{~for opt in EnumOptions~}}
     {{opt.Name}} = {{opt.Value}},
     {{~end~}}{{~#/for opt in EnumOptions}}
 {{~else~}}{{~# This is a class (not enum)~}}
-public record {{Name}}
+public record {{f_LastDottedSegment OriginalName}}
 {
 {{~for prop in Properties~}}
     {{~if !f_IsBlank prop.Description~}}
@@ -31,7 +31,7 @@ public record {{Name}}
     /// {{f_StripNewlines prop.Description}}
     /// </summary>
     {{~end~}}{{~#/if prop.Description != empty~}}
-    public {{x_CSharpType prop.Schema.DataType prop.Schema.IsEnum prop.Schema.IsArray prop.Schema.Name}} {{prop.Name}} { get; set; }
+    public {{x_CSharpType prop.Schema.DataType prop.Schema.IsEnum prop.Schema.IsArray (f_LastDottedSegment prop.Schema.OriginalName)}} {{prop.Name}} { get; set; }
 {{~end~}}{{~#/for prop in Properties~}}
 {{~end~}}{{~#/if IsEnum~}}
 }

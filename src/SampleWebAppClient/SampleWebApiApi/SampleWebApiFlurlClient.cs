@@ -30,7 +30,7 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
     /// <remarks>
     /// GET /api/v1/franchises
     /// </remarks>
-    public async Task<SamplewebapiControllersFranchisegetresponseitem[]> GetApiV1FranchisesAsync(Dictionary<string, string> requestHeaders)
+    public async Task<FranchiseGetResponseItem[]> GetApiV1FranchisesAsync(Dictionary<string, string> requestHeaders)
     {
         var path = "/api/v1/franchises";
 
@@ -39,13 +39,13 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
             .WithHeaders(requestHeaders)
             .GetAsync();
 
-        return await DeserializeFlurlResponse<SamplewebapiControllersFranchisegetresponseitem[]>(response);
+        return await DeserializeFlurlResponse<FranchiseGetResponseItem[]>(response);
 
     }
     /// <remarks>
     /// GET /api/v1/franchises/{id}
     /// </remarks>
-    public async Task<SamplewebapiControllersFranchisegetresponseitem> GetApiV1FranchisesidAsync(Dictionary<string, string> requestHeaders, Guid id)
+    public async Task<FranchiseGetResponseItem> GetApiV1FranchisesidAsync(Dictionary<string, string> requestHeaders, Guid id)
     {
         var path = "/api/v1/franchises/{id}";
         path = path.Replace("{id}", id.ToString(), StringComparison.OrdinalIgnoreCase);
@@ -55,13 +55,13 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
             .WithHeaders(requestHeaders)
             .GetAsync();
 
-        return await DeserializeFlurlResponse<SamplewebapiControllersFranchisegetresponseitem>(response);
+        return await DeserializeFlurlResponse<FranchiseGetResponseItem>(response);
 
     }
     /// <remarks>
     /// GET /api/v1/menuitems
     /// </remarks>
-    public async Task<SamplewebapiControllersMenuitemresponse> GetApiV1MenuitemsAsync(Dictionary<string, string> requestHeaders)
+    public async Task<MenuItemResponse> GetApiV1MenuitemsAsync(Dictionary<string, string> requestHeaders)
     {
         var path = "/api/v1/menuitems";
 
@@ -70,13 +70,13 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
             .WithHeaders(requestHeaders)
             .GetAsync();
 
-        return await DeserializeFlurlResponse<SamplewebapiControllersMenuitemresponse>(response);
+        return await DeserializeFlurlResponse<MenuItemResponse>(response);
 
     }
     /// <remarks>
     /// POST /api/v1/menuitems
     /// </remarks>
-    public async Task<SamplewebapiControllersMenuitemresponseitem> PostApiV1MenuitemsAsync(Dictionary<string, string> requestHeaders, SamplewebapiControllersMenutitempostrequest apiV1MenuitemsPostRequest)
+    public async Task<MenuItemResponseItem> PostApiV1MenuitemsAsync(Dictionary<string, string> requestHeaders, MenutItemPostRequest apiV1MenuitemsPostRequest)
     {
         var path = "/api/v1/menuitems";
 
@@ -85,13 +85,13 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
             .WithHeaders(requestHeaders)
             .PostAsync();
 
-        return await DeserializeFlurlResponse<SamplewebapiControllersMenuitemresponseitem>(response);
+        return await DeserializeFlurlResponse<MenuItemResponseItem>(response);
 
     }
     /// <remarks>
     /// GET /api/v1/menuitems/{id}
     /// </remarks>
-    public async Task<SamplewebapiControllersMenuitemresponseitem> GetApiV1MenuitemsidAsync(Dictionary<string, string> requestHeaders, Guid id)
+    public async Task<MenuItemResponseItem> GetApiV1MenuitemsidAsync(Dictionary<string, string> requestHeaders, Guid id)
     {
         var path = "/api/v1/menuitems/{id}";
         path = path.Replace("{id}", id.ToString(), StringComparison.OrdinalIgnoreCase);
@@ -101,13 +101,13 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
             .WithHeaders(requestHeaders)
             .GetAsync();
 
-        return await DeserializeFlurlResponse<SamplewebapiControllersMenuitemresponseitem>(response);
+        return await DeserializeFlurlResponse<MenuItemResponseItem>(response);
 
     }
     /// <remarks>
     /// GET /api/v1/menuitems/{id}/full
     /// </remarks>
-    public async Task<SamplewebapiControllersFullmenuitemgetresponse> GetApiV1MenuitemsidFullAsync(Dictionary<string, string> requestHeaders, Guid id)
+    public async Task<FullMenuItemGetResponse> GetApiV1MenuitemsidFullAsync(Dictionary<string, string> requestHeaders, Guid id)
     {
         var path = "/api/v1/menuitems/{id}/full";
         path = path.Replace("{id}", id.ToString(), StringComparison.OrdinalIgnoreCase);
@@ -117,13 +117,13 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
             .WithHeaders(requestHeaders)
             .GetAsync();
 
-        return await DeserializeFlurlResponse<SamplewebapiControllersFullmenuitemgetresponse>(response);
+        return await DeserializeFlurlResponse<FullMenuItemGetResponse>(response);
 
     }
     /// <remarks>
     /// GET /api/v1/restaurants
     /// </remarks>
-    public async Task<SamplewebapiControllersRestaurantgetresponse> GetApiV1RestaurantsAsync(Dictionary<string, string> requestHeaders)
+    public async Task<RestaurantGetResponse> GetApiV1RestaurantsAsync(Dictionary<string, string> requestHeaders)
     {
         var path = "/api/v1/restaurants";
 
@@ -132,13 +132,13 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
             .WithHeaders(requestHeaders)
             .GetAsync();
 
-        return await DeserializeFlurlResponse<SamplewebapiControllersRestaurantgetresponse>(response);
+        return await DeserializeFlurlResponse<RestaurantGetResponse>(response);
 
     }
     /// <remarks>
     /// POST /api/v1/restaurants
     /// </remarks>
-    public async Task<SamplewebapiControllersRestaurantgetresponseitem> PostApiV1RestaurantsAsync(Dictionary<string, string> requestHeaders, SamplewebapiControllersRestaurantpostrequest apiV1RestaurantsPostRequest)
+    public async Task<RestaurantGetResponseItem> PostApiV1RestaurantsAsync(Dictionary<string, string> requestHeaders, RestaurantPostRequest apiV1RestaurantsPostRequest)
     {
         var path = "/api/v1/restaurants";
 
@@ -147,13 +147,13 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
             .WithHeaders(requestHeaders)
             .PostAsync();
 
-        return await DeserializeFlurlResponse<SamplewebapiControllersRestaurantgetresponseitem>(response);
+        return await DeserializeFlurlResponse<RestaurantGetResponseItem>(response);
 
     }
     /// <remarks>
     /// GET /api/v1/restaurants/{id}
     /// </remarks>
-    public async Task<SamplewebapiControllersRestaurantgetresponseitem> GetApiV1RestaurantsidAsync(Dictionary<string, string> requestHeaders, Guid id)
+    public async Task<RestaurantGetResponseItem> GetApiV1RestaurantsidAsync(Dictionary<string, string> requestHeaders, Guid id)
     {
         var path = "/api/v1/restaurants/{id}";
         path = path.Replace("{id}", id.ToString(), StringComparison.OrdinalIgnoreCase);
@@ -163,7 +163,7 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
             .WithHeaders(requestHeaders)
             .GetAsync();
 
-        return await DeserializeFlurlResponse<SamplewebapiControllersRestaurantgetresponseitem>(response);
+        return await DeserializeFlurlResponse<RestaurantGetResponseItem>(response);
 
     }
     /// <remarks>

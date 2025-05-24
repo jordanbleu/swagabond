@@ -14,7 +14,7 @@ namespace SampleWebApiApi.Models;
 /// <summary>
 /// The response containing the list of restuarants
 /// </summary>
-public record SamplewebapiControllersRestaurantgetresponse
+public record RestaurantGetResponse
 {
-    public SamplewebapiControllersRestaurantgetresponseitem[] Items { get; set; }
+    public RestaurantGetResponseItem[] Items { get; set; }
 }

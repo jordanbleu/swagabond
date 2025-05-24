@@ -14,7 +14,7 @@ namespace SampleWebApiApi.Models;
 /// <summary>
 /// A single restaurant item, which includes the restaurant's name, address, phone number, website, and description.
 /// </summary>
-public record SamplewebapiControllersRestaurantgetresponseitem
+public record RestaurantGetResponseItem
 {
     public Guid Id { get; set; }
     public Guid FranchiseId { get; set; }
@@ -22,5 +22,5 @@ public record SamplewebapiControllersRestaurantgetresponseitem
     public string Address { get; set; }
     public string Zip { get; set; }
     public string City { get; set; }
-    public SamplewebapiEntitiesState State { get; set; }
+    public State State { get; set; }
 }

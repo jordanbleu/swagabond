@@ -14,7 +14,7 @@ namespace SampleWebApiApi.Models;
 /// <summary>
 /// Specific nutrition facts related to protein
 /// </summary>
-public record SamplewebapiControllersProteinnutritionfact
+public record ProteinNutritionFact
 {
     public int ProteinGrams { get; set; }
     public int ProteinMilligrams { get; set; }

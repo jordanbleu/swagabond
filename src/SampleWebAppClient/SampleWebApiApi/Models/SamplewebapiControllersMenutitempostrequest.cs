@@ -14,7 +14,7 @@ namespace SampleWebApiApi.Models;
 /// <summary>
 /// A post request for menu items
 /// </summary>
-public record SamplewebapiControllersMenutitempostrequest
+public record MenutItemPostRequest
 {
     public Guid FranchiseId { get; set; }
     public string Name { get; set; }
