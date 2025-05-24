@@ -40,6 +40,10 @@ Specific nutrition facts related to protein
 
 
 
+## Extensions
+* x-schemaExtension = `hello world`
+
+
 ### [<< Back to API](../SampleWebApi.Readme.md)
 
 *** 

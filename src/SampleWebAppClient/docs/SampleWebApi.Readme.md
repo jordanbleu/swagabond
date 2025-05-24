@@ -70,6 +70,10 @@ This is a sample web api for testing / demo purposes for Swagabond.
 * [SamplewebapiEntitiesState](./schema/SamplewebapiEntitiesState.md) - 
 
 
+
+
+
+
 ## Additional Information
 * *Company Name:* Jordan Bleu
 * *Template Version:* 1

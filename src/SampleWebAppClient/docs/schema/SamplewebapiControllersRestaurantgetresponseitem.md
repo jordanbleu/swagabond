@@ -159,6 +159,10 @@ A single restaurant item, which includes the restaurant's name, address, phone n
 
 
 
+## Extensions
+* x-schemaExtension = `hello world`
+
+
 ### [<< Back to API](../SampleWebApi.Readme.md)
 
 *** 

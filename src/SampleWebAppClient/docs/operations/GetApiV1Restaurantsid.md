@@ -335,6 +335,13 @@
          
 
 
+## Extensions
+* x-operationExtension = `hello world`
+
+
+
+
+
 ### [< Back to Path](../Paths/ApiV1Restaurantsid.md)
 ### [<< Back to API](../SampleWebApi.Readme.md)
 

@@ -52,6 +52,10 @@ An object containing franchise information
 
 
 
+## Extensions
+* x-schemaExtension = `hello world`
+
+
 ### [<< Back to API](../SampleWebApi.Readme.md)
 
 *** 

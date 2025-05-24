@@ -11,10 +11,12 @@ public interface IPathV1Transformer
 public class PathV1Transformer : IPathV1Transformer
 {
     private IOperationV1Transformer _operationV1Transformer;
-
-    public PathV1Transformer(IOperationV1Transformer operationV1Transformer)
+    private IExtensionV1Transformer _extensionV1Transformer;
+    
+    public PathV1Transformer(IOperationV1Transformer operationV1Transformer, IExtensionV1Transformer extensionV1Transformer)
     {
         _operationV1Transformer = operationV1Transformer;
+        _extensionV1Transformer = extensionV1Transformer;
     }
 
     public PathV1 FromOpenApi(KeyValuePair<string, OpenApiPathItem> path, ApiV1 apiV1)
@@ -29,6 +31,8 @@ public class PathV1Transformer : IPathV1Transformer
         apiPath.Title = route;
         apiPath.Description = p.Description ?? route;
         apiPath.Route = route;
+        apiPath.Extensions = _extensionV1Transformer.FromOpenApi(p.Extensions);
+        
 
         foreach (var op in p.Operations)
         {

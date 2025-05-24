@@ -82,6 +82,13 @@
          
 
 
+## Extensions
+* x-operationExtension = `hello world`
+
+
+
+
+
 ### [< Back to Path](../Paths/ApiV1Menuitems.md)
 ### [<< Back to API](../SampleWebApi.Readme.md)
 

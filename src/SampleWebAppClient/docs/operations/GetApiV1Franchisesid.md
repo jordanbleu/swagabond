@@ -121,6 +121,13 @@
          
 
 
+## Extensions
+* x-operationExtension = `hello world`
+
+
+
+
+
 ### [< Back to Path](../Paths/ApiV1Franchisesid.md)
 ### [<< Back to API](../SampleWebApi.Readme.md)
 

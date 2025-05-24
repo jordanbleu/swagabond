@@ -55,6 +55,11 @@ public class ApiV1 : IObjectV1, INamedObject
     public List<SchemaDefinitionV1> Schemas { get; internal set; } = new();
 
     /// <summary>
+    /// List of arbitrary extensions 
+    /// </summary>
+    public List<ExtensionV1> Extensions { get; internal set; } = new();
+
+    /// <summary>
     /// Contains additional properties which are populated by Swagabond itself rather than the api spec.
     /// </summary>
     public Dictionary<string, string> Metadata { get; internal set; } = new();

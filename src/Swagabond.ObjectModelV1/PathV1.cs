@@ -24,6 +24,10 @@ public class PathV1 : IObjectV1, INamedObject
     /// </summary>
     public ApiV1 Api { get; set; } = ApiV1.Empty;
 
+    /// <summary>
+    /// List of arbitrary extensions for this path
+    /// </summary>
+    public List<ExtensionV1> Extensions { get; set; } = new();
 
     public override string ToString()
     {

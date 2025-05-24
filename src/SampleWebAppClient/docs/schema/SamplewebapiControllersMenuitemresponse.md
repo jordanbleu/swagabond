@@ -38,6 +38,10 @@ A response containing multiple menu items
 
 
 
+## Extensions
+* x-schemaExtension = `hello world`
+
+
 ### [<< Back to API](../SampleWebApi.Readme.md)
 
 *** 

@@ -74,6 +74,10 @@ public class OperationV1 : IObjectV1, INamedObject
     public PathV1 Path { get; set; } = PathV1.Empty;
     public ApiV1 Api { get; set; } = ApiV1.Empty;
 
+    /// <summary>
+    /// List of arbitrary extensions 
+    /// </summary>
+    public List<ExtensionV1> Extensions { get; set; } = new();
     public override string ToString()
     {
         return $"OperationV1 {Method} {Path.Route}";

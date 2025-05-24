@@ -36,6 +36,10 @@ A full menu item response, as well as the franchise info
 
 
 
+## Extensions
+* x-schemaExtension = `hello world`
+
+
 ### [<< Back to API](../SampleWebApi.Readme.md)
 
 *** 
