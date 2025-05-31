@@ -13,7 +13,7 @@ jobs:
   build:
     defaults:
       run:
-        working-directory: ./src
+        working-directory: .
     runs-on: ubuntu-latest
 
     steps:
@@ -30,11 +30,14 @@ jobs:
     - name: Restore tools
       run: dotnet tool restore
 
-    - name: Build
-      run: dotnet build --no-restore
+    - name: Build Main Solution
+      run: dotnet build ./src/Swagabond.sln --no-restore
+
+    - name: Build Utility Projects
+      run: dotnet build ./utilities/Swagutils/Swagutils.sln --no-restore
 
     - name: UnitTests
-      run: dotnet test ./Swagabond.Tests
+      run: dotnet test ./src/Swagabond.Tests
 
     - name: IntegrationTests
-      run: dotnet test ./Swagabond.IntegrationTests
+      run: dotnet test ./src/Swagabond.IntegrationTests
