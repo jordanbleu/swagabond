@@ -24,14 +24,20 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    - name: Restore dependencies
-      run: dotnet restore
+    - name: Restore dependencies for main solution
+      run: dotnet restore ./src/Swagabond.sln
       
-    - name: Restore tools
-      run: dotnet tool restore
+    - name: Restore tools for main solution
+      run: dotnet tool restore ./src/Swagabond.sln
 
     - name: Build Main Solution
       run: dotnet build ./src/Swagabond.sln --no-restore
+
+    - name: Restore dependencies for utility projects
+      run: dotnet restore ./utilities/Swagutils/Swagutils.sln
+
+    - name: Restore tools for utility projects
+      run: dotnet tool restore ./utilities/Swagutils/Swagutils.sln
 
     - name: Build Utility Projects
       run: dotnet build ./utilities/Swagutils/Swagutils.sln --no-restore
