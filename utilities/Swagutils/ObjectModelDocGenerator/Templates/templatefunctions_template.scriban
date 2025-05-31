@@ -1,0 +1,33 @@
+# Template Functions
+
+Swagabond provides a list of template functions that can be used.  This is a definitive list 
+of each and everyone of them.
+
+>
+> ℹ️ Note - By convention, each scriban provided function will always be prefixed with 'f_'. 
+>
+
+{{for f in Functions}}
+## {{f.Name}}
+{{f.Comment}}
+{{if f.Params != empty}}
+### Parameters:
+{{for param in f.Params}}
+* `{{param.Name}}` - {{param.Comment}}
+{{end}}{{#/for param in f.Params}}
+{{end}}{{#/if f.Params != empty}}
+### Examples
+#### Scriban
+```
+{{"{{"}}{{f.Name}} {{for p in f.Params}}{{p.Name}} {{end}}{{"}}"}}
+```
+
+
+
+{{end}}{{#/for f in Functions}}
+
+___
+
+[Swagabond on GitHub](https://github.com/jordanbleu/swagabond)
+
+*Last updated: {{f_GetDate false}} at {{f_GetTime false}}*

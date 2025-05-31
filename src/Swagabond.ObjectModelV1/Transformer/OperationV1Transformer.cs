@@ -14,13 +14,15 @@ public class OperationV1Transformer : IOperationV1Transformer
     private ISchemaReferenceV1Transformer _schemaReferenceV1Transformer;
     private IRequestBodyV1Transformer _requestBodyV1Transformer;
     private IResponseBodyV1Transformer _responseBodyV1Transformer;
+    private IExtensionV1Transformer _extensionV1Transformer;
 
-    public OperationV1Transformer(ISchemaDefinitionV1Transformer schemaDefinitionV1Transformer, ISchemaReferenceV1Transformer schemaReferenceV1Transformer, IRequestBodyV1Transformer requestBodyV1Transformer, IResponseBodyV1Transformer responseBodyV1Transformer)
+    public OperationV1Transformer(ISchemaDefinitionV1Transformer schemaDefinitionV1Transformer, ISchemaReferenceV1Transformer schemaReferenceV1Transformer, IRequestBodyV1Transformer requestBodyV1Transformer, IResponseBodyV1Transformer responseBodyV1Transformer, IExtensionV1Transformer extensionV1Transformer)
     {
         _schemaDefinitionV1Transformer = schemaDefinitionV1Transformer;
         _schemaReferenceV1Transformer = schemaReferenceV1Transformer;
         _requestBodyV1Transformer = requestBodyV1Transformer;
         _responseBodyV1Transformer = responseBodyV1Transformer;
+        _extensionV1Transformer = extensionV1Transformer;
     }
 
 
@@ -36,6 +38,7 @@ public class OperationV1Transformer : IOperationV1Transformer
         apiOperation.Title = $"{httpMethod.ToUpper()} {path.Route}";
         apiOperation.Description = o.Description;
         apiOperation.Method = httpMethod;
+        apiOperation.Extensions = _extensionV1Transformer.FromOpenApi(o.Extensions);
 
         foreach (var param in o.Parameters)
         {

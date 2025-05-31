@@ -7,10 +7,6 @@
  █▄█     █▄█     █ ▀█     █▄▀
  ```
 
-
- > [!IMPORTANT]  
-> This project is still a prototype.  A lot of functionality isn't there yet.
-
 Swagabond is a catch-all solution for generating code or text output from an [OpenAPI spec](https://swagger.io/specification/).
 
 ## How it works
@@ -21,7 +17,8 @@ Swagabond is a catch-all solution for generating code or text output from an [Op
 
 ## Swagabond vs OpenAPI Generator
 
-Swagabond is like a glass of plain Jack Daniels, OpenAPI Generator is like a whiskey old fashioned. Sometimes you just don't have time to muddle the cherries, and just want to get drunk.
+Swagabond is like a glass of plain Jack Daniels, OpenAPI Generator is like a whiskey old fashioned. Sometimes you just 
+don't have time to muddle the cherries, and just wanna get drunk.
 
 |          | Swagabond | OpenAPI Generator |
 | -------- | -------   | ------- |
@@ -37,6 +34,10 @@ Swagabond is like a glass of plain Jack Daniels, OpenAPI Generator is like a whi
 
 Check out the wiki for a full in-depth tutorial!
 
+## Template Documentation
+
+* [All the data](./docs/ApiV1.md) - A full list of all the data available to your templates.
+* [Template Functions](./docs/TemplateFunctions.md) - A list of custom functions 
 
 ## Author
 

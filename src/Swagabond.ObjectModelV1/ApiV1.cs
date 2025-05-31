@@ -4,21 +4,33 @@ namespace Swagabond.ObjectModelV1;
 
 /// <summary>
 /// The Root object for the entire API.
-///
-/// <remarks>ObjectModel V1</remarks>
 /// </summary>
 public class ApiV1 : IObjectV1, INamedObject
 {
-    public bool IsEmpty { get; internal set; } = true;
 
+    /// <summary>
+    /// The name of the API, formatted a PascalCase string with no spaces or special characters.
+    /// </summary>
     public string Name { get; internal set; } = string.Empty;
     
+    /// <summary>
+    /// The original, raw name of the API.  May contain special characters or spaces, so not great for
+    /// generating code or filenames.
+    /// </summary>
     public string Title { get; internal set; } = string.Empty;
     
+    /// <summary>
+    ///  This should never be true.  Feel free to ignore :)
+    /// </summary>
+    public bool IsEmpty { get; internal set; } = true;
+    
+    /// <summary>
+    /// A brief description of the API
+    /// </summary>
     public string Description { get; internal set; } = string.Empty;
     
     /// <summary>
-    /// The version of your API
+    /// A string representing the version of your API
     /// </summary>
     public string Version { get; internal set; } = string.Empty;
     
@@ -39,29 +51,36 @@ public class ApiV1 : IObjectV1, INamedObject
     public InfoV1 Info { get; internal set; } = InfoV1.Empty;
     
     /// <summary>
-    /// Link to external documentation
+    /// Generally, an outside link to external documentation
     /// </summary>
     public HrefV1 ExternalDocumentationLink { get; internal set; } = HrefV1.Empty;
     
     /// <summary>
-    /// List of each path exposed by the API.
+    /// List of each path (aka route) exposed by the API.  Each path item also contains a
+    /// list of operations that can be performed on that route.
     /// </summary>
     public List<PathV1> Paths { get; internal set; } = new();
     
     /// <summary>
-    /// List of every 'schema definition' used in the entire API.  A schema definition can be thought of
-    /// more or less like a 'class', or a named group of properties.  
+    /// All the schema definitions referenced by the entire API.  A schema definition defines the properties of a
+    /// complex object. 
     /// </summary>
     public List<SchemaDefinitionV1> Schemas { get; internal set; } = new();
 
     /// <summary>
-    /// Contains additional properties which are populated by Swagabond itself rather than the api spec.
+    /// List of extensions on the API. Extensions can contain any arbitrary data.
+    /// </summary>
+    public List<ExtensionV1> Extensions { get; internal set; } = new();
+
+    /// <summary>
+    /// This is populated via Swagabond itself, generally via Template Instructions. The data here isn't necessarily
+    /// related to the spec itself.  
     /// </summary>
     public Dictionary<string, string> Metadata { get; internal set; } = new();
     
     
     /// <summary>
-    /// Selects all operations from all paths on the api
+    /// A flattened list of all operations that are defined in the API, by any path.
     /// </summary>
     public IEnumerable<OperationV1> Operations => Paths.SelectMany(p => p.Operations);
 

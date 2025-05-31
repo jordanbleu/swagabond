@@ -1,5 +1,8 @@
 namespace Swagabond.ObjectModelV1;
 
+/// <summary>
+/// A bunch of helpful information about the API, most of which is for documentation or support purposes.
+/// </summary>
 public class InfoV1
 {
     /// <summary>
@@ -18,7 +21,7 @@ public class InfoV1
     public string ContactEmail { get; internal set; } = string.Empty;
 
     /// <summary>
-    /// URL to TOS for your API
+    /// URL to the ToS for your API
     /// </summary>
     public string TermsOfServiceUrl { get; internal set; } = string.Empty;
 
@@ -32,16 +35,15 @@ public class InfoV1
     /// </summary>
     public string LicenseName {get; internal set; } = string.Empty;
 
-
     /// <summary>
-    /// Returns true if the api has some sorta contact info available.
+    /// Returns true if the api has some sorta contact info available (not all fields need to be populated).
     /// </summary>
     public bool HasContactInfo => !string.IsNullOrEmpty(ContactName) || 
                                   !string.IsNullOrEmpty(ContactEmail) || 
                                   !string.IsNullOrEmpty(ContactUrl);
 
     /// <summary>
-    /// Returns true if the api has some sorta license info available.
+    /// Returns true if the api has some sorta license info available (not all fields need to be populated).
     /// </summary>
     public bool HasLicenseInfo => !string.IsNullOrEmpty(LicenseName) || !string.IsNullOrEmpty(LicenseUrl);
     

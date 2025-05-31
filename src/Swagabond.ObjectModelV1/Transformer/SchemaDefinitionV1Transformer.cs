@@ -88,7 +88,7 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         
         apiSchema.Example = string.IsNullOrEmpty(example) ? WriteGenericExample(apiSchema.DataType, apiSchema.EnumOptions) : example;
         // todo: confirm if this works vVv
-        apiSchema.Extensions = _extensionV1Transformer.TransformExtensions(schema.Extensions);
+        apiSchema.Extensions = _extensionV1Transformer.FromOpenApi(schema.Extensions);
         
         apiSchema.Api = api;
 

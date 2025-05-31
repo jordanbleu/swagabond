@@ -5,7 +5,9 @@
 # (and swagabond funcs are prefixed with c_ )
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-# Write out the proper C# type
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# Write out the proper C# type given a smattering of information
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 func x_CSharpType(dataType, isEnum, isArray, schemaName)
 
     $type = f_Lower(dataType)
@@ -62,6 +64,9 @@ func x_CSharpType(dataType, isEnum, isArray, schemaName)
     ret "string"
 end
 
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# Builds out the full method signature for your operation, for use in interfaces and implementation classes.
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 func x_BuildMethodSignatureForOperation(operation)
 
     # Build a method name 
@@ -69,10 +74,12 @@ func x_BuildMethodSignatureForOperation(operation)
     $pathName = f_PascalCase(operation.Path.Name)
     $methodName = $httpMethod + $pathName + "Async"
 
+    $responseClassName = x_GetSchemaName(f_LastDottedSegment(operation.SuccessResponseBody.Schema.OriginalName))
+
     # Figure out a response object
     $returnObject = "Task"
     if !operation.SuccessResponseBody.IsEmpty
-        $csharpReturnType = x_CSharpType(operation.SuccessResponseBody.Schema.DataType, operation.SuccessResponseBody.Schema.IsEnum, operation.SuccessResponseBody.Schema.IsArray, operation.SuccessResponseBody.Schema.Name)
+        $csharpReturnType = x_CSharpType(operation.SuccessResponseBody.Schema.DataType, operation.SuccessResponseBody.Schema.IsEnum, operation.SuccessResponseBody.Schema.IsArray, $responseClassName)
         $returnObject = "Task<" + $csharpReturnType + ">"
     end
 
@@ -90,7 +97,7 @@ func x_BuildMethodSignatureForOperation(operation)
     $index = 0
     if (operation.PathParameters != empty)
         for $pathParam in operation.PathParameters
-            $pathParamType = x_CSharpType($pathParam.Schema.DataType, $pathParam.Schema.IsEnum, $pathParam.Schema.IsArray, $pathParam.Schema.Name)
+            $pathParamType = x_CSharpType($pathParam.Schema.DataType, $pathParam.Schema.IsEnum, $pathParam.Schema.IsArray, x_GetSchemaName($pathParam.Schema.OriginalName))
             $pathParamName = f_CamelCase($pathParam.Name)
 
             $parameterString = $parameterString + $pathParamType + " " + $pathParamName
@@ -108,7 +115,7 @@ func x_BuildMethodSignatureForOperation(operation)
     $index = 0
     if (operation.QueryParameters != empty)
         for $queryParam in operation.QueryParameters
-            $queryParamType = x_CSharpType($queryParam.Schema.DataType, $queryParam.Schema.IsEnum, $queryParam.Schema.IsArray, $queryParam.Schema.Name)
+            $queryParamType = x_CSharpType($queryParam.Schema.DataType, $queryParam.Schema.IsEnum, $queryParam.Schema.IsArray, x_GetSchemaName($queryParam.Schema.OriginalName))
             $queryParamName = f_CamelCase($queryParam.Name)
 
             $parameterString = $parameterString + $queryParamType + " " + $queryParamName
@@ -126,7 +133,7 @@ func x_BuildMethodSignatureForOperation(operation)
 
     # Finally, add the request body
     if (!operation.RequestBody.IsEmpty)
-        $requestBodyType = x_CSharpType(operation.RequestBody.Schema.DataType, operation.RequestBody.Schema.IsEnum, operation.RequestBody.Schema.IsArray, operation.RequestBody.Schema.Name)
+        $requestBodyType = x_CSharpType(operation.RequestBody.Schema.DataType, operation.RequestBody.Schema.IsEnum, operation.RequestBody.Schema.IsArray, x_GetSchemaName(operation.RequestBody.Schema.OriginalName))
         $requestBodyName = f_CamelCase(operation.RequestBody.Name)
         $parameterString = $parameterString + $requestBodyType + " " + $requestBodyName
     end
@@ -139,6 +146,13 @@ func x_BuildMethodSignatureForOperation(operation)
     ret $returnObject + " " + $methodName + "(" + $parameterString + ")"
 end
 
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# Assumes that schemas will be namespace.BlahController.BlahRequest, and returns only the BlahRequest portion.
+#   Could cause name collisions if you use the same class name in multiple namespaces on your API code.
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+func x_GetSchemaName(originalName)
+    ret f_LastDottedSegment(originalName)
+end
 
 
 

@@ -40,6 +40,15 @@
 * [{{s.Name}}](./schema/{{s.Name}}.md){{~if s.Description != empty}} - {{s.Description}}{{end}}
 {{end}}{{#/for s in schemas}}
 
+{{~if Extensions != empty~}}
+## Extensions
+{{~for ex in Extensions~}}
+* {{ex.Name}} = `{{ex.Value}}`
+{{~end~}}
+{{end}}{{#/ if Extensions != empty}}
+
+
+
 ## Additional Information
 * *Company Name:* {{ Metadata.Company }}
 * *Template Version:* {{ Metadata.TemplateVersion }}
