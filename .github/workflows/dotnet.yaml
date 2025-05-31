@@ -28,7 +28,8 @@ jobs:
       run: dotnet restore ./src/Swagabond.sln
       
     - name: Restore tools for main solution
-      run: dotnet tool restore ./src/Swagabond.sln
+      run: dotnet tool restore 
+      working-directory: ./src
 
     - name: Build Main Solution
       run: dotnet build ./src/Swagabond.sln --no-restore
@@ -37,7 +38,8 @@ jobs:
       run: dotnet restore ./utilities/Swagutils/Swagutils.sln
 
     - name: Restore tools for utility projects
-      run: dotnet tool restore ./utilities/Swagutils/Swagutils.sln
+      run: dotnet tool restore
+      working-directory: ./utilities/Swagutils
 
     - name: Build Utility Projects
       run: dotnet build ./utilities/Swagutils/Swagutils.sln --no-restore
