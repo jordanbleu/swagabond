@@ -25,7 +25,7 @@ public class ResponseBodyV1Transformer : IResponseBodyV1Transformer
         var r = response.Value;
         var id = response.Key;
         
-        var name = $"{operation.Method.ToPascalCase()}{operation.Path.Name.ToPascalCase()}{response.Key.ToPascalCase()}Response";
+        var name = $"{operation.Path.Name.ToPascalCase()}{response.Key.ToPascalCase()}{operation.Method.ToPascalCase()}Response";
 
         apiResponse.IsEmpty = false;
         apiResponse.Name = name;

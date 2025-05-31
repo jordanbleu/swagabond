@@ -213,6 +213,16 @@
     {{end}} {{#if DefaultResponseBody.Schema.IsPrimitive}}
 {{end}}{{#if DefaultResponseBody != empty}}
 
+{{~if Extensions != empty~}}
+## Extensions
+{{~for ex in Extensions~}}
+* {{ex.Name}} = `{{ex.Value}}`
+{{~end~}}
+{{end}}{{#/ if Extensions != empty}}
+
+
+
+
 ### [< Back to Path](../Paths/{{Path.Name}}.md)
 ### [<< Back to API](../{{Api.Name}}.Readme.md)
 

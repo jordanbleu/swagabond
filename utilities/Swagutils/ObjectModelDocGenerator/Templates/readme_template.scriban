@@ -1,0 +1,42 @@
+# {{Name}}
+
+> *{{ Comment }}* 
+
+{{~if IsEnum~}}
+
+### ⚠️ This is an enum.  The value can be any of the following values:
+
+{{~for enumValue in EnumValues~}}
+* `{{enumValue.Name}}` - {{enumValue.Comment}}
+{{end}}{{#for enumValue in EnumValues}}
+{{~else~}}
+{{~for prop in Properties~}}
+
+### `{{prop.Name}}`
+
+{{prop.Comment}}
+
+{{if prop.IsDictionary}}
+* 📖 Dictionary - Can have any number of keys / values depending on context.
+{{else if prop.IsArray}}
+* 📚 Collection - Collection of items; Requires iteration.
+{{else}}
+{{end}}
+* ⚒️ Underlying Type: {{prop.PropertyTypeName}}
+{{if !prop.IsPrimitive}}
+* ℹ️ : [{{prop.PropertyTypeName}} Properties...](./{{prop.PropertyTypeName}}.md)
+{{end}}
+
+{{~end~}} {{#/for}}
+{{~end~}} {{#/if IsEnum~}}
+___
+
+{{if Name != "ApiV1"}}
+# [🏠 Home](./ApiV1.md)
+{{end}}
+
+___
+
+[Swagabond on GitHub](https://github.com/jordanbleu/swagabond)
+
+*Last updated: {{f_GetDate false}} at {{f_GetTime false}}*

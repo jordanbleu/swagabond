@@ -52,6 +52,13 @@
 
 {{end}}{{#/if IsEnum}}
 
+{{~if Extensions != empty~}}
+## Extensions
+{{~for ex in Extensions~}}
+* {{ex.Name}} = `{{ex.Value}}`
+{{~end~}}
+{{end}}{{#/ if Extensions != empty}}
+
 ### [<< Back to API](../{{Api.Name}}.Readme.md)
 
 *** 
