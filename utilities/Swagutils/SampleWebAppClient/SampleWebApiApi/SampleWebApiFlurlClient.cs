@@ -16,7 +16,7 @@ using SampleWebApiApi.Models;
 namespace SampleWebApiApi;
 
 /// <summary>
-/// /// This is a sample web api for testing / demo purposes for Swagabond.
+/// This is a sample web api for testing / demo purposes for Swagabond.
 /// </summary>
 public class SampleWebApiFlurlClient : ISampleWebApiClient
 {
@@ -30,7 +30,7 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
     /// <remarks>
     /// GET /api/v1/franchises
     /// </remarks>
-    public async Task<FranchiseGetResponseItem[]> GetApiV1FranchisesAsync(Dictionary<string, string> requestHeaders)
+    public async Task<FranchiseGetResponseItem[]> GetApiv1FranchisesAsync(Dictionary<string, string> requestHeaders)
     {
         var path = "/api/v1/franchises";
 
@@ -45,7 +45,7 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
     /// <remarks>
     /// GET /api/v1/franchises/{id}
     /// </remarks>
-    public async Task<FranchiseGetResponseItem> GetApiV1FranchisesidAsync(Dictionary<string, string> requestHeaders, Guid id)
+    public async Task<FranchiseGetResponseItem> GetApiv1FranchisesidAsync(Dictionary<string, string> requestHeaders, Guid id)
     {
         var path = "/api/v1/franchises/{id}";
         path = path.Replace("{id}", id.ToString(), StringComparison.OrdinalIgnoreCase);
@@ -61,7 +61,7 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
     /// <remarks>
     /// GET /api/v1/menuitems
     /// </remarks>
-    public async Task<MenuItemResponse> GetApiV1MenuitemsAsync(Dictionary<string, string> requestHeaders)
+    public async Task<MenuItemResponse> GetApiv1MenuitemsAsync(Dictionary<string, string> requestHeaders)
     {
         var path = "/api/v1/menuitems";
 
@@ -76,7 +76,7 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
     /// <remarks>
     /// POST /api/v1/menuitems
     /// </remarks>
-    public async Task<MenuItemResponseItem> PostApiV1MenuitemsAsync(Dictionary<string, string> requestHeaders, MenutItemPostRequest apiV1MenuitemsPostRequest)
+    public async Task<MenuItemResponseItem> PostApiv1MenuitemsAsync(Dictionary<string, string> requestHeaders, MenutItemPostRequest apiv1MenuitemsPostRequest)
     {
         var path = "/api/v1/menuitems";
 
@@ -91,7 +91,7 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
     /// <remarks>
     /// GET /api/v1/menuitems/{id}
     /// </remarks>
-    public async Task<MenuItemResponseItem> GetApiV1MenuitemsidAsync(Dictionary<string, string> requestHeaders, Guid id)
+    public async Task<MenuItemResponseItem> GetApiv1MenuitemsidAsync(Dictionary<string, string> requestHeaders, Guid id)
     {
         var path = "/api/v1/menuitems/{id}";
         path = path.Replace("{id}", id.ToString(), StringComparison.OrdinalIgnoreCase);
@@ -107,7 +107,7 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
     /// <remarks>
     /// GET /api/v1/menuitems/{id}/full
     /// </remarks>
-    public async Task<FullMenuItemGetResponse> GetApiV1MenuitemsidFullAsync(Dictionary<string, string> requestHeaders, Guid id)
+    public async Task<FullMenuItemGetResponse> GetApiv1MenuitemsidfullAsync(Dictionary<string, string> requestHeaders, Guid id)
     {
         var path = "/api/v1/menuitems/{id}/full";
         path = path.Replace("{id}", id.ToString(), StringComparison.OrdinalIgnoreCase);
@@ -123,7 +123,7 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
     /// <remarks>
     /// GET /api/v1/restaurants
     /// </remarks>
-    public async Task<RestaurantGetResponse> GetApiV1RestaurantsAsync(Dictionary<string, string> requestHeaders)
+    public async Task<RestaurantGetResponse> GetApiv1RestaurantsAsync(Dictionary<string, string> requestHeaders)
     {
         var path = "/api/v1/restaurants";
 
@@ -138,7 +138,7 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
     /// <remarks>
     /// POST /api/v1/restaurants
     /// </remarks>
-    public async Task<RestaurantGetResponseItem> PostApiV1RestaurantsAsync(Dictionary<string, string> requestHeaders, RestaurantPostRequest apiV1RestaurantsPostRequest)
+    public async Task<RestaurantGetResponseItem> PostApiv1RestaurantsAsync(Dictionary<string, string> requestHeaders, RestaurantPostRequest apiv1RestaurantsPostRequest)
     {
         var path = "/api/v1/restaurants";
 
@@ -153,7 +153,7 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
     /// <remarks>
     /// GET /api/v1/restaurants/{id}
     /// </remarks>
-    public async Task<RestaurantGetResponseItem> GetApiV1RestaurantsidAsync(Dictionary<string, string> requestHeaders, Guid id)
+    public async Task<RestaurantGetResponseItem> GetApiv1RestaurantsidAsync(Dictionary<string, string> requestHeaders, Guid id)
     {
         var path = "/api/v1/restaurants/{id}";
         path = path.Replace("{id}", id.ToString(), StringComparison.OrdinalIgnoreCase);
@@ -169,7 +169,7 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
     /// <remarks>
     /// DELETE /api/v1/restaurants/{id}
     /// </remarks>
-    public async Task<string> DeleteApiV1RestaurantsidAsync(Dictionary<string, string> requestHeaders, Guid id)
+    public async Task<string> DeleteApiv1RestaurantsidAsync(Dictionary<string, string> requestHeaders, Guid id)
     {
         var path = "/api/v1/restaurants/{id}";
         path = path.Replace("{id}", id.ToString(), StringComparison.OrdinalIgnoreCase);

@@ -28,46 +28,46 @@ This is a sample web api for testing / demo purposes for Swagabond.
 
 ## All Routes
 
-* [/api/v1/franchises](./paths/ApiV1Franchises.md)
+* [/api/v1/franchises](./paths/Apiv1Franchises.md)
 
-* [/api/v1/franchises/{id}](./paths/ApiV1Franchisesid.md)
+* [/api/v1/franchises/{id}](./paths/Apiv1Franchisesid.md)
 
-* [/api/v1/menuitems](./paths/ApiV1Menuitems.md)
+* [/api/v1/menuitems](./paths/Apiv1Menuitems.md)
 
-* [/api/v1/menuitems/{id}](./paths/ApiV1Menuitemsid.md)
+* [/api/v1/menuitems/{id}](./paths/Apiv1Menuitemsid.md)
 
-* [/api/v1/menuitems/{id}/full](./paths/ApiV1MenuitemsidFull.md)
+* [/api/v1/menuitems/{id}/full](./paths/Apiv1Menuitemsidfull.md)
 
-* [/api/v1/restaurants](./paths/ApiV1Restaurants.md)
+* [/api/v1/restaurants](./paths/Apiv1Restaurants.md)
 
-* [/api/v1/restaurants/{id}](./paths/ApiV1Restaurantsid.md)
+* [/api/v1/restaurants/{id}](./paths/Apiv1Restaurantsid.md)
  
 
 ## Schema Definitions
 
-* [SamplewebapiControllersFranchisegetresponseitem](./schema/SamplewebapiControllersFranchisegetresponseitem.md) - A single franchise response item.
+* [SampleWebApiControllersFranchiseGetResponseItem](./schema/SampleWebApiControllersFranchiseGetResponseItem.md) - A single franchise response item.
 
-* [SamplewebapiControllersFranchiseinformation](./schema/SamplewebapiControllersFranchiseinformation.md) - An object containing franchise information
+* [SampleWebApiControllersFranchiseInformation](./schema/SampleWebApiControllersFranchiseInformation.md) - An object containing franchise information
 
-* [SamplewebapiControllersFullmenuitemgetresponse](./schema/SamplewebapiControllersFullmenuitemgetresponse.md) - A full menu item response, as well as the franchise info
+* [SampleWebApiControllersFullMenuItemGetResponse](./schema/SampleWebApiControllersFullMenuItemGetResponse.md) - A full menu item response, as well as the franchise info
 
-* [SamplewebapiControllersMenuitemresponse](./schema/SamplewebapiControllersMenuitemresponse.md) - A response containing multiple menu items
+* [SampleWebApiControllersMenuItemResponse](./schema/SampleWebApiControllersMenuItemResponse.md) - A response containing multiple menu items
 
-* [SamplewebapiControllersMenuitemresponseitem](./schema/SamplewebapiControllersMenuitemresponseitem.md) - A single menu item
+* [SampleWebApiControllersMenuItemResponseItem](./schema/SampleWebApiControllersMenuItemResponseItem.md) - A single menu item
 
-* [SamplewebapiControllersMenutitemnutritionfacts](./schema/SamplewebapiControllersMenutitemnutritionfacts.md) - A set of menu nutrition facts
+* [SampleWebApiControllersMenutItemNutritionFacts](./schema/SampleWebApiControllersMenutItemNutritionFacts.md) - A set of menu nutrition facts
 
-* [SamplewebapiControllersMenutitempostrequest](./schema/SamplewebapiControllersMenutitempostrequest.md) - A post request for menu items
+* [SampleWebApiControllersMenutItemPostRequest](./schema/SampleWebApiControllersMenutItemPostRequest.md) - A post request for menu items
 
-* [SamplewebapiControllersProteinnutritionfact](./schema/SamplewebapiControllersProteinnutritionfact.md) - Specific nutrition facts related to protein
+* [SampleWebApiControllersProteinNutritionFact](./schema/SampleWebApiControllersProteinNutritionFact.md) - Specific nutrition facts related to protein
 
-* [SamplewebapiControllersRestaurantgetresponse](./schema/SamplewebapiControllersRestaurantgetresponse.md) - The response containing the list of restuarants
+* [SampleWebApiControllersRestaurantGetResponse](./schema/SampleWebApiControllersRestaurantGetResponse.md) - The response containing the list of restuarants
 
-* [SamplewebapiControllersRestaurantgetresponseitem](./schema/SamplewebapiControllersRestaurantgetresponseitem.md) - A single restaurant item, which includes the restaurant's name, address, phone number, website, and description.
+* [SampleWebApiControllersRestaurantGetResponseItem](./schema/SampleWebApiControllersRestaurantGetResponseItem.md) - A single restaurant item, which includes the restaurant's name, address, phone number, website, and description.
 
-* [SamplewebapiControllersRestaurantpostrequest](./schema/SamplewebapiControllersRestaurantpostrequest.md) - Request for creating a new restaurant
+* [SampleWebApiControllersRestaurantPostRequest](./schema/SampleWebApiControllersRestaurantPostRequest.md) - Request for creating a new restaurant
 
-* [SamplewebapiEntitiesState](./schema/SamplewebapiEntitiesState.md) - 
+* [SampleWebApiEntitiesState](./schema/SampleWebApiEntitiesState.md) - 
 
 
 

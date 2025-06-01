@@ -12,49 +12,49 @@ using SampleWebApiApi.Models;
 namespace SampleWebApiApi;
 
 /// <summary>
-/// /// This is a sample web api for testing / demo purposes for Swagabond.
+/// This is a sample web api for testing / demo purposes for Swagabond.
 /// </summary>
 public interface ISampleWebApiClient
 {
     /// <remarks>
     /// GET /api/v1/franchises
     /// </remarks>
-    Task<FranchiseGetResponseItem[]> GetApiV1FranchisesAsync(Dictionary<string, string> requestHeaders);
+    Task<FranchiseGetResponseItem[]> GetApiv1FranchisesAsync(Dictionary<string, string> requestHeaders);
     /// <remarks>
     /// GET /api/v1/franchises/{id}
     /// </remarks>
-    Task<FranchiseGetResponseItem> GetApiV1FranchisesidAsync(Dictionary<string, string> requestHeaders, Guid id);
+    Task<FranchiseGetResponseItem> GetApiv1FranchisesidAsync(Dictionary<string, string> requestHeaders, Guid id);
     /// <remarks>
     /// GET /api/v1/menuitems
     /// </remarks>
-    Task<MenuItemResponse> GetApiV1MenuitemsAsync(Dictionary<string, string> requestHeaders);
+    Task<MenuItemResponse> GetApiv1MenuitemsAsync(Dictionary<string, string> requestHeaders);
     /// <remarks>
     /// POST /api/v1/menuitems
     /// </remarks>
-    Task<MenuItemResponseItem> PostApiV1MenuitemsAsync(Dictionary<string, string> requestHeaders, MenutItemPostRequest apiV1MenuitemsPostRequest);
+    Task<MenuItemResponseItem> PostApiv1MenuitemsAsync(Dictionary<string, string> requestHeaders, MenutItemPostRequest apiv1MenuitemsPostRequest);
     /// <remarks>
     /// GET /api/v1/menuitems/{id}
     /// </remarks>
-    Task<MenuItemResponseItem> GetApiV1MenuitemsidAsync(Dictionary<string, string> requestHeaders, Guid id);
+    Task<MenuItemResponseItem> GetApiv1MenuitemsidAsync(Dictionary<string, string> requestHeaders, Guid id);
     /// <remarks>
     /// GET /api/v1/menuitems/{id}/full
     /// </remarks>
-    Task<FullMenuItemGetResponse> GetApiV1MenuitemsidFullAsync(Dictionary<string, string> requestHeaders, Guid id);
+    Task<FullMenuItemGetResponse> GetApiv1MenuitemsidfullAsync(Dictionary<string, string> requestHeaders, Guid id);
     /// <remarks>
     /// GET /api/v1/restaurants
     /// </remarks>
-    Task<RestaurantGetResponse> GetApiV1RestaurantsAsync(Dictionary<string, string> requestHeaders);
+    Task<RestaurantGetResponse> GetApiv1RestaurantsAsync(Dictionary<string, string> requestHeaders);
     /// <remarks>
     /// POST /api/v1/restaurants
     /// </remarks>
-    Task<RestaurantGetResponseItem> PostApiV1RestaurantsAsync(Dictionary<string, string> requestHeaders, RestaurantPostRequest apiV1RestaurantsPostRequest);
+    Task<RestaurantGetResponseItem> PostApiv1RestaurantsAsync(Dictionary<string, string> requestHeaders, RestaurantPostRequest apiv1RestaurantsPostRequest);
     /// <remarks>
     /// GET /api/v1/restaurants/{id}
     /// </remarks>
-    Task<RestaurantGetResponseItem> GetApiV1RestaurantsidAsync(Dictionary<string, string> requestHeaders, Guid id);
+    Task<RestaurantGetResponseItem> GetApiv1RestaurantsidAsync(Dictionary<string, string> requestHeaders, Guid id);
     /// <remarks>
     /// DELETE /api/v1/restaurants/{id}
     /// </remarks>
-    Task<string> DeleteApiV1RestaurantsidAsync(Dictionary<string, string> requestHeaders, Guid id);
+    Task<string> DeleteApiv1RestaurantsidAsync(Dictionary<string, string> requestHeaders, Guid id);
 
 }

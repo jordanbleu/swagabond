@@ -189,7 +189,7 @@ of each newline.
 
 
 ## f_IsBlank
-returns true if the input string is null or empty
+returns true if the input string is null or whitespace
 
 ### Parameters:
 
@@ -218,7 +218,7 @@ Returns a random guid each time it is called.
 
 
 ## f_L33t
-I wrote this as a joke.  Converts your input to 1337.
+Converts your input to 1337.
 Not very useful.
 
 ### Parameters:
@@ -296,4 +296,4 @@ ___
 
 [Swagabond on GitHub](https://github.com/jordanbleu/swagabond)
 
-*Last updated: Saturday, May 31, 2025 at 4:26:14 PM*
+*Last updated: Sunday, June 1, 2025 at 10:25:16 AM*

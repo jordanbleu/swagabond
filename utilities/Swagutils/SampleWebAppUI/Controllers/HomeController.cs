@@ -18,7 +18,7 @@ public class HomeController : Controller
 
     public async Task<ActionResult<HomeViewModel>> Index()
     {
-        var result = await _client.GetApiV1FranchisesAsync(new());
+        var result = await _client.GetApiv1FranchisesAsync(new());
         
         return View(new HomeViewModel()
         {
@@ -39,7 +39,7 @@ public class HomeController : Controller
     }
 }
 
-public class HomeViewModel()
+public class HomeViewModel
 {
     public List<FranchiseItem> Franchises { get; set; } = new List<FranchiseItem>();
 }
