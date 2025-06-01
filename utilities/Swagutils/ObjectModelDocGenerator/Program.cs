@@ -103,7 +103,7 @@ public class Program
         public List<TemplateFunction> Functions { get; set; } = new();
     }
 
-    public class TemplateFunction()
+    public class TemplateFunction
     {
         public string Name { get; set; }
         public string Comment { get; set; }

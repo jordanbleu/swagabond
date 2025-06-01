@@ -39,7 +39,7 @@ public class HomeController : Controller
     }
 }
 
-public class HomeViewModel()
+public class HomeViewModel
 {
     public List<FranchiseItem> Franchises { get; set; } = new List<FranchiseItem>();
 }
