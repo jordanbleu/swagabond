@@ -1,383 +1,59 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.4",
   "info": {
-    "title": "TestWebApp",
-    "description": "This is a sample swagger file to test Swagabond",
+    "title": "SampleWebApi",
+    "description": "This is a sample web api for testing / demo purposes for Swagabond.",
     "termsOfService": "https://en.wikipedia.org/wiki/Lorem_ipsum",
     "contact": {
       "name": "Hugh Man",
       "url": "https://www.google.com",
       "email": "test@gmail.com",
-      "x-contactExtension": "hello world"
+      "x-contactPhoneNumber": "(123)-456-7890"
     },
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT",
-      "x-licenseExtension": "hello world"
+      "x-licenseDescription": "The MIT License allows anyone to use, modify, and distribute the software for any purpose, as long as the original license and copyright notice are included."
     },
     "version": "v1",
-    "x-infoExtension": "hello world"
+    "x-infoTwitterHandle": "@madeUpTwitterHandle"
   },
   "paths": {
-    "/Test/complex": {
+    "/api/v1/franchises": {
       "get": {
         "tags": [
-          "Test"
+          "Franchise"
         ],
-        "summary": "Get Complex Request Object",
-        "description": "This is a test description for a GET operation.",
-        "parameters": [
-          {
-            "name": "ReqStringValue",
-            "in": "query",
-            "description": "string value",
-            "style": "form",
-            "schema": {
-              "type": "string",
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqStringArray",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "x-schemaExtension": "hello world"
-              },
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqEnumValue",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "$ref": "#/components/schemas/TestWebApp.Controllers.EnumExample"
-            }
-          },
-          {
-            "name": "ReqEnumExampleArray",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/TestWebApp.Controllers.EnumExample"
-              },
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqByteValue",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqByteArray",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "string",
-              "format": "byte",
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqShortValue",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqShortArray",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "integer",
-                "format": "int32",
-                "x-schemaExtension": "hello world"
-              },
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqGuidValue",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqGuidArray",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "format": "uuid",
-                "x-schemaExtension": "hello world"
-              },
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqLongValue",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int64",
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqLongArray",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "integer",
-                "format": "int64",
-                "x-schemaExtension": "hello world"
-              },
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqFloatValue",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "number",
-              "format": "float",
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqFloatArray",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "number",
-                "format": "float",
-                "x-schemaExtension": "hello world"
-              },
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqDoubleValue",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "number",
-              "format": "double",
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqDoubleArray",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "number",
-                "format": "double",
-                "x-schemaExtension": "hello world"
-              },
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqDecimalValue",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "number",
-              "format": "double",
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqDecimalArray",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "number",
-                "format": "double",
-                "x-schemaExtension": "hello world"
-              },
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqBoolValue",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "boolean",
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqBoolArray",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "boolean",
-                "x-schemaExtension": "hello world"
-              },
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqIntValue",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqIntArray",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "integer",
-                "format": "int32",
-                "x-schemaExtension": "hello world"
-              },
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqInnerObjectValue.InnerString",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "string",
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqInnerObjectValue.InnerInnerObject.InnerInnerInt",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "ReqInnerObjectArray",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/TestWebApp.Controllers.InnerObject"
-              },
-              "x-schemaExtension": "hello world"
-            }
-          }
-        ],
+        "summary": "Returns a list of each franchise in the system.  This endpoint doesn't use a wrapper class\nfor the result items, and returns the items directly, but the generated code should still work\njust fine.",
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexResponseObject"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SampleWebApi.Controllers.FranchiseGetResponseItem"
+                  },
+                  "x-schemaExtension": "hello world"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexResponseObject"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SampleWebApi.Controllers.FranchiseGetResponseItem"
+                  },
+                  "x-schemaExtension": "hello world"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexResponseObject"
-                }
-              }
-            }
-          }
-        },
-        "x-operationExtension": "hello world"
-      },
-      "post": {
-        "tags": [
-          "Test"
-        ],
-        "summary": "Post Complex Request Object",
-        "description": "This is a test description for a POSt operation.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexRequestObject"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexRequestObject"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexRequestObject"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexResponseObject"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexResponseObject"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TestWebApp.Controllers.ComplexResponseObject"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SampleWebApi.Controllers.FranchiseGetResponseItem"
+                  },
+                  "x-schemaExtension": "hello world"
                 }
               }
             }
@@ -386,53 +62,71 @@
         "x-operationExtension": "hello world"
       }
     },
-    "/Test/simple": {
-      "post": {
+    "/api/v1/franchises/{id}": {
+      "get": {
         "tags": [
-          "Test"
+          "Franchise"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "string",
-                "x-schemaExtension": "hello world"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "type": "string",
-                "x-schemaExtension": "hello world"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "type": "string",
-                "x-schemaExtension": "hello world"
-              }
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "x-schemaExtension": "hello world"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string",
-                  "x-schemaExtension": "hello world"
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.FranchiseGetResponseItem"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string",
-                  "x-schemaExtension": "hello world"
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.FranchiseGetResponseItem"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string",
-                  "x-schemaExtension": "hello world"
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.FranchiseGetResponseItem"
+                }
+              }
+            }
+          }
+        },
+        "x-operationExtension": "hello world"
+      }
+    },
+    "/api/v1/menuitems": {
+      "get": {
+        "tags": [
+          "MenuItem"
+        ],
+        "summary": "Get a big ole list of every menu item in the whole system.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.MenuItemResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.MenuItemResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.MenuItemResponse"
                 }
               }
             }
@@ -440,54 +134,288 @@
         },
         "x-operationExtension": "hello world"
       },
+      "post": {
+        "tags": [
+          "MenuItem"
+        ],
+        "summary": "Add a new menu item",
+        "requestBody": {
+          "description": "The menu item request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SampleWebApi.Controllers.MenutItemPostRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SampleWebApi.Controllers.MenutItemPostRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SampleWebApi.Controllers.MenutItemPostRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.MenuItemResponseItem"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.MenuItemResponseItem"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.MenuItemResponseItem"
+                }
+              }
+            }
+          }
+        },
+        "x-operationExtension": "hello world"
+      }
+    },
+    "/api/v1/menuitems/{id}": {
       "get": {
         "tags": [
-          "Test"
+          "MenuItem"
         ],
+        "summary": "Get a single menu item by ID",
         "parameters": [
           {
-            "name": "reqStringValue",
-            "in": "query",
-            "style": "form",
+            "name": "id",
+            "in": "path",
+            "description": "the menu item's ID",
+            "required": true,
             "schema": {
               "type": "string",
-              "x-schemaExtension": "hello world"
-            }
-          },
-          {
-            "name": "reqIntValue",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
+              "format": "uuid",
               "x-schemaExtension": "hello world"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string",
-                  "x-schemaExtension": "hello world"
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.MenuItemResponseItem"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string",
-                  "x-schemaExtension": "hello world"
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.MenuItemResponseItem"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string",
-                  "x-schemaExtension": "hello world"
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.MenuItemResponseItem"
                 }
               }
             }
+          }
+        },
+        "x-operationExtension": "hello world"
+      }
+    },
+    "/api/v1/menuitems/{id}/full": {
+      "get": {
+        "tags": [
+          "MenuItem"
+        ],
+        "summary": "Same as GetById, but includes franchise information as well.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The menu item ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "x-schemaExtension": "hello world"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.FullMenuItemGetResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.FullMenuItemGetResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.FullMenuItemGetResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-operationExtension": "hello world"
+      }
+    },
+    "/api/v1/restaurants": {
+      "get": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Get a list of every single restaurant in the system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.RestaurantGetResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.RestaurantGetResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.RestaurantGetResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-operationExtension": "hello world"
+      },
+      "post": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Create a new restaurant",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SampleWebApi.Controllers.RestaurantPostRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SampleWebApi.Controllers.RestaurantPostRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SampleWebApi.Controllers.RestaurantPostRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.RestaurantGetResponseItem"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.RestaurantGetResponseItem"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.RestaurantGetResponseItem"
+                }
+              }
+            }
+          }
+        },
+        "x-operationExtension": "hello world"
+      }
+    },
+    "/api/v1/restaurants/{id}": {
+      "get": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Get a single restaurant by its ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "x-schemaExtension": "hello world"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.RestaurantGetResponseItem"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.RestaurantGetResponseItem"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleWebApi.Controllers.RestaurantGetResponseItem"
+                }
+              }
+            }
+          }
+        },
+        "x-operationExtension": "hello world"
+      },
+      "delete": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Deletes a single restaurant by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "x-schemaExtension": "hello world"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
           }
         },
         "x-operationExtension": "hello world"
@@ -496,398 +424,428 @@
   },
   "components": {
     "schemas": {
-      "TestWebApp.Controllers.ComplexRequestObject": {
+      "SampleWebApi.Controllers.FranchiseGetResponseItem": {
         "type": "object",
         "properties": {
-          "reqStringValue": {
-            "type": "string",
-            "description": "string value",
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "reqStringArray": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "x-schemaExtension": "hello world"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "reqEnumValue": {
-            "$ref": "#/components/schemas/TestWebApp.Controllers.EnumExample"
-          },
-          "reqEnumExampleArray": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TestWebApp.Controllers.EnumExample"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "reqByteValue": {
-            "type": "integer",
-            "format": "int32",
-            "x-schemaExtension": "hello world"
-          },
-          "reqByteArray": {
-            "type": "string",
-            "format": "byte",
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "reqShortValue": {
-            "type": "integer",
-            "format": "int32",
-            "x-schemaExtension": "hello world"
-          },
-          "reqShortArray": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32",
-              "x-schemaExtension": "hello world"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "reqGuidValue": {
+          "id": {
             "type": "string",
             "format": "uuid",
             "x-schemaExtension": "hello world"
           },
-          "reqGuidArray": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid",
-              "x-schemaExtension": "hello world"
-            },
+          "name": {
+            "type": "string",
             "nullable": true,
             "x-schemaExtension": "hello world"
           },
-          "reqLongValue": {
-            "type": "integer",
-            "format": "int64",
-            "x-schemaExtension": "hello world"
-          },
-          "reqLongArray": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int64",
-              "x-schemaExtension": "hello world"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "reqFloatValue": {
-            "type": "number",
-            "format": "float",
-            "x-schemaExtension": "hello world"
-          },
-          "reqFloatArray": {
-            "type": "array",
-            "items": {
-              "type": "number",
-              "format": "float",
-              "x-schemaExtension": "hello world"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "reqDoubleValue": {
-            "type": "number",
-            "format": "double",
-            "x-schemaExtension": "hello world"
-          },
-          "reqDoubleArray": {
-            "type": "array",
-            "items": {
-              "type": "number",
-              "format": "double",
-              "x-schemaExtension": "hello world"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "reqDecimalValue": {
-            "type": "number",
-            "format": "double",
-            "x-schemaExtension": "hello world"
-          },
-          "reqDecimalArray": {
-            "type": "array",
-            "items": {
-              "type": "number",
-              "format": "double",
-              "x-schemaExtension": "hello world"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "reqBoolValue": {
-            "type": "boolean",
-            "x-schemaExtension": "hello world"
-          },
-          "reqBoolArray": {
-            "type": "array",
-            "items": {
-              "type": "boolean",
-              "x-schemaExtension": "hello world"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "reqIntValue": {
-            "type": "integer",
-            "format": "int32",
-            "x-schemaExtension": "hello world"
-          },
-          "reqIntArray": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32",
-              "x-schemaExtension": "hello world"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "reqInnerObjectValue": {
-            "$ref": "#/components/schemas/TestWebApp.Controllers.InnerObject"
-          },
-          "reqInnerObjectArray": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TestWebApp.Controllers.InnerObject"
-            },
+          "slogan": {
+            "type": "string",
             "nullable": true,
             "x-schemaExtension": "hello world"
           }
         },
         "additionalProperties": false,
-        "description": "Complex Request Object",
+        "description": "A single franchise response item.",
         "x-schemaExtension": "hello world"
       },
-      "TestWebApp.Controllers.ComplexResponseObject": {
+      "SampleWebApi.Controllers.FranchiseInformation": {
         "type": "object",
         "properties": {
-          "stringValue": {
+          "id": {
             "type": "string",
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "stringArray": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "x-schemaExtension": "hello world"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "enumValue": {
-            "$ref": "#/components/schemas/TestWebApp.Controllers.EnumExample"
-          },
-          "enumExampleArray": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TestWebApp.Controllers.EnumExample"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "byteValue": {
-            "type": "integer",
-            "format": "int32",
-            "x-schemaExtension": "hello world"
-          },
-          "byteArray": {
-            "type": "string",
-            "format": "byte",
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "shortValue": {
-            "type": "integer",
-            "format": "int32",
-            "x-schemaExtension": "hello world"
-          },
-          "shortArray": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32",
-              "x-schemaExtension": "hello world"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "guidValue": {
-            "type": "string",
+            "description": "The unique id of the franchise",
             "format": "uuid",
             "x-schemaExtension": "hello world"
           },
-          "guidArray": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid",
-              "x-schemaExtension": "hello world"
-            },
+          "name": {
+            "type": "string",
+            "description": "The name of the franchise",
             "nullable": true,
             "x-schemaExtension": "hello world"
           },
-          "longValue": {
-            "type": "integer",
-            "format": "int64",
-            "x-schemaExtension": "hello world"
-          },
-          "longArray": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int64",
-              "x-schemaExtension": "hello world"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "floatValue": {
-            "type": "number",
-            "format": "float",
-            "x-schemaExtension": "hello world"
-          },
-          "floatArray": {
-            "type": "array",
-            "items": {
-              "type": "number",
-              "format": "float",
-              "x-schemaExtension": "hello world"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "doubleValue": {
-            "type": "number",
-            "format": "double",
-            "x-schemaExtension": "hello world"
-          },
-          "doubleArray": {
-            "type": "array",
-            "items": {
-              "type": "number",
-              "format": "double",
-              "x-schemaExtension": "hello world"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "decimalValue": {
-            "type": "number",
-            "format": "double",
-            "x-schemaExtension": "hello world"
-          },
-          "decimalArray": {
-            "type": "array",
-            "items": {
-              "type": "number",
-              "format": "double",
-              "x-schemaExtension": "hello world"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "boolValue": {
-            "type": "boolean",
-            "x-schemaExtension": "hello world"
-          },
-          "boolArray": {
-            "type": "array",
-            "items": {
-              "type": "boolean",
-              "x-schemaExtension": "hello world"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "intValue": {
-            "type": "integer",
-            "format": "int32",
-            "x-schemaExtension": "hello world"
-          },
-          "intArray": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32",
-              "x-schemaExtension": "hello world"
-            },
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "innerObjectValue": {
-            "$ref": "#/components/schemas/TestWebApp.Controllers.InnerObject"
-          },
-          "innerObjectArray": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TestWebApp.Controllers.InnerObject"
-            },
+          "slogan": {
+            "type": "string",
+            "description": "The slogan of the franchise, in english.",
             "nullable": true,
             "x-schemaExtension": "hello world"
           }
         },
         "additionalProperties": false,
-        "description": "Complex Response Object",
+        "description": "An object containing franchise information",
         "x-schemaExtension": "hello world"
       },
-      "TestWebApp.Controllers.EnumExample": {
+      "SampleWebApi.Controllers.FullMenuItemGetResponse": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "$ref": "#/components/schemas/SampleWebApi.Controllers.MenuItemResponseItem"
+          },
+          "franchise": {
+            "$ref": "#/components/schemas/SampleWebApi.Controllers.FranchiseInformation"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A full menu item response, as well as the franchise info",
+        "x-schemaExtension": "hello world"
+      },
+      "SampleWebApi.Controllers.MenuItemResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SampleWebApi.Controllers.MenuItemResponseItem"
+            },
+            "description": "The list of menu items",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "totalCount": {
+            "type": "integer",
+            "description": "The total count of menu items",
+            "format": "int32",
+            "x-schemaExtension": "hello world"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A response containing multiple menu items",
+        "x-schemaExtension": "hello world"
+      },
+      "SampleWebApi.Controllers.MenuItemResponseItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The menu item's ID",
+            "format": "uuid",
+            "x-schemaExtension": "hello world"
+          },
+          "franchiseId": {
+            "type": "string",
+            "description": "The franchises unique ID",
+            "format": "uuid",
+            "x-schemaExtension": "hello world"
+          },
+          "name": {
+            "type": "string",
+            "description": "The menu item name",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "description": {
+            "type": "string",
+            "description": "The menu item description (english)",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "nutritionFacts": {
+            "$ref": "#/components/schemas/SampleWebApi.Controllers.MenutItemNutritionFacts"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A single menu item",
+        "x-schemaExtension": "hello world"
+      },
+      "SampleWebApi.Controllers.MenutItemNutritionFacts": {
+        "type": "object",
+        "properties": {
+          "calories": {
+            "type": "integer",
+            "description": "How many calories the menu item contains",
+            "format": "int32",
+            "x-schemaExtension": "hello world"
+          },
+          "proteinNutritionFacts": {
+            "$ref": "#/components/schemas/SampleWebApi.Controllers.ProteinNutritionFact"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A set of menu nutrition facts",
+        "x-schemaExtension": "hello world"
+      },
+      "SampleWebApi.Controllers.MenutItemPostRequest": {
+        "type": "object",
+        "properties": {
+          "franchiseId": {
+            "type": "string",
+            "description": "The franchise ID this menu item is offered by",
+            "format": "uuid",
+            "x-schemaExtension": "hello world"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the menu item",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "description": {
+            "type": "string",
+            "description": "The menu item's description in english",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "calories": {
+            "type": "integer",
+            "description": "How many calories is this menu item?",
+            "format": "int32",
+            "x-schemaExtension": "hello world"
+          },
+          "proteinGrams": {
+            "type": "integer",
+            "description": "How many grams of protein does the item contain?",
+            "format": "int32",
+            "x-schemaExtension": "hello world"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A post request for menu items",
+        "x-schemaExtension": "hello world"
+      },
+      "SampleWebApi.Controllers.ProteinNutritionFact": {
+        "type": "object",
+        "properties": {
+          "proteinGrams": {
+            "type": "integer",
+            "description": "Grams of protein",
+            "format": "int32",
+            "x-schemaExtension": "hello world"
+          },
+          "proteinMilligrams": {
+            "type": "integer",
+            "description": "Milligrams of protein",
+            "format": "int32",
+            "x-schemaExtension": "hello world"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Specific nutrition facts related to protein",
+        "x-schemaExtension": "hello world"
+      },
+      "SampleWebApi.Controllers.RestaurantGetResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SampleWebApi.Controllers.RestaurantGetResponseItem"
+            },
+            "description": "List of restaurants",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The response containing the list of restuarants",
+        "x-schemaExtension": "hello world"
+      },
+      "SampleWebApi.Controllers.RestaurantGetResponseItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for the restaurant.",
+            "format": "uuid",
+            "x-schemaExtension": "hello world"
+          },
+          "franchiseId": {
+            "type": "string",
+            "description": "The Franchise ID for the restaurant.",
+            "format": "uuid",
+            "x-schemaExtension": "hello world"
+          },
+          "storeNumber": {
+            "type": "integer",
+            "description": "Unique number franchises use to identify the restaurant.",
+            "format": "int32",
+            "x-schemaExtension": "hello world"
+          },
+          "address": {
+            "type": "string",
+            "description": "The physical address of the restaurant",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "zip": {
+            "type": "string",
+            "description": "The 5 digit postal code of the restaurant.",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "city": {
+            "type": "string",
+            "description": "The city the restaurant is located in.",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "state": {
+            "$ref": "#/components/schemas/SampleWebApi.Entities.State"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A single restaurant item, which includes the restaurant's name, address, phone number, website, and description.",
+        "x-schemaExtension": "hello world"
+      },
+      "SampleWebApi.Controllers.RestaurantPostRequest": {
+        "type": "object",
+        "properties": {
+          "franchiseId": {
+            "type": "string",
+            "description": "The Franchise ID for the restaurant.",
+            "format": "uuid",
+            "x-schemaExtension": "hello world"
+          },
+          "storeNumber": {
+            "type": "integer",
+            "description": "Unique number franchises use to identify the restaurant.",
+            "format": "int32",
+            "x-schemaExtension": "hello world"
+          },
+          "address": {
+            "type": "string",
+            "description": "The physical address of the restaurant",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "zip": {
+            "type": "string",
+            "description": "The 5 digit postal code of the restaurant.",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "city": {
+            "type": "string",
+            "description": "The city the restaurant is located in.",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "state": {
+            "$ref": "#/components/schemas/SampleWebApi.Entities.State"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Request for creating a new restaurant",
+        "x-schemaExtension": "hello world"
+      },
+      "SampleWebApi.Entities.State": {
         "enum": [
+          1,
           2,
+          3,
           4,
+          5,
           6,
-          8
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107
         ],
         "type": "integer",
-        "description": "EnumExample",
         "format": "int32",
         "x-enumNames": [
-          "Taco2",
-          "Burger4",
-          "HotDawg6",
-          "Bizza8"
+          "Alabama",
+          "Alaska",
+          "Arizona",
+          "Arkansas",
+          "California",
+          "Colorado",
+          "Connecticut",
+          "Delaware",
+          "Florida",
+          "Georgia",
+          "Hawaii",
+          "Idaho",
+          "Illinois",
+          "Indiana",
+          "Iowa",
+          "Kansas",
+          "Kentucky",
+          "Louisiana",
+          "Maine",
+          "Maryland",
+          "Massachusetts",
+          "Michigan",
+          "Minnesota",
+          "Mississippi",
+          "Missouri",
+          "Montana",
+          "Nebraska",
+          "Nevada",
+          "NewHampshire",
+          "NewJersey",
+          "NewMexico",
+          "NewYork",
+          "NorthCarolina",
+          "NorthDakota",
+          "Ohio",
+          "Oklahoma",
+          "Oregon",
+          "Pennsylvania",
+          "RhodeIsland",
+          "SouthCarolina",
+          "SouthDakota",
+          "Tennessee",
+          "Texas",
+          "Utah",
+          "Vermont",
+          "Virginia",
+          "Washington",
+          "WestVirginia",
+          "Wisconsin",
+          "Wyoming",
+          "AmericanSamoa",
+          "Guam",
+          "NorthernMarianaIslands",
+          "PuertoRico",
+          "USMinorOutlyingIslands",
+          "USVirginIslands",
+          "DistrictOfColumbia"
         ],
-        "x-schemaExtension": "hello world"
-      },
-      "TestWebApp.Controllers.InnerInnerObject": {
-        "type": "object",
-        "properties": {
-          "innerInnerInt": {
-            "type": "integer",
-            "format": "int32",
-            "x-schemaExtension": "hello world"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Inner Inner Object (nested three deep).  Testing the recursive property mapping.",
-        "x-schemaExtension": "hello world"
-      },
-      "TestWebApp.Controllers.InnerObject": {
-        "type": "object",
-        "properties": {
-          "innerString": {
-            "type": "string",
-            "nullable": true,
-            "x-schemaExtension": "hello world"
-          },
-          "innerInnerObject": {
-            "$ref": "#/components/schemas/TestWebApp.Controllers.InnerInnerObject"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Inner Object",
         "x-schemaExtension": "hello world"
       }
     }

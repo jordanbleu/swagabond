@@ -15,14 +15,14 @@ public class RestaurantsController : Controller
     
     public async Task<ActionResult> Index()
     {
-        var result = await _client.GetApiV1RestaurantsAsync(new());
+        var result = await _client.GetApiv1RestaurantsAsync(new());
 
         var viewmodel = new RestaurantsViewModel();
         
         foreach (var item in result.Items)
         {
             var franchiseInfo =
-                await _client.GetApiV1FranchisesidAsync(new(), item.FranchiseId);
+                await _client.GetApiv1FranchisesidAsync(new(), item.FranchiseId);
             
             viewmodel.Restaurants.Add(new()
             {

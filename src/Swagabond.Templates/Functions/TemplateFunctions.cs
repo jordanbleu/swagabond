@@ -1,5 +1,6 @@
 using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
+using System.Web;
 
 // ** Disable the 'never null' warnings since input comes from templates **  
 // ReSharper disable ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
@@ -25,22 +26,22 @@ public class TemplateFunctions
     /// </summary>
     /// <param name="input">input</param>
     public static string Lower(string input)
-        => input?.ToLowerInvariant() ?? string.Empty;        
-    
+        => input?.ToLowerInvariant() ?? string.Empty;
+
     /// <summary>
     /// URL Encodes the input string. 
     /// </summary>
     /// <param name="input">input</param>
-    public static string UrlEncode(string input)
-        => UrlEncoder.Default.Encode(input);
-    
+    public static string UrlEncode(string? input)
+        => Uri.EscapeDataString(input ?? string.Empty);
+
     /// <summary>
     /// If the input value is null or whitespace, returns the default value.
     /// </summary>
     /// <param name="input">input value</param>
     /// <param name="defaultValue">the fallback value if input is null</param>
     /// <returns></returns>
-    public static string Coalesce(string input, string defaultValue)
+    public static string Coalesce(string? input, string defaultValue)
         => string.IsNullOrWhiteSpace(input) ? defaultValue : input;
 
     /// <summary>
@@ -56,19 +57,34 @@ public class TemplateFunctions
     /// <param name="input">input string</param>
     public static string PascalCase(string input)
     {
+        // Copied from https://stackoverflow.com/questions/18627112/how-can-i-convert-text-to-pascal-case 
         if (string.IsNullOrWhiteSpace(input))
-            return input;
+            return string.Empty;
+        
+        var invalidCharsRgx = new Regex("[^_a-zA-Z0-9]");
+        var whiteSpace = new Regex(@"(?<=\s)");
+        var startsWithLowerCaseChar = new Regex("^[a-z]");
+        var firstCharFollowedByUpperCasesOnly = new Regex("(?<=[A-Z])[A-Z0-9]+$");
+        var lowerCaseNextToNumber = new Regex("(?<=[0-9])[a-z]");
+        var upperCaseInside = new Regex("(?<=[A-Z])[A-Z]+?((?=[A-Z][a-z])|(?=[0-9]))");
 
-        var words = input.Split(new[] { '_', '-', ' ', '.' }, StringSplitOptions.RemoveEmptyEntries);
+        // replace white spaces with undescore, then replace all invalid chars with empty string
+        var pascalCase = invalidCharsRgx.Replace(whiteSpace.Replace(input, "_"), string.Empty)
+            // split by underscores
+            .Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries)
+            // set first letter to uppercase
+            .Select(w => startsWithLowerCaseChar.Replace(w, m => m.Value.ToUpper()))
+            // replace second and all following upper case letters to lower if there is no next lower (ABC -> Abc)
+            .Select(w => firstCharFollowedByUpperCasesOnly.Replace(w, m => m.Value.ToLower()))
+            // set upper case the first lower case following a number (Ab9cd -> Ab9Cd)
+            .Select(w => lowerCaseNextToNumber.Replace(w, m => m.Value.ToUpper()))
+            // lower second and next upper case letters except the last if it follows by any lower (ABcDEf -> AbcDef)
+            .Select(w => upperCaseInside.Replace(w, m => m.Value.ToLower()));
 
-        if (words.Length == 1)
-        {
-            var word = words[0];
-            return char.ToUpperInvariant(word[0]) + word.Substring(1);
-        }
-
-        return string.Concat(words.Select(word =>
-            char.ToUpperInvariant(word[0]) + word.Substring(1).ToLowerInvariant()));
+        var result = string.Concat(pascalCase);
+        
+        
+        return result;
     }
 
     /// <summary>
@@ -117,13 +133,17 @@ public class TemplateFunctions
         if (string.IsNullOrEmpty(input))
             return string.Empty;
 
-        var lines = input.Split(new[] { '\r', '\n' }, StringSplitOptions.None);
-        var prefixedLines = lines.Select(line => $"{prefix}{line}");
-        return string.Join(Environment.NewLine, prefixedLines);
+        var lines = input.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+        var prefixedLines = lines.Skip(1).Select(line => $"{prefix}{line}");
+        
+        var combinedLines = new List<string> { lines[0] }; // Keep the first line as is
+        combinedLines.AddRange(prefixedLines);// Add the prefixed lines
+        
+        return string.Join(Environment.NewLine, combinedLines);
     }
 
     /// <summary>
-    /// returns true if the input string is null or empty
+    /// returns true if the input string is null or whitespace
     /// </summary>
     /// <param name="input">input string</param>
     public static bool IsBlank(string input) => 
@@ -137,7 +157,7 @@ public class TemplateFunctions
         Guid.NewGuid().ToString();
 
     /// <summary>
-    /// I wrote this as a joke.  Converts your input to 1337.
+    /// Converts your input to 1337.
     /// Not very useful.
     /// </summary>
     /// <param name="input"></param>
