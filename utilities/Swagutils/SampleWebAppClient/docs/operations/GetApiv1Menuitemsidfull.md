@@ -4,6 +4,43 @@
 ## GET /api/v1/menuitems/{id}/full
 
 
+## Payloads
+
+### Request Body
+
+```json
+
+{}
+
+```
+
+### Default Response Body
+```json
+
+{
+  "Item": {
+    "Id": "f9a7b8c4-0c4f-46e1-b4f5-d2fe9e5b35bb",
+    "FranchiseId": "f9a7b8c4-0c4f-46e1-b4f5-d2fe9e5b35bb",
+    "Name": "Example String",
+    "Description": "Example String",
+    "NutritionFacts": {
+      "Calories": 123,
+      "ProteinNutritionFacts": {
+        "ProteinGrams": 123,
+        "ProteinMilligrams": 123
+      }
+    }
+  },
+  "Franchise": {
+    "Id": "f9a7b8c4-0c4f-46e1-b4f5-d2fe9e5b35bb",
+    "Name": "Example String",
+    "Slogan": "Example String"
+  }
+}
+
+```
+
+
 
 ## Path Parameters
 
@@ -24,6 +61,7 @@
 
 
 ## Request Body
+
 
 * N/A - This endpoint does not have a request body
 

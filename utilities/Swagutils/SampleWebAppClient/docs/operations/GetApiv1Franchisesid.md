@@ -4,6 +4,28 @@
 ## GET /api/v1/franchises/{id}
 
 
+## Payloads
+
+### Request Body
+
+```json
+
+{}
+
+```
+
+### Default Response Body
+```json
+
+{
+  "Id": "f9a7b8c4-0c4f-46e1-b4f5-d2fe9e5b35bb",
+  "Name": "Example String",
+  "Slogan": "Example String"
+}
+
+```
+
+
 
 ## Path Parameters
 
@@ -24,6 +46,7 @@
 
 
 ## Request Body
+
 
 * N/A - This endpoint does not have a request body
 

@@ -10,6 +10,10 @@ A full menu item response, as well as the franchise info
 
 `Object`
 
+```
+
+```
+
 ### Properties
 
 
