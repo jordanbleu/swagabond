@@ -21,14 +21,16 @@ public class ApiV1Transformer : IApiV1Transformer
     private readonly IExternalDocsV1Transformer _externalDocsV1Transformer;
     private readonly ISchemaDefinitionV1Transformer _schemaDefinitionV1Transformer;
     private readonly IExtensionV1Transformer _extensionV1Transformer;
+    private readonly IServerV1Transformer _serverV1Transformer;
 
-    public ApiV1Transformer(IPathV1Transformer pathV1Transformer, IInfoV1Transformer infoV1Transformer, IExternalDocsV1Transformer externalDocsV1Transformer, ISchemaDefinitionV1Transformer schemaDefinitionV1Transformer, IExtensionV1Transformer extensionV1Transformer)
+    public ApiV1Transformer(IPathV1Transformer pathV1Transformer, IInfoV1Transformer infoV1Transformer, IExternalDocsV1Transformer externalDocsV1Transformer, ISchemaDefinitionV1Transformer schemaDefinitionV1Transformer, IExtensionV1Transformer extensionV1Transformer, IServerV1Transformer serverV1Transformer)
     {
         _pathV1Transformer = pathV1Transformer;
         _infoV1Transformer = infoV1Transformer;
         _externalDocsV1Transformer = externalDocsV1Transformer;
         _schemaDefinitionV1Transformer = schemaDefinitionV1Transformer;
         _extensionV1Transformer = extensionV1Transformer;
+        _serverV1Transformer = serverV1Transformer;
     }
 
     public ApiV1 FromOpenApi(TransformerV1Request v1Request, OpenApiDocument document, string apiSpecVersionString)
@@ -60,6 +62,12 @@ public class ApiV1Transformer : IApiV1Transformer
         foreach (var schema in document.Components.Schemas)
         {
             api.Schemas.Add(_schemaDefinitionV1Transformer.FromOpenApi(schema.Value, api));
+        }
+        
+        // servers
+        foreach (var server in document.Servers)
+        {
+            api.Servers.Add(_serverV1Transformer.FromOpenApi(server!));
         }
 
         api.Metadata = v1Request.Metadata;

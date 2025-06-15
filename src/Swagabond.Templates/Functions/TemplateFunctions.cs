@@ -1,6 +1,9 @@
 using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Web;
+
+// ReSharper disable MemberCanBePrivate.Global
 
 // ** Disable the 'never null' warnings since input comes from templates **  
 // ReSharper disable ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
@@ -14,6 +17,10 @@ namespace Swagabond.Templates.Functions;
 /// </summary>
 public class TemplateFunctions
 {
+    private const string QuotationMark = "\"";
+    private const string LeftBraces = "{{";
+    private const string RightBraces = "}}";
+    
     /// <summary>
     /// Converts the input string to UPPERCASE
     /// </summary>
@@ -50,6 +57,44 @@ public class TemplateFunctions
     /// <param name="input">input string</param>
     public static string StripNewlines(string input)
         => input?.ReplaceLineEndings(" ") ?? string.Empty;
+
+    /// <summary>
+    /// This takes an input as json, and returns it escaped and all on one line.
+    /// Quotes will be escaped, " will become \".
+    /// Special Characters will be escaped per json rules.
+    /// Newlines will be stripped.
+    /// Input will be automatically wrapped in quotes.
+    /// So for example, input `{ "hello": "world" }` becomes `"{ \"hello\": \"world\" }"` (including outer quotes)
+    /// </summary>
+    /// <param name="input">Your JSON formatted input</param>
+    /// <returns></returns>
+    public static string JsonString(string input)
+    {
+        if (string.IsNullOrWhiteSpace(input))
+            return string.Empty;
+
+        var serializedAsJson = JsonSerializer.Serialize(input, new JsonSerializerOptions()
+        {
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        });
+
+        return serializedAsJson;
+    }
+
+    /// <summary>
+    /// Returns a substring of your input string. 
+    /// </summary>
+    /// <param name="input">input string</param>
+    /// <param name="start">which character to begin output</param>
+    /// <param name="length">how many characters after start to include</param>
+    /// <returns></returns>
+    public static string Substring(string input, int start, int length)
+    {
+        if (string.IsNullOrEmpty(input))
+            return string.Empty;
+        
+        return input.Substring(start, length);
+    }
 
     /// <summary>
     /// Splits your string on any non alpha numeric tokens and combines them using PascalCase notation.
@@ -234,12 +279,52 @@ public class TemplateFunctions
         }
     }
 
+    /// <summary>
+    /// Given a list of inputs, will return the first item in the collection.
+    /// If the list is empty will return an empty string.
+    /// </summary>
+    /// <param name="inputs">A collection of inputs</param>
+    /// <returns></returns>
+    public static string FirstItem(IEnumerable<string> inputs) => 
+        inputs?.FirstOrDefault() ?? string.Empty;
     
+    /// <summary>
+    /// Given a list of inputs, will return the last item in the collection.
+    /// If the list is empty will return an empty string.
+    /// </summary>
+    /// <param name="inputs">A collection of inputs</param>
+    /// <returns></returns>
+    public static string LastItem(IEnumerable<string> inputs) => 
+        inputs?.LastOrDefault() ?? string.Empty;
+
+    /// <summary>
+    /// Wraps the input with double quotes.  inputString because "inputString".
+    /// </summary>
+    /// <param name="input">input string</param>
+    /// <returns></returns>
+    public static string WrapQuotes(string input) =>
+        QuotationMark + input + QuotationMark;
+
+    /// <summary>
+    /// Shorthand for the WrapQuotes function
+    /// </summary>
+    /// <param name="input">input string</param>
+    /// <returns></returns>
+    public static string Wq(string input) => WrapQuotes(input);
     
+    /// <summary>
+    /// Wraps the input in double braces without evaluating it's input.
+    /// inputString becomes {{inputString}}. Can help avoid awkward template
+    /// syntax when you want to literally output double braces.
+    /// </summary>
+    /// <param name="input">input to wrap</param>
+    public static string WrapDoubleBraces(string input) =>
+        LeftBraces + input + RightBraces;
 
-
-
-
-
-
+    /// <summary>
+    /// Shorthand for the WrapBraces function.
+    /// </summary>
+    /// <param name="input">input string</param>
+    public static string Wdb(string input) => WrapDoubleBraces(input);
+    
 }

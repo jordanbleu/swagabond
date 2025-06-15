@@ -25,7 +25,11 @@ builder.Services.AddSwaggerGen(opts =>
     opts.IncludeXmlComments(xmlPath);
     
     opts.SchemaGeneratorOptions.SchemaIdSelector = (type) => type.FullName;
-    
+    opts.AddServer(new OpenApiServer()
+    { 
+        Description = "Localhost Server",
+        Url = "http://localhost:5240",
+    });
     opts.SwaggerDoc("v1", new() 
     {
         Title = "SampleWebApi", Version = "v1",

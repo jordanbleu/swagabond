@@ -47,7 +47,12 @@
 {{~end~}}
 {{end}}{{#/ if Extensions != empty}}
 
-
+{{~if Servers != empty~}}
+## Servers
+{{~for s in Servers~}}
+* {{s.Url}} - {{s.Description}}
+{{~end~}}{{#/for s in Servers}}
+{{~end~}}{{#/if Servers != empty}}
 
 ## Additional Information
 * *Company Name:* {{ Metadata.Company }}

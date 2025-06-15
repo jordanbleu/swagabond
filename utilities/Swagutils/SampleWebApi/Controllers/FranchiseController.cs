@@ -41,7 +41,8 @@ public class FranchiseController : Controller
         
         if (franchise.HasValue)
         {
-            return Ok(Map(franchise.Value!));
+            var resp = Map(franchise.Value!);
+            return Ok(resp);
         }
         
         return NotFound();

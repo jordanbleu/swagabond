@@ -18,6 +18,12 @@
     "version": "v1",
     "x-infoTwitterHandle": "@madeUpTwitterHandle"
   },
+  "servers": [
+    {
+      "url": "http://localhost:5240",
+      "description": "Localhost Server"
+    }
+  ],
   "paths": {
     "/api/v1/franchises": {
       "get": {

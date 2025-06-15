@@ -112,6 +112,49 @@ Replaces new lines with spaces (environment agnostic).
 
 
 
+## f_JsonString
+This takes an input as json, and returns it escaped and all on one line.
+Quotes will be escaped, " will become \".
+Special Characters will be escaped per json rules.
+Newlines will be stripped.
+Input will be automatically wrapped in quotes.
+So for example, input `{ "hello": "world" }` becomes `"{ \"hello\": \"world\" }"` (including outer quotes)
+
+### Parameters:
+
+* `input` - Your JSON formatted input
+
+
+### Examples
+#### Scriban
+```
+{{f_JsonString input }}
+```
+
+
+
+
+## f_Substring
+Returns a substring of your input string. 
+
+### Parameters:
+
+* `input` - input string
+
+* `start` - which character to begin output
+
+* `length` - how many characters after start to include
+
+
+### Examples
+#### Scriban
+```
+{{f_Substring input start length }}
+```
+
+
+
+
 ## f_PascalCase
 Splits your string on any non alpha numeric tokens and combines them using PascalCase notation.
 
@@ -291,9 +334,115 @@ is passed in, a big angry error will be returned instead of your date / time.
 
 
 
+## f_FirstItem
+Given a list of inputs, will return the first item in the collection.
+If the list is empty will return an empty string.
+
+### Parameters:
+
+* `inputs` - A collection of inputs
+
+
+### Examples
+#### Scriban
+```
+{{f_FirstItem inputs }}
+```
+
+
+
+
+## f_LastItem
+Given a list of inputs, will return the last item in the collection.
+If the list is empty will return an empty string.
+
+### Parameters:
+
+* `inputs` - A collection of inputs
+
+
+### Examples
+#### Scriban
+```
+{{f_LastItem inputs }}
+```
+
+
+
+
+## f_WrapQuotes
+Wraps the input with double quotes.  inputString because "inputString".
+
+### Parameters:
+
+* `input` - input string
+
+
+### Examples
+#### Scriban
+```
+{{f_WrapQuotes input }}
+```
+
+
+
+
+## f_Wq
+Shorthand for the WrapQuotes function
+
+### Parameters:
+
+* `input` - input string
+
+
+### Examples
+#### Scriban
+```
+{{f_Wq input }}
+```
+
+
+
+
+## f_WrapDoubleBraces
+Wraps the input in double braces without evaluating it's input.
+inputString becomes {{inputString}}. Can help avoid awkward template
+syntax when you want to literally output double braces.
+
+### Parameters:
+
+* `input` - input to wrap
+
+
+### Examples
+#### Scriban
+```
+{{f_WrapDoubleBraces input }}
+```
+
+
+
+
+## f_Wdb
+Shorthand for the WrapBraces function.
+
+### Parameters:
+
+* `input` - input string
+
+
+### Examples
+#### Scriban
+```
+{{f_Wdb input }}
+```
+
+
+
+
 
 ___
 
 [Swagabond on GitHub](https://github.com/jordanbleu/swagabond)
 
-*Last updated: Sunday, June 1, 2025 at 10:25:16 AM*
+*Last updated: Sunday, June 15, 2025 at 1:27:36 PM*

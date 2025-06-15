@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Swagabond.ObjectModelV1.Interfaces;
 
 namespace Swagabond.ObjectModelV1;
@@ -83,6 +84,17 @@ public class ApiV1 : IObjectV1, INamedObject
     /// A flattened list of all operations that are defined in the API, by any path.
     /// </summary>
     public IEnumerable<OperationV1> Operations => Paths.SelectMany(p => p.Operations);
+
+    /// <summary>
+    /// List of base or direct URLs that host the API.
+    /// </summary>
+    public List<ServerV1> Servers { get; set; } = new();
+
+    /// <summary>
+    /// List of BaseUrls registered for this server.  Based on the 'servers'
+    /// that are defined by your API spec.
+    /// </summary>
+    public IEnumerable<string> BaseUrls => Servers.Select(s => s.Url);
 
     public override string ToString()
     {
