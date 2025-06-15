@@ -10,6 +10,10 @@ Request for creating a new restaurant
 
 `Object`
 
+```
+
+```
+
 ### Properties
 
 

@@ -4,6 +4,24 @@
 ## DELETE /api/v1/restaurants/{id}
 
 
+## Payloads
+
+### Request Body
+
+```json
+
+{}
+
+```
+
+### Default Response Body
+```json
+
+{}
+
+```
+
+
 
 ## Path Parameters
 
@@ -24,6 +42,7 @@
 
 
 ## Request Body
+
 
 * N/A - This endpoint does not have a request body
 

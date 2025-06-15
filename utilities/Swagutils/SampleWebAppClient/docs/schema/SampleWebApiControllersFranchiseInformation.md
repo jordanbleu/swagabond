@@ -10,6 +10,10 @@ An object containing franchise information
 
 `Object`
 
+```
+
+```
+
 ### Properties
 
 

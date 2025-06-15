@@ -4,6 +4,39 @@
 ## POST /api/v1/restaurants
 
 
+## Payloads
+
+### Request Body
+
+```json
+
+{
+  "FranchiseId": "f9a7b8c4-0c4f-46e1-b4f5-d2fe9e5b35bb",
+  "StoreNumber": 123,
+  "Address": "Example String",
+  "Zip": "Example String",
+  "City": "Example String",
+  "State": "1 (Alabama)"
+}
+
+```
+
+### Default Response Body
+```json
+
+{
+  "Id": "f9a7b8c4-0c4f-46e1-b4f5-d2fe9e5b35bb",
+  "FranchiseId": "f9a7b8c4-0c4f-46e1-b4f5-d2fe9e5b35bb",
+  "StoreNumber": 123,
+  "Address": "Example String",
+  "Zip": "Example String",
+  "City": "Example String",
+  "State": "1 (Alabama)"
+}
+
+```
+
+
 
 
 
@@ -13,6 +46,7 @@
 
 
 ## Request Body
+
 
 * **Title:** POST /api/v1/restaurants RequestBody
 * **Name:** Apiv1RestaurantsPostRequest
