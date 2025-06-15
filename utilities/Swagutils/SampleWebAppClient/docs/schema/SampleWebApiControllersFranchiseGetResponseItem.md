@@ -10,6 +10,10 @@ A single franchise response item.
 
 `Object`
 
+```
+
+```
+
 ### Properties
 
 

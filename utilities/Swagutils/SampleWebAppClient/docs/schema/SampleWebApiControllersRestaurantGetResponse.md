@@ -10,6 +10,10 @@ The response containing the list of restuarants
 
 `Object`
 
+```
+
+```
+
 ### Properties
 
 

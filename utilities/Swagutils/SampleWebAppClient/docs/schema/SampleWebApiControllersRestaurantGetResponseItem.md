@@ -10,6 +10,10 @@ A single restaurant item, which includes the restaurant's name, address, phone n
 
 `Object`
 
+```
+
+```
+
 ### Properties
 
 
