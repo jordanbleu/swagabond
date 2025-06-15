@@ -52,11 +52,13 @@ For enums, this will contain a list of each enum name / value.  For non-enums, t
 
 ### `Example`
 
-an example value for the object.  If the spec doesn't provide an example, a dummy value will be generated from Swagabond.  The example values won't always be actual valid values for the api.
+an example value for the object.  If the spec doesn't provide an example, a dummy value will be generated from Swagabond.  The example values won't always be actual valid values for the api. One thing to note is that a generic fallback example will NOT be provided for complex objects, so, instead you should use the JsonExample property.
 
 
 
-* ⚒️ Underlying Type: String
+* ⚒️ Underlying Type: Object
+
+* ℹ️ : [Object Properties...](./Object.md)
 
 
 
@@ -105,11 +107,21 @@ Whether this is an enum or not. An enum is a special type of schema that defines
 
 ### `IsPrimitive`
 
-If true this schema definition is a primitive object (string, int, etc), including enums. If false, this is a complex object with inner properties.
+Returns true if the schema type is a simple value (not a complex object)
 
 
 
 * ⚒️ Underlying Type: Boolean
+
+
+
+### `JsonExample`
+
+
+
+
+
+* ⚒️ Underlying Type: String
 
 
 
@@ -176,4 +188,4 @@ ___
 
 [Swagabond on GitHub](https://github.com/jordanbleu/swagabond)
 
-*Last updated: Sunday, June 1, 2025 at 10:25:16 AM*
+*Last updated: Sunday, June 15, 2025 at 1:27:36 PM*

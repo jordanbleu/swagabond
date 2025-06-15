@@ -17,6 +17,7 @@ public static class StringExtensions
             .Replace("\r", " ");
     }
 
+    
     public static string ToPascalCase(this string input)
     {
         if (string.IsNullOrWhiteSpace(input))

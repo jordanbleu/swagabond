@@ -4,6 +4,24 @@
 
 {{~ Description ~}}
 
+## Payloads
+
+### Request Body
+
+```json
+
+{{RequestBody.Schema.JsonExample}}
+
+```
+
+### Default Response Body
+```json
+
+{{DefaultResponseBody.Schema.JsonExample}}
+
+```
+
+
 {{~ if PathParameters != empty}}
 ## Path Parameters
 {{ for p in PathParameters }}
@@ -81,6 +99,7 @@
 {{~ end ~}}{{#/ if CookieParameters != Empty}}
 
 ## Request Body
+
 {{ if RequestBody.IsEmpty }}
 * N/A - This endpoint does not have a request body
 {{else}}

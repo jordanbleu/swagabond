@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swagabond.ObjectModelV1.Extensions;
@@ -12,8 +14,7 @@ public interface ISchemaDefinitionV1Transformer
 public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
 {
     private const string GuidExample = "f9a7b8c4-0c4f-46e1-b4f5-d2fe9e5b35bb";
-
-    
+ 
     private IEnumOptionV1Transformer _enumOptionTransformer;
     private IDataTypeV1Transformer _dataTypeV1Transformer;
     private IExtensionV1Transformer _extensionV1Transformer;
@@ -59,17 +60,6 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
             apiSchema.DataType = _dataTypeV1Transformer.FromOpenApi(schema.Type, schema.Format);
         }
         
-        // If this is an object, map it's properties recursively
-        if (apiSchema.DataType == DataTypeV1.Object)
-        {
-            foreach (var prop in schema.Properties)
-            {
-                // First recursively map each property 
-                var propSchema = FromOpenApi(prop.Value, api);
-                // then wrap in a reference with a name 
-                apiSchema.Properties.Add(_schemaReferenceV1Transformer.FromOpenApi(prop.Key, propSchema, api ));
-            }
-        }
         
         // open api puts the interesting info in schema.items if this is an array
         var schemaToUse = isArray ? schema.Items : schema;
@@ -82,13 +72,24 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         apiSchema.Title = schemaId ?? apiSchema.Name;
         apiSchema.Description = WriteDescription(schemaToUse.Description, apiSchema.DataType, apiSchema.IsArray, apiSchema.IsEnum);
 
-        var example = schemaToUse.Example?.WriteAsString();
-
+        // If this is an object, map it's properties recursively
+        if (apiSchema.DataType == DataTypeV1.Object)
+        {
+            foreach (var prop in schemaToUse.Properties)
+            {
+                // First recursively map each property 
+                var propSchema = FromOpenApi(prop.Value, api);
+                // then wrap in a reference with a name 
+                apiSchema.Properties.Add(_schemaReferenceV1Transformer.FromOpenApi(prop.Key, propSchema, api ));
+            }
+        }
+        
         apiSchema.ReferenceId = schemaToUse?.Reference?.Id ?? string.Empty;
         
-        apiSchema.Example = string.IsNullOrEmpty(example) ? WriteGenericExample(apiSchema.DataType, apiSchema.EnumOptions) : example;
-        // todo: confirm if this works vVv
         apiSchema.Extensions = _extensionV1Transformer.FromOpenApi(schema.Extensions);
+        
+        var example = schemaToUse.Example?.WriteAsString();
+        apiSchema.Example = string.IsNullOrEmpty(example) ? WriteGenericExample(apiSchema) : example;
         
         apiSchema.Api = api;
 
@@ -129,30 +130,34 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
 
     }
 
-    private static string WriteGenericExample(DataTypeV1 apiSchemaDataType, List<EnumOptionV1> enumOptions) 
+    private static object WriteGenericExample(SchemaDefinitionV1 schema) 
     {
+        var apiSchemaDataType = schema.DataType;
+        var enumOptions = schema.EnumOptions;
+        
         if (enumOptions.Any())
         {
             var first = enumOptions.First();
             return $"{first.Value} ({first.Name})";
         }
-        
+
         return apiSchemaDataType switch
         {
             DataTypeV1.String => "Example String",
+            DataTypeV1.Int32 => 123,
             DataTypeV1.Object => string.Empty,
-            DataTypeV1.Int32 => "123",
-            DataTypeV1.Int64 => "123456789",
+            DataTypeV1.Int64 => 123456789,
             DataTypeV1.Guid => GuidExample,
             DataTypeV1.DateTime => new DateTime(1995, 3, 26).ToString("o"),
-            DataTypeV1.Boolean => "true",
-            DataTypeV1.Float => "3.1415927",
-            DataTypeV1.Double => "3.141592653589793",
-            DataTypeV1.Decimal => "3.1415926535897932384626433832795",
+            DataTypeV1.Boolean => true,
+            DataTypeV1.Float => 3.1415927,
+            DataTypeV1.Double => 3.141592653589793,
+            DataTypeV1.Decimal => 3.1415926535897932384626433832795,
             _ => "Example Value"
         };
     }
 
+    
 
     
 }

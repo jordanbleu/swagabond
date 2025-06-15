@@ -25,6 +25,10 @@
 
 `Object`
 
+```
+{{Example}}
+```
+
 ### Properties
 
 {{for p in Properties}}

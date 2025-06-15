@@ -1,0 +1,9 @@
+template_base_directory: .
+
+for_api:
+- use_template_file: api.scriban
+  write_output_to: '{{Name}}_postman_collection.json'
+
+metadata:
+  PostmanProjectId: 'a1dc459f-e20f-43fd-b174-0bff45c71b02'
+

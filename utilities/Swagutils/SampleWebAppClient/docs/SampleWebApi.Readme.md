@@ -72,6 +72,9 @@ This is a sample web api for testing / demo purposes for Swagabond.
 
 
 
+## Servers
+* http://localhost:5240 - Localhost Server
+
 
 
 ## Additional Information

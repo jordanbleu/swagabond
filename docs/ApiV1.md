@@ -3,6 +3,17 @@
 > *The Root object for the entire API.* 
 
 
+### `BaseUrls`
+
+List of BaseUrls registered for this server.  Based on the 'servers' that are defined by your API spec.
+
+
+* 📚 Collection - Collection of items; Requires iteration.
+
+* ⚒️ Underlying Type: String
+
+
+
 ### `Description`
 
 A brief description of the API
@@ -120,6 +131,19 @@ All the schema definitions referenced by the entire API.  A schema definition de
 
 
 
+### `Servers`
+
+List of base or direct URLs that host the API.
+
+
+* 📚 Collection - Collection of items; Requires iteration.
+
+* ⚒️ Underlying Type: ServerV1
+
+* ℹ️ : [ServerV1 Properties...](./ServerV1.md)
+
+
+
 ### `SpecType`
 
 The type of API spec the model was mapped from.
@@ -170,4 +194,4 @@ ___
 
 [Swagabond on GitHub](https://github.com/jordanbleu/swagabond)
 
-*Last updated: Sunday, June 1, 2025 at 10:25:16 AM*
+*Last updated: Sunday, June 15, 2025 at 1:27:36 PM*

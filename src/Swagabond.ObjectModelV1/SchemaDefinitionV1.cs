@@ -1,3 +1,6 @@
+using System.Dynamic;
+using System.Text.Json;
+using Swagabond.ObjectModelV1.Extensions;
 using Swagabond.ObjectModelV1.Interfaces;
 
 namespace Swagabond.ObjectModelV1;
@@ -8,6 +11,11 @@ namespace Swagabond.ObjectModelV1;
 /// </summary>
 public class SchemaDefinitionV1 : IObjectV1, INamedObject
 {
+    private static readonly JsonSerializerOptions ExampleSerializerSettings = new()
+    {
+        WriteIndented = true  
+    };
+    
     /// <summary>
     /// True if the schema definition is empty.
     /// </summary>
@@ -38,9 +46,41 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     /// <summary>
     /// an example value for the object.  If the spec doesn't provide an example, a dummy
     /// value will be generated from Swagabond.  The example values won't always be actual
-    /// valid values for the api.
+    /// valid values for the api. One thing to note is that a generic fallback example will NOT
+    /// be provided for complex objects, so, instead you should use the JsonExample property.
     /// </summary>
-    public string Example { get; internal set; } = string.Empty;
+    public object Example { get; internal set; } = string.Empty;
+
+    private string? _jsonExample = null;
+    public string JsonExample 
+    {
+        get
+        {
+            if (_jsonExample != null)
+                return _jsonExample;
+
+            var body = new Dictionary<string, object>();
+
+            foreach (var prop in Properties)
+            {
+                if (prop.Schema.IsPrimitive)
+                {
+                    body.Add(prop.Name, prop.Schema.Example);
+                    continue;
+                }
+
+                // This is weird and not efficient.
+                // We are basically serializing the example and then deserializing it
+                // many times over and over
+                var jsonExample = prop.Schema.JsonExample;
+                var parsedDoc = JsonDocument.Parse(jsonExample);
+                body.Add(prop.Name, parsedDoc.RootElement.Clone());
+            }
+
+            _jsonExample = JsonSerializer.Serialize(body, ExampleSerializerSettings);
+            return _jsonExample;
+        }
+    }
 
     /// <summary>
     /// If true, this schema defines an array of items rather than a single item.
@@ -88,10 +128,12 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     public string ReferenceId { get; internal set; } = string.Empty;
 
     /// <summary>
-    /// If true this schema definition is a primitive object (string, int, etc), including enums.
-    /// If false, this is a complex object with inner properties.
+    /// Returns true if the schema type is a simple value (not a complex object)
     /// </summary>
-    public bool IsPrimitive { get => DataType!=DataTypeV1.Object; }
+    public bool IsPrimitive
+    {
+        get => DataType != DataTypeV1.Object;
+    }
 
     public override string ToString()
     {

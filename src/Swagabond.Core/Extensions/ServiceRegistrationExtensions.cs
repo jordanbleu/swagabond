@@ -34,7 +34,7 @@ public static class ServiceRegistrationExtensions
         services.AddTransient<ISchemaDefinitionV1Transformer, SchemaDefinitionV1Transformer>();
         services.AddTransient<ISchemaReferenceV1Transformer, SchemaReferenceV1Transformer>();
         services.AddTransient<IApiV1Transformer, ApiV1Transformer>();
-        
+        services.AddTransient<IServerV1Transformer, ServerV1Transformer>();
         
         // mapping
         services.AddTransient<OpenApiMapper>();

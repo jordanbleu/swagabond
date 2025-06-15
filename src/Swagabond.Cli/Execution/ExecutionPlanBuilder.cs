@@ -188,7 +188,7 @@ public class ExecutionPlanBuilder
 
     public async Task Execute(int maxDegreeOfParallelism)
     {
-        if (maxDegreeOfParallelism < 0) 
+        if (maxDegreeOfParallelism <= 0) 
             maxDegreeOfParallelism = 1;
 
         var executionPlanTasks = _executionPlan.Values.ToList();
