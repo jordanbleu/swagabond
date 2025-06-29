@@ -20,19 +20,19 @@ jobs:
           echo "RELEASE_NOTES=See full release notes at https://github.com/${GITHUB_REPOSITORY}/releases/tag/${GITHUB_REF_NAME}" >> $GITHUB_ENV
 
       - name: Restore dependencies
-        working-directory: ./src
+        working-directory: ./src/Swagabond.Cli
         run: dotnet restore
 
       - name: Build
-        working-directory: ./src
+        working-directory: ./src/Swagabond.Cli
         run: dotnet build --configuration Release -p:Version=${VERSION}
 
       - name: Test
-        working-directory: ./src
+        working-directory: ./src/Swagabond.Cli
         run: dotnet test --configuration Release -p:Version=${VERSION} --no-build
 
       - name: Pack with link to release notes
-        working-directory: ./src
+        working-directory: ./src/Swagabond.Cli
         run: |
           dotnet pack --configuration Release \
             -p:Version=${VERSION} \
@@ -40,9 +40,9 @@ jobs:
             --no-build --output ./nupkg
 
       - name: List packages
-        working-directory: ./src
+        working-directory: ./src/Swagabond.Cli
         run: ls -lh ./nupkg
 
       - name: Publish to nuget.org
-        working-directory: ./src
+        working-directory: ./src/Swagabond.Cli
         run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
