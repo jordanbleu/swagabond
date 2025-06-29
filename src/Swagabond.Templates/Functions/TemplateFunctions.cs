@@ -315,7 +315,7 @@ public class TemplateFunctions
     /// <summary>
     /// Wraps the input in double braces without evaluating it's input.
     /// inputString becomes {{inputString}}. Can help avoid awkward template
-    /// syntax when you want to literally output double braces..
+    /// syntax when you want to literally output double braces.
     /// </summary>
     /// <param name="input">input to wrap</param>
     public static string WrapDoubleBraces(string input) =>
