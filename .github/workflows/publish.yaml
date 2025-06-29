@@ -14,19 +14,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set VERSION from tag
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
-
-      - name: Install GitHub CLI
-        run: sudo apt-get update && sudo apt-get install -y gh
-
-      - name: Fetch GitHub release description
-        id: fetch_release_notes
+      - name: Set VERSION and RELEASE_NOTES
         run: |
-          RELEASE_NOTES=$(gh release view ${{ github.ref_name }} --json body -q ".body")
-          echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
-          echo "$RELEASE_NOTES" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+          echo "RELEASE_NOTES=See full release notes at https://github.com/${GITHUB_REPOSITORY}/releases/tag/${GITHUB_REF_NAME}" >> $GITHUB_ENV
 
       - name: Restore dependencies
         run: dotnet restore
@@ -37,7 +28,7 @@ jobs:
       - name: Test
         run: dotnet test --configuration Release -p:Version=${VERSION} --no-build
 
-      - name: Pack with release notes
+      - name: Pack with link to release notes
         run: |
           dotnet pack --configuration Release \
             -p:Version=${VERSION} \
