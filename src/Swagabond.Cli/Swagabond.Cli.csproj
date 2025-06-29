@@ -12,7 +12,7 @@
         <RepositoryUrl>https://github.com/jordanbleu/swagabond</RepositoryUrl>
     </PropertyGroup>
 
-    <ItemGroup>
+    <ItemGroup> 
       <PackageReference Include="CommandLineParser" Version="2.9.1" />
       <PackageReference Include="Flurl.Http" Version="4.0.2" />
       <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.2" />
