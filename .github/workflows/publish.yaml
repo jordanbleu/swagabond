@@ -1,0 +1,51 @@
+name: Publish NuGet Package
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set VERSION from tag
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
+      - name: Install GitHub CLI
+        run: sudo apt-get update && sudo apt-get install -y gh
+
+      - name: Fetch GitHub release description
+        id: fetch_release_notes
+        run: |
+          RELEASE_NOTES=$(gh release view ${{ github.ref_name }} --json body -q ".body")
+          echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
+          echo "$RELEASE_NOTES" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release -p:Version=${VERSION}
+
+      - name: Test
+        run: dotnet test --configuration Release -p:Version=${VERSION} --no-build
+
+      - name: Pack with release notes
+        run: |
+          dotnet pack --configuration Release \
+            -p:Version=${VERSION} \
+            -p:PackageReleaseNotes="${RELEASE_NOTES}" \
+            --no-build --output ./nupkg
+
+      - name: List packages
+        run: ls -lh ./nupkg
+
+      - name: Publish to nuget.org
+        run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
