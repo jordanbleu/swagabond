@@ -5,6 +5,11 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>swagabond</ToolCommandName>
+        <PackageId>Swagabond.Cli</PackageId>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/jordanbleu/swagabond</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
