@@ -407,7 +407,7 @@ Shorthand for the WrapQuotes function
 ## f_WrapDoubleBraces
 Wraps the input in double braces without evaluating it's input.
 inputString becomes {{inputString}}. Can help avoid awkward template
-syntax when you want to literally output double braces.
+syntax when you want to literally output double braces..
 
 ### Parameters:
 
@@ -444,5 +444,3 @@ Shorthand for the WrapBraces function.
 ___
 
 [Swagabond on GitHub](https://github.com/jordanbleu/swagabond)
-
-*Last updated: Sunday, June 15, 2025 at 1:27:36 PM*
