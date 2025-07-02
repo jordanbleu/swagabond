@@ -10,6 +10,12 @@
  █▄█     █▄█     █ ▀█     █▄▀
  ```
 
+[![NuGet Version](https://img.shields.io/nuget/v/Swagabond.Cli)](https://www.nuget.org/packages/Swagabond.Cli)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/jordanbleu/swagabond/dotnet.yaml)](https://github.com/jordanbleu/swagabond/actions/workflows/dotnet.yaml)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/t/jordanbleu/swagabond)](https://github.com/jordanbleu/swagabond/commits/main/)
+[![Static Badge](https://img.shields.io/badge/Read_the_Wiki-red?style=flat&logo=GitHub&logoColor=black)](https://github.com/jordanbleu/swagabond/wiki)
+![GitHub Repo stars](https://img.shields.io/github/stars/jordanbleu/swagabond)
+
 Swagabond is a catch-all solution for generating code or text output from an [OpenAPI spec](https://swagger.io/specification/).
 
 ## How it works
