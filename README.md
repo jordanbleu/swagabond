@@ -16,13 +16,13 @@
 [![Static Badge](https://img.shields.io/badge/Read_the_Wiki-red?style=flat&logo=GitHub&logoColor=black)](https://github.com/jordanbleu/swagabond/wiki)
 ![GitHub Repo stars](https://img.shields.io/github/stars/jordanbleu/swagabond)
 
-Swagabond is a catch-all solution for generating code or text output from an [OpenAPI spec](https://swagger.io/specification/).
+Swagabond is a catch-all solution for generating code or text output from an [OpenAPI spec](https://swagger.io/specification/).  It's similar to tools like Kiota, NSwag, etc but it is completely language agnostic and tempate driven.
 
-## How it works
+## The Basics
 
-* You write your own templates alongside an "Instruction Set" (yaml file) that tells Swagabond how to process them
-* You configure Swagabond in your build pipeline to automatically pull down your openAPI spec and process your templates
-* That's it.
+* Write a template for an http client, documentation, or just about anything (this repo contains a few samples 🙂)
+* Configure Swagabond into your build pipeline, via MSBuild (for dotnet projects), Github actions, gradle, or whatever
+* Enjoy automatically generated output as your REST API grows and changes 
 
 ## Swagabond vs OpenAPI Generator
 
