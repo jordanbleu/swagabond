@@ -31,6 +31,9 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
 
     public SchemaDefinitionV1 FromOpenApi(OpenApiSchema schema, ApiV1 api)
     {
+        if (schema is null)
+            return SchemaDefinitionV1.Empty;
+        
         var apiSchema = new SchemaDefinitionV1();
         // todo: extra properties 
 
@@ -70,7 +73,11 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         apiSchema.Name = schemaId?.ToClassName() ?? apiSchema.DataType.ToString();
         apiSchema.OriginalName = schemaId ?? apiSchema.DataType.ToString();
         apiSchema.Title = schemaId ?? apiSchema.Name;
-        apiSchema.Description = WriteDescription(schemaToUse.Description, apiSchema.DataType, apiSchema.IsArray, apiSchema.IsEnum);
+        if (schemaToUse.Description != null)
+        {
+            apiSchema.Description = WriteDescription(schemaToUse.Description, apiSchema.DataType, apiSchema.IsArray, apiSchema.IsEnum);
+        }
+
 
         // If this is an object, map it's properties recursively
         if (apiSchema.DataType == DataTypeV1.Object)
