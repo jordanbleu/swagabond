@@ -33,6 +33,9 @@ public class OperationV1Transformer : IOperationV1Transformer
         var httpMethod = operation.Key.ToString();
         var o = operation.Value;
 
+        apiOperation.Path = path;
+        apiOperation.Api = api;
+        
         apiOperation.IsEmpty = false;
         apiOperation.Name = $"{httpMethod.ToPascalCase()}{path.Name}";
         apiOperation.Title = $"{httpMethod.ToUpper()} {path.Route}";
@@ -93,9 +96,7 @@ public class OperationV1Transformer : IOperationV1Transformer
         {
             apiOperation.DefaultResponseBody = apiOperation.SuccessResponseBody;
         }
-
-        apiOperation.Path = path;
-        apiOperation.Api = api;
+        
         return apiOperation;
     }
 
