@@ -21,16 +21,19 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="SwaggerFiles\" />
+      <Folder Include="SwaggerFiles/" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="SwaggerFiles\swagger-basic.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="SwaggerFiles\swagger-sample.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+      <Content Include="SwaggerFiles/swagger-sample.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="SwaggerFiles/swagger_2_0.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="SwaggerFiles/swagger_3_0_4.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
