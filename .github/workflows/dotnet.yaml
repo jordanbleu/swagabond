@@ -54,6 +54,8 @@ jobs:
       run: |
         mkdir -p ./src/Swagabond.IntegrationTests/bin/Debug/net8.0/SwaggerFiles/
         cp ./src/Swagabond.IntegrationTests/SwaggerFiles/*.json ./src/Swagabond.IntegrationTests/bin/Debug/net8.0/SwaggerFiles/
+        ls -l ./src/Swagabond.IntegrationTests/bin/Debug/net8.0/SwaggerFiles/
+        /src/Swagabond.IntegrationTests/SwaggerFiles/*.json ./src/Swagabond.IntegrationTests/bin/Debug/net8.0/SwaggerFiles/
 
     - name: IntegrationTests
       run: dotnet test ./src/Swagabond.IntegrationTests
