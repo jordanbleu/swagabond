@@ -47,5 +47,8 @@ jobs:
     - name: UnitTests
       run: dotnet test ./src/Swagabond.Tests
 
+    - name: Build IntegrationTests
+      run: dotnet build ./src/Swagabond.IntegrationTests/Swagabond.IntegrationTests.csproj
+
     - name: IntegrationTests
       run: dotnet test ./src/Swagabond.IntegrationTests
