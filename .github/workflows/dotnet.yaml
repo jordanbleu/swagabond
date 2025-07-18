@@ -50,5 +50,9 @@ jobs:
     - name: Build IntegrationTests
       run: dotnet build ./src/Swagabond.IntegrationTests/Swagabond.IntegrationTests.csproj
 
+    - name: Manually copy swagger files to output
+      run: | mkdir -p ./src/Swagabond.IntegrationTests/bin/Debug/net8.0/SwaggerFiles/ cp ./src/Swagabond.IntegrationTests/SwaggerFiles/*.json ./src/Swagabond.IntegrationTests/bin/Debug/net8.0/SwaggerFiles/
+
+
     - name: IntegrationTests
       run: dotnet test ./src/Swagabond.IntegrationTests
