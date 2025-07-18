@@ -21,17 +21,17 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="SwaggerFiles\" />
+      <Folder Include="SwaggerFiles/" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="SwaggerFiles\swagger-sample.json">
+      <None Include="SwaggerFiles/swagger-sample.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Include="SwaggerFiles\swagger_2_0.json">
+      <None Include="SwaggerFiles/swagger_2_0.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Include="SwaggerFiles\swagger_3_0_4.json">
+      <None Include="SwaggerFiles/swagger_3_0_4.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
