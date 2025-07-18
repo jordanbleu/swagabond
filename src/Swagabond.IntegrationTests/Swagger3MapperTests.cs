@@ -16,7 +16,7 @@ public class Swagger3MapperTestsFixture : IAsyncLifetime
         var apiV1Transformer = ApiTransformerFactory.CreateV1Transformer();
 
         var mapper = apiV1Transformer.GetRequiredService<OpenApiMapper>();
-        var path = Path.Combine(AppContext.BaseDirectory, "SwaggerFiles/Swagger_3_0_4.json");
+        var path = Path.Combine(AppContext.BaseDirectory, "SwaggerFiles/swagger_3_0_4.json");
         var fs = new FileStream(path, FileMode.Open);
         var mapped = await mapper.MapFromStreamV1(new()
             {
