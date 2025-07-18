@@ -25,16 +25,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="SwaggerFiles\swagger-basic.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="SwaggerFiles\swagger-sample.json">
+      <None Include="SwaggerFiles\swagger-sample.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="SwaggerFiles\swagger_2_0.json">
+      <None Include="SwaggerFiles\swagger_2_0.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="SwaggerFiles\swagger_3_0_4.json">
+      <None Include="SwaggerFiles\swagger_3_0_4.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
