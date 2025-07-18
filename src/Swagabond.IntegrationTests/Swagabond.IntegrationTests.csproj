@@ -25,15 +25,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="SwaggerFiles/swagger-sample.json">
+      <Content Include="SwaggerFiles/swagger-sample.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Include="SwaggerFiles/swagger_2_0.json">
+      </Content>
+      <Content Include="SwaggerFiles/swagger_2_0.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Include="SwaggerFiles/swagger_3_0_4.json">
+      </Content>
+      <Content Include="SwaggerFiles/swagger_3_0_4.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
