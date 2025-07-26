@@ -131,7 +131,7 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     /// A set of validation rules around the schema, generally used for client side
     /// validation.
     /// </summary>
-    public PropertyConstraintsV1 Constraints { get; set; } = PropertyConstraintsV1.Empty;
+    public SchemaConstraintsV1 Constraints { get; set; } = SchemaConstraintsV1.Empty;
 
     /// <summary>
     /// Returns true if the schema type is a simple value (not a complex object)

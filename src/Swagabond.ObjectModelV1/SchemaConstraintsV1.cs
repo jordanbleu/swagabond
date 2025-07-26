@@ -5,9 +5,9 @@ namespace Swagabond.ObjectModelV1;
 /// <summary>
 /// List of validation rules around a property 
 /// </summary>
-public class PropertyConstraintsV1 : IObjectV1
+public class SchemaConstraintsV1 : IObjectV1
 {
-    public static PropertyConstraintsV1 Empty = new();
+    public static SchemaConstraintsV1 Empty = new();
     /// <summary>
     /// Whether there are any constraints specified on this property at all
     /// </summary>

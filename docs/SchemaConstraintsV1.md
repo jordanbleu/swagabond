@@ -1,4 +1,4 @@
-# PropertyConstraintsV1
+# SchemaConstraintsV1
 
 > *List of validation rules around a property* 
 

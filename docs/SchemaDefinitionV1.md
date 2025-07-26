@@ -21,9 +21,9 @@ A set of validation rules around the schema, generally used for client side vali
 
 
 
-* ⚒️ Underlying Type: PropertyConstraintsV1
+* ⚒️ Underlying Type: SchemaConstraintsV1
 
-* ℹ️ : [PropertyConstraintsV1 Properties...](./PropertyConstraintsV1.md)
+* ℹ️ : [SchemaConstraintsV1 Properties...](./SchemaConstraintsV1.md)
 
 
 

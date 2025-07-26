@@ -106,9 +106,9 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         return apiSchema;
     }
 
-    private PropertyConstraintsV1 BuildPropertyConstraints(OpenApiSchema schema)
+    private SchemaConstraintsV1 BuildPropertyConstraints(OpenApiSchema schema)
     {
-        var constraints = new PropertyConstraintsV1();
+        var constraints = new SchemaConstraintsV1();
         constraints.IsEmpty = false;
         
         // min value
