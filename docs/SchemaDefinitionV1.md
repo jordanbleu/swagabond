@@ -74,6 +74,17 @@ an example value for the object.  If the spec doesn't provide an example, a dumm
 
 
 
+### `ExtensionDictionary`
+
+A dictionary of extensions where the key is the extension name and the value is its value.  This allows you to bind directly to known keys instead of iterating over the list of extensions. Values can be accessed via `ExtensionDictionary["x-myKey"]`
+
+
+* 📖 Dictionary - Can have any number of keys / values depending on context.
+
+* ⚒️ Underlying Type: Dynamic
+
+
+
 ### `Extensions`
 
 List of arbitrary extensions for this schema definition.
