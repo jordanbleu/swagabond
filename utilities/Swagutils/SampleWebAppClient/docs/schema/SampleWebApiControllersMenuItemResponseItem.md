@@ -28,6 +28,8 @@ A single menu item
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 * *FranchiseId*
     * **Description:** [N/A]
@@ -40,6 +42,8 @@ A single menu item
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 * *Name*
     * **Description:** [N/A]
@@ -52,6 +56,8 @@ A single menu item
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** true
 
 * *Description*
     * **Description:** [N/A]
@@ -64,6 +70,8 @@ A single menu item
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** true
 
 * *NutritionFacts*
     * **Description:** [N/A]
@@ -74,6 +82,8 @@ A single menu item
         * **Reference ID:** SampleWebApi.Controllers.MenutItemNutritionFacts
         * [Object Details...](../schema/SampleWebApiControllersMenutItemNutritionFacts.md)
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 
 

@@ -18,4 +18,6 @@ public record ProteinNutritionFact
 {
     public int ProteinGrams { get; set; }
     public int ProteinMilligrams { get; set; }
+    public int SugarGrams { get; set; }
+    public int SugarMilligrams { get; set; }
 }

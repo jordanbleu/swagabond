@@ -28,6 +28,8 @@ A single restaurant item, which includes the restaurant's name, address, phone n
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 * *FranchiseId*
     * **Description:** [N/A]
@@ -40,6 +42,8 @@ A single restaurant item, which includes the restaurant's name, address, phone n
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 * *StoreNumber*
     * **Description:** [N/A]
@@ -52,6 +56,8 @@ A single restaurant item, which includes the restaurant's name, address, phone n
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 * *Address*
     * **Description:** [N/A]
@@ -64,6 +70,8 @@ A single restaurant item, which includes the restaurant's name, address, phone n
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** true
 
 * *Zip*
     * **Description:** [N/A]
@@ -76,6 +84,8 @@ A single restaurant item, which includes the restaurant's name, address, phone n
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** true
 
 * *City*
     * **Description:** [N/A]
@@ -88,6 +98,8 @@ A single restaurant item, which includes the restaurant's name, address, phone n
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** true
 
 * *State*
     * **Description:** [N/A]
@@ -159,6 +171,8 @@ A single restaurant item, which includes the restaurant's name, address, phone n
 
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 
 

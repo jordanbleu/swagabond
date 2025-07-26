@@ -1,5 +1,6 @@
 {
   "openapi": "3.0.4",
+  "x-testExt": "hello world!",
   "info": {
     "title": "SampleWebApi",
     "description": "This is a sample web api for testing / demo purposes for Swagabond.",
@@ -578,6 +579,9 @@
             "x-schemaExtension": "hello world"
           },
           "name": {
+            "maxLength": 15,
+            "minLength": 0,
+            "pattern": "^[A-Z][a-zA-Z]{0,14}$\n",
             "type": "string",
             "description": "The name of the menu item",
             "nullable": true,
@@ -590,6 +594,9 @@
             "x-schemaExtension": "hello world"
           },
           "calories": {
+            "maximum": 3000,
+            "minimum": 1,
+            "exclusiveMinimum": true,
             "type": "integer",
             "description": "How many calories is this menu item?",
             "format": "int32",
@@ -619,6 +626,20 @@
             "type": "integer",
             "description": "Milligrams of protein",
             "format": "int32",
+            "x-schemaExtension": "hello world"
+          },
+          "sugarGrams": {
+            "type": "integer",
+            "description": "Total sugars in grams - always null",
+            "format": "int32",
+            "nullable": true,
+            "x-schemaExtension": "hello world"
+          },
+          "sugarMilligrams": {
+            "type": "integer",
+            "description": "Total sugars in milligrams",
+            "format": "int32",
+            "nullable": true,
             "x-schemaExtension": "hello world"
           }
         },

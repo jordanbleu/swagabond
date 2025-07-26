@@ -110,6 +110,25 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     /// List of arbitrary extensions for this schema definition.
     /// </summary>
     public List<ExtensionV1> Extensions { get; internal set; } = new();
+    
+    private Dictionary<string, string>? _extensionDictionary = null;
+
+    /// <summary>
+    /// A dictionary of extensions where the key is the extension name and the value
+    /// is its value.  This allows you to bind directly to known keys instead of iterating
+    /// over the list of extensions. Values can be accessed via `ExtensionDictionary["x-myKey"]`
+    /// </summary>
+    public Dictionary<string, string> ExtensionDictionary {
+        get
+        {
+            if (_extensionDictionary == null)
+            {
+                _extensionDictionary = Extensions.ToDictionary(e => e.Name, e => e.Value);
+            }
+
+            return _extensionDictionary;
+        }
+    }
 
     /// <summary>
     /// The API that this belongs to
@@ -128,12 +147,19 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     public string ReferenceId { get; internal set; } = string.Empty;
 
     /// <summary>
+    /// A set of validation rules around the schema, generally used for client side
+    /// validation.
+    /// </summary>
+    public SchemaConstraintsV1 Constraints { get; set; } = SchemaConstraintsV1.Empty;
+
+    /// <summary>
     /// Returns true if the schema type is a simple value (not a complex object)
     /// </summary>
     public bool IsPrimitive
     {
         get => DataType != DataTypeV1.Object;
     }
+
 
     public override string ToString()
     {

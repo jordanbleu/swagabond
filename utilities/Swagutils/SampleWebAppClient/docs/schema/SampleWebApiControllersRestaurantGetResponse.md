@@ -26,6 +26,8 @@ The response containing the list of restuarants
         * **Reference ID:** SampleWebApi.Controllers.RestaurantGetResponseItem
         * [Object Details...](../schema/SampleWebApiControllersRestaurantGetResponseItem.md)
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 
 

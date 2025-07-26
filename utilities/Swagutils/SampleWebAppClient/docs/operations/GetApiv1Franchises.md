@@ -43,8 +43,8 @@
 ## Responses
 
 * *200 Response*
-    * **Title:** 200 Response - 200GetResponse
-    * **Name:** 200GetResponse
+    * **Title:** 200 Response - Apiv1Franchises200GetResponse
+    * **Name:** Apiv1Franchises200GetResponse
     * **Description:** OK
      
         * **Properties:**
@@ -53,7 +53,7 @@
                 * **Description:** [N/A]
                 * **Schema Name:** Guid
                 * **Schema:** 
-                    * **Schema Description:**  A globally unique identifier, often used for unique keys or identifiers in systems.
+                    * **Schema Description:** [N/A]
  
                 * **Type:** Guid
                 * **Example:** `f9a7b8c4-0c4f-46e1-b4f5-d2fe9e5b35bb`
@@ -65,7 +65,7 @@
                 * **Description:** [N/A]
                 * **Schema Name:** String
                 * **Schema:** 
-                    * **Schema Description:**  A sequence of characters, typically used for text data.
+                    * **Schema Description:** [N/A]
  
                 * **Type:** String
                 * **Example:** `Example String`
@@ -77,7 +77,7 @@
                 * **Description:** [N/A]
                 * **Schema Name:** String
                 * **Schema:** 
-                    * **Schema Description:**  A sequence of characters, typically used for text data.
+                    * **Schema Description:** [N/A]
  
                 * **Type:** String
                 * **Example:** `Example String`
@@ -88,8 +88,8 @@
          
 
 * *Default / Fallback Response (for any status code that is not explicitly defined, this response can be assumed)*
-    * **Title:** 200 Response - 200GetResponse
-    * **Name:** 200GetResponse
+    * **Title:** 200 Response - Apiv1Franchises200GetResponse
+    * **Name:** Apiv1Franchises200GetResponse
     * **Description:** OK
      
         * **Properties:**
@@ -98,7 +98,7 @@
                 * **Description:** [N/A]
                 * **Schema Name:** Guid
                 * **Schema:** 
-                    * **Schema Description:**  A globally unique identifier, often used for unique keys or identifiers in systems.
+                    * **Schema Description:** [N/A]
  
                 * **Type:** Guid
                 * **Example:** `f9a7b8c4-0c4f-46e1-b4f5-d2fe9e5b35bb`
@@ -110,7 +110,7 @@
                 * **Description:** [N/A]
                 * **Schema Name:** String
                 * **Schema:** 
-                    * **Schema Description:**  A sequence of characters, typically used for text data.
+                    * **Schema Description:** [N/A]
  
                 * **Type:** String
                 * **Example:** `Example String`
@@ -122,7 +122,7 @@
                 * **Description:** [N/A]
                 * **Schema Name:** String
                 * **Schema:** 
-                    * **Schema Description:**  A sequence of characters, typically used for text data.
+                    * **Schema Description:** [N/A]
  
                 * **Type:** String
                 * **Example:** `Example String`

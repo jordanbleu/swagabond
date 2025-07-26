@@ -27,7 +27,9 @@
       "Calories": 123,
       "ProteinNutritionFacts": {
         "ProteinGrams": 123,
-        "ProteinMilligrams": 123
+        "ProteinMilligrams": 123,
+        "SugarGrams": 123,
+        "SugarMilligrams": 123
       }
     }
   },
@@ -46,7 +48,7 @@
 
 * {Id} 
     * **Schema Name:** Guid 
-    * **Schema Description:**  A globally unique identifier, often used for unique keys or identifiers in systems.
+    * **Schema Description:** 
     * **Type:** Guid
     * **Example:** `f9a7b8c4-0c4f-46e1-b4f5-d2fe9e5b35bb`
     * **Is Enum?:** false
@@ -69,8 +71,8 @@
 ## Responses
 
 * *200 Response*
-    * **Title:** 200 Response - 200GetResponse
-    * **Name:** 200GetResponse
+    * **Title:** 200 Response - Apiv1Menuitemsidfull200GetResponse
+    * **Name:** Apiv1Menuitemsidfull200GetResponse
     * **Description:** OK
      
         * **Properties:**
@@ -98,8 +100,8 @@
          
 
 * *Default / Fallback Response (for any status code that is not explicitly defined, this response can be assumed)*
-    * **Title:** 200 Response - 200GetResponse
-    * **Name:** 200GetResponse
+    * **Title:** 200 Response - Apiv1Menuitemsidfull200GetResponse
+    * **Name:** Apiv1Menuitemsidfull200GetResponse
     * **Description:** OK
      
         * **Properties:**

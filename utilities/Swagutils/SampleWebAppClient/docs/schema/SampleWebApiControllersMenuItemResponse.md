@@ -26,6 +26,8 @@ A response containing multiple menu items
         * **Reference ID:** SampleWebApi.Controllers.MenuItemResponseItem
         * [Object Details...](../schema/SampleWebApiControllersMenuItemResponseItem.md)
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 * *TotalCount*
     * **Description:** [N/A]
@@ -38,6 +40,8 @@ A response containing multiple menu items
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 
 

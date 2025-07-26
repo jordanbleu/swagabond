@@ -191,8 +191,8 @@
 ## Responses
 
 * *201 Response*
-    * **Title:** 201 Response - 201PostResponse
-    * **Name:** 201PostResponse
+    * **Title:** 201 Response - Apiv1Restaurants201PostResponse
+    * **Name:** Apiv1Restaurants201PostResponse
     * **Description:** Created
      
         * **Properties:**
@@ -343,8 +343,8 @@
          
 
 * *Default / Fallback Response (for any status code that is not explicitly defined, this response can be assumed)*
-    * **Title:** 201 Response - 201PostResponse
-    * **Name:** 201PostResponse
+    * **Title:** 201 Response - Apiv1Restaurants201PostResponse
+    * **Name:** Apiv1Restaurants201PostResponse
     * **Description:** Created
      
         * **Properties:**
