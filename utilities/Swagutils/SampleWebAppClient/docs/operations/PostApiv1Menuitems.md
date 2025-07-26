@@ -32,7 +32,9 @@
     "Calories": 123,
     "ProteinNutritionFacts": {
       "ProteinGrams": 123,
-      "ProteinMilligrams": 123
+      "ProteinMilligrams": 123,
+      "SugarGrams": 123,
+      "SugarMilligrams": 123
     }
   }
 }
@@ -123,8 +125,8 @@
 ## Responses
 
 * *200 Response*
-    * **Title:** 200 Response - 200PostResponse
-    * **Name:** 200PostResponse
+    * **Title:** 200 Response - Apiv1Menuitems200PostResponse
+    * **Name:** Apiv1Menuitems200PostResponse
     * **Description:** OK
      
         * **Properties:**
@@ -190,8 +192,8 @@
          
 
 * *Default / Fallback Response (for any status code that is not explicitly defined, this response can be assumed)*
-    * **Title:** 200 Response - 200PostResponse
-    * **Name:** 200PostResponse
+    * **Title:** 200 Response - Apiv1Menuitems200PostResponse
+    * **Name:** Apiv1Menuitems200PostResponse
     * **Description:** OK
      
         * **Properties:**

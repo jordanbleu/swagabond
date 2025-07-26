@@ -28,6 +28,8 @@ Request for creating a new restaurant
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 * *StoreNumber*
     * **Description:** [N/A]
@@ -40,6 +42,8 @@ Request for creating a new restaurant
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 * *Address*
     * **Description:** [N/A]
@@ -52,6 +56,8 @@ Request for creating a new restaurant
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** true
 
 * *Zip*
     * **Description:** [N/A]
@@ -64,6 +70,8 @@ Request for creating a new restaurant
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** true
 
 * *City*
     * **Description:** [N/A]
@@ -76,6 +84,8 @@ Request for creating a new restaurant
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** true
 
 * *State*
     * **Description:** [N/A]
@@ -147,6 +157,8 @@ Request for creating a new restaurant
 
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 
 

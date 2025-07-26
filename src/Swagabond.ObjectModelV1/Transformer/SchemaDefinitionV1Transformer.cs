@@ -34,6 +34,8 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         if (schema is null)
             return SchemaDefinitionV1.Empty;
         
+        
+        
         var apiSchema = new SchemaDefinitionV1();
         // todo: extra properties 
 
@@ -78,7 +80,8 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
             apiSchema.Description = WriteDescription(schemaToUse.Description, apiSchema.DataType, apiSchema.IsArray, apiSchema.IsEnum);
         }
 
-
+        apiSchema.Constraints = BuildPropertyConstraints(schemaToUse);
+        
         // If this is an object, map it's properties recursively
         if (apiSchema.DataType == DataTypeV1.Object)
         {
@@ -101,6 +104,53 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         apiSchema.Api = api;
 
         return apiSchema;
+    }
+
+    private PropertyConstraintsV1 BuildPropertyConstraints(OpenApiSchema schema)
+    {
+        var constraints = new PropertyConstraintsV1();
+        constraints.IsEmpty = false;
+        
+        // min value
+        if (schema.Minimum.HasValue)
+        {
+            constraints.MinValue = schema.Minimum.Value;
+            constraints.HasMinValue = true;
+            constraints.IsMinValueInclusive = schema.ExclusiveMinimum != true;
+        }
+        
+        // max value
+        if (schema.Maximum.HasValue)
+        {
+            constraints.MaxValue = schema.Maximum.Value;
+            constraints.HasMaxValue = true;
+            constraints.IsMaxValueInclusive = schema.ExclusiveMaximum != true;
+        }
+        
+        // Min Length
+        if (schema.MinLength.HasValue)
+        {
+            constraints.MinLength = schema.MinLength.Value;
+            constraints.HasMinLength = true;
+        }
+        
+        // max length
+        if (schema.MaxLength.HasValue)
+        {
+            constraints.MaxLength = schema.MaxLength.Value;
+            constraints.HasMaxLength = true;
+        }
+
+        // pattern
+        if (!string.IsNullOrEmpty(schema.Pattern))
+        {
+            constraints.Pattern = schema.Pattern;
+        }
+
+        constraints.IsNullable = schema.Nullable;
+
+        return constraints;
+
     }
 
 

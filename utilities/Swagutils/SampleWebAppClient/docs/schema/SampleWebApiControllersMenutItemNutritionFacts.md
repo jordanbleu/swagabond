@@ -28,6 +28,8 @@ A set of menu nutrition facts
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 * *ProteinNutritionFacts*
     * **Description:** [N/A]
@@ -38,6 +40,8 @@ A set of menu nutrition facts
         * **Reference ID:** SampleWebApi.Controllers.ProteinNutritionFact
         * [Object Details...](../schema/SampleWebApiControllersProteinNutritionFact.md)
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 
 

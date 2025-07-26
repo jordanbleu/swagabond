@@ -14,7 +14,13 @@
 
 ### `{{prop.Name}}`
 
-{{prop.Comment}}
+{{~prop.Comment~}}
+{{~if prop.HasRemarks~}}
+{{~ for remark in prop.Remarks }}
+> [!IMPORTANT]  
+> {{remark}}
+{{~ end ~}} {{#for remark in prop.Remarks}}
+{{~end~}}{{#/if prop.HasRemarks}}
 
 {{if prop.IsDictionary}}
 * 📖 Dictionary - Can have any number of keys / values depending on context.

@@ -52,6 +52,25 @@
         * **Reference ID:** {{p.Schema.ReferenceId}}
         * [Object Details...](../schema/{{p.Schema.Name}}.md)
     {{end}}{{#/if p.Schema.IsPrimitive}}
+    * Schema Constraints
+        * **Is Nullable:** {{p.Schema.Constraints.IsNullable}}
+        {{~if p.Schema.Constraints.Pattern != ""~}}
+        * **RegEx Pattern:**  {{p.Schema.Constraints.Pattern~}}
+        {{~end~}}
+        {{~if p.Schema.Constraints.HasMinLength}}
+        * **Minimum Length:** {{p.Schema.Constraints.MinLength}}
+        {{~end~}}
+        {{~if p.Schema.Constraints.HasMaxLength}}
+        * **Maximum Length:** {{p.Schema.Constraints.MaxLength}}
+        {{~end~}}
+        {{~if p.Schema.Constraints.HasMinValue}}
+        * **Minimum Value:** {{p.Schema.Constraints.MinValue}}
+        * **Inclusive:** {{p.Schema.Constraints.IsMinValueInclusive}}
+        {{~end~}}
+        {{~if p.Schema.Constraints.HasMaxValue}}
+        * **Maximum Value:** {{p.Schema.Constraints.MaxValue}}
+        * **Inclusive:** {{p.Schema.Constraints.IsMaxValueInclusive}}
+        {{~end~}}
 {{end}}{{#for p in Properties}}
 
 {{end}}{{#/if IsEnum}}

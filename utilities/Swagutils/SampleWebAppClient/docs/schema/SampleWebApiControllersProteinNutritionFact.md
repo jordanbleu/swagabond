@@ -28,6 +28,8 @@ Specific nutrition facts related to protein
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 * *ProteinMilligrams*
     * **Description:** [N/A]
@@ -40,6 +42,36 @@ Specific nutrition facts related to protein
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** false
+
+* *SugarGrams*
+    * **Description:** [N/A]
+    * **Schema Name:** Int32
+    * **Schema:** 
+        * **Schema Description:** Total sugars in grams - always null
+ 
+        * **Type:** Int32
+        * **Example:** `123`
+        * **Is Enum?:** false
+        * **Is Array?:** false
+    
+    * Schema Constraints
+        * **Is Nullable:** true
+
+* *SugarMilligrams*
+    * **Description:** [N/A]
+    * **Schema Name:** Int32
+    * **Schema:** 
+        * **Schema Description:** Total sugars in milligrams
+ 
+        * **Type:** Int32
+        * **Example:** `123`
+        * **Is Enum?:** false
+        * **Is Array?:** false
+    
+    * Schema Constraints
+        * **Is Nullable:** true
 
 
 

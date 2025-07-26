@@ -49,8 +49,8 @@
 ## Responses
 
 * *200 Response*
-    * **Title:** 200 Response - 200GetResponse
-    * **Name:** 200GetResponse
+    * **Title:** 200 Response - Apiv1Restaurants200GetResponse
+    * **Name:** Apiv1Restaurants200GetResponse
     * **Description:** OK
      
         * **Properties:**
@@ -68,8 +68,8 @@
          
 
 * *Default / Fallback Response (for any status code that is not explicitly defined, this response can be assumed)*
-    * **Title:** 200 Response - 200GetResponse
-    * **Name:** 200GetResponse
+    * **Title:** 200 Response - Apiv1Restaurants200GetResponse
+    * **Name:** Apiv1Restaurants200GetResponse
     * **Description:** OK
      
         * **Properties:**

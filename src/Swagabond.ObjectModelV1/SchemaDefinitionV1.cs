@@ -128,12 +128,19 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     public string ReferenceId { get; internal set; } = string.Empty;
 
     /// <summary>
+    /// A set of validation rules around the schema, generally used for client side
+    /// validation.
+    /// </summary>
+    public PropertyConstraintsV1 Constraints { get; set; } = PropertyConstraintsV1.Empty;
+
+    /// <summary>
     /// Returns true if the schema type is a simple value (not a complex object)
     /// </summary>
     public bool IsPrimitive
     {
         get => DataType != DataTypeV1.Object;
     }
+
 
     public override string ToString()
     {

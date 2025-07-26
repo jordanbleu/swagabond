@@ -26,6 +26,8 @@ A full menu item response, as well as the franchise info
         * **Reference ID:** SampleWebApi.Controllers.MenuItemResponseItem
         * [Object Details...](../schema/SampleWebApiControllersMenuItemResponseItem.md)
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 * *Franchise*
     * **Description:** [N/A]
@@ -36,6 +38,8 @@ A full menu item response, as well as the franchise info
         * **Reference ID:** SampleWebApi.Controllers.FranchiseInformation
         * [Object Details...](../schema/SampleWebApiControllersFranchiseInformation.md)
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 
 

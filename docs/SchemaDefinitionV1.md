@@ -15,6 +15,18 @@ The API that this belongs to
 
 
 
+### `Constraints`
+
+A set of validation rules around the schema, generally used for client side validation.
+
+
+
+* ⚒️ Underlying Type: PropertyConstraintsV1
+
+* ℹ️ : [PropertyConstraintsV1 Properties...](./PropertyConstraintsV1.md)
+
+
+
 ### `DataType`
 
 This is the underlying type of the schema, whether it be an object or a primitive type. For enums, this represents the backing value of the enum (usually an int).

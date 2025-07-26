@@ -28,6 +28,8 @@ An object containing franchise information
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** false
 
 * *Name*
     * **Description:** [N/A]
@@ -40,6 +42,8 @@ An object containing franchise information
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** true
 
 * *Slogan*
     * **Description:** [N/A]
@@ -52,6 +56,8 @@ An object containing franchise information
         * **Is Enum?:** false
         * **Is Array?:** false
     
+    * Schema Constraints
+        * **Is Nullable:** true
 
 
 

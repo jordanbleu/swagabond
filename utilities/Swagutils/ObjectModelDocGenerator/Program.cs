@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.ObjectModel;
 using System.Reflection;
 using LoxSmoke.DocXml;
 using Scriban;
@@ -116,7 +117,6 @@ public class Program
         public string Comment { get; set; }
     }
 
-
     private static async Task GenerateMarkdownForObjectModel(Type t, DocXmlReader reader, string templateContent)
     {
         if (t.FullName == null || ProcessedTypes.Contains(t.FullName))
@@ -176,6 +176,19 @@ public class Program
 
                 var propName = prop.Name;
 
+                var summaryString = propComment.Summary.RemoveNewlines()
+                    .Replace("&gt;", ">")
+                    .Replace("&lt;", "<");
+
+                var remarkString = propComment.Remarks;
+                var remarks = new List<string>(0);
+                if (!string.IsNullOrWhiteSpace(remarkString))
+                {
+                    var splitRemarks = propComment?.Remarks?.Split(";");
+                    if (splitRemarks?.Length > 0)
+                        remarks.AddRange(splitRemarks);
+                }
+                
                 // This is a collection type (except strings)
                 if (propType != typeof(string) && typeof(IEnumerable).IsAssignableFrom(propType))
                 {
@@ -185,11 +198,12 @@ public class Program
                         propertyData = new PropertyData()
                         {
                             Name = propName,
-                            Comment = propComment.Summary.RemoveNewlines(),
+                            Comment = summaryString,
                             IsArray = false,
                             IsDictionary = true,
                             IsPrimitive = true,
-                            PropertyTypeName = "Dynamic"
+                            PropertyTypeName = "Dynamic",
+                            Remarks = remarks
                         };
                     }
                     else
@@ -200,11 +214,12 @@ public class Program
                         {
                             Name = propName,
                             IsArray = true,
-                            Comment = propComment.Summary.RemoveNewlines(),
+                            Comment = summaryString,
                             IsDictionary = false,
-                            IsPrimitive = underlyingType.IsPrimitive || underlyingType == typeof(string),
+                            IsPrimitive = IsPrimitive(underlyingType),
                             Example = "",
                             PropertyTypeName = underlyingType.Name,
+                            Remarks = remarks
                         };
 
                         if (!propType.IsPrimitive && propType != typeof(string))
@@ -222,14 +237,15 @@ public class Program
                     {
                         Name = propName,
                         IsArray = false,
-                        Comment = propComment.Summary.RemoveNewlines(),
+                        Comment = summaryString,
                         IsDictionary = false,
-                        IsPrimitive = propType.IsPrimitive || propType == typeof(string),
+                        IsPrimitive = IsPrimitive(propType),
                         PropertyTypeName = prop.PropertyType.Name,
-                        Example = propComment.Example
+                        Example = propComment.Example,
+                        Remarks = remarks
                     };
 
-                    if (!propType.IsPrimitive && propType != typeof(string))
+                    if (!IsPrimitive(propType))
                     {
                         // recursively also map a new file for the property
                         await GenerateMarkdownForObjectModel(propType, reader, templateContent);
@@ -251,6 +267,13 @@ public class Program
     }
     
     private static void LogCallback(string s) => Console.WriteLine(s);
+
+    private static bool IsPrimitive(Type t)
+    {
+        return t.IsPrimitive || t == typeof(string) || t == typeof(decimal);
+
+    }
+
 }
 
 public class ClassData
@@ -276,6 +299,10 @@ public class PropertyData
     public bool IsArray { get; set; }
     public bool IsDictionary { get; set; }
     public string PropertyTypeName { get; set; } = string.Empty;
+
+    public bool HasRemarks => Remarks.Count != 0;
+    
+    public List<string> Remarks { get; set; } = new();
 
 }
 

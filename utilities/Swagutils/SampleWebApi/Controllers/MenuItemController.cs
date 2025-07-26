@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using SampleWebApi.Entities;
 using SampleWebApi.Repositories;
@@ -182,6 +183,9 @@ public record MenutItemPostRequest
     /// <summary>
     /// The name of the menu item 
     /// </summary>
+    [RegularExpression("^[A-Z][a-zA-Z]{0,14}$\n")]
+    [MinLength(0)]
+    [MaxLength(15)]
     public string Name { get; set; } = String.Empty;
     /// <summary>
     /// The menu item's description in english
@@ -191,6 +195,7 @@ public record MenutItemPostRequest
     /// <summary>
     /// How many calories is this menu item? 
     /// </summary>
+    [Range(minimum: 1, maximum: 3000, MinimumIsExclusive = true, MaximumIsExclusive = false)]
     public int Calories { get; set; } = 0;
 
     /// <summary>
@@ -273,4 +278,14 @@ public record ProteinNutritionFact
     /// Milligrams of protein
     /// </summary>
     public int ProteinMilligrams { get; set; } = 0;
+
+    /// <summary>
+    /// Total sugars in grams - always null 
+    /// </summary>
+    public int? SugarGrams { get; set; } = null;
+
+    /// <summary>
+    /// Total sugars in milligrams 
+    /// </summary>
+    public int? SugarMilligrams { get; set; } = null;
 }
