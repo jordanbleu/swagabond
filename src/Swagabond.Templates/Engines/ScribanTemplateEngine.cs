@@ -32,6 +32,8 @@ public class ScribanTemplateEngine : ITemplateEngine
         //
         context.PushGlobal(globals);
 
+        context.LoopLimit = 0;
+
         return await template.RenderAsync(context);
     }
     
