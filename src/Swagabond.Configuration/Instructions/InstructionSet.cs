@@ -26,7 +26,7 @@ public class InstructionSet
 
     [YamlMember(Alias = "for_paths")]
     public List<ProcessTemplateInstruction> PathScopedInstructions { get; set; } = new();
-    
+
     /// <summary>
     /// Any arbitrary metadata that can be accessed via templates
     /// </summary>

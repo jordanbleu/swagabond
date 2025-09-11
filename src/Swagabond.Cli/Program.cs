@@ -1,4 +1,6 @@
 ﻿using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swagabond.Cli.Args;
@@ -17,13 +19,40 @@ namespace Swagabond.Cli;
 
 public class Program
 {
+
+    private static JsonSerializerOptions JsonDumpSerializerOptions = new JsonSerializerOptions()
+    {
+        PropertyNameCaseInsensitive = true,
+        ReferenceHandler = ReferenceHandler.Preserve
+    };
     public static async Task Main(string[] args)
     {
+        // parse input args
+        var parser = new CommandLine.Parser();
+        var argumentsResult = parser.ParseArguments<Arguments>(args);
+
+        if (argumentsResult.Errors.Any())
+        {
+            Console.WriteLine($"CLI Arguments are not valid:\n{argumentsResult.Errors.Select(e => e.ToFriendlyString())}");
+            return;
+        }
+
+        var arguments = argumentsResult.Value;
+        
         // create a di container 
         var services = new ServiceCollection();
 
         // add logging
-        services.AddLogging(builder => builder.AddConsole());
+        services.AddLogging(builder =>
+        {
+            builder.AddConsole();
+
+            if (!arguments.Verbose.Equals("true", StringComparison.OrdinalIgnoreCase))
+            {
+                builder.SetMinimumLevel(LogLevel.Warning);
+                ConsoleHelper.Verbose = false;
+            }
+        });
 
         // add our (CLI) services
         services.AddSingleton<DataRetriever>();
@@ -34,12 +63,16 @@ public class Program
         services.AddSwagabondTemplateEngineFactory();
         
         var serviceProvider = services.BuildServiceProvider();
-
-        await Run(serviceProvider, args);
+        
+        var consoleHelper = serviceProvider.GetRequiredService<ConsoleHelper>();
+        
+        await Run(serviceProvider, arguments);
     }
 
-    public static async Task Run(ServiceProvider provider, string[] args)
+    public static async Task Run(ServiceProvider provider, Arguments arguments)
     {
+        var isVerbose = arguments.Verbose.Equals("true", StringComparison.OrdinalIgnoreCase);
+        
         // ************************************************
         // Grab services from our DI container
         // ************************************************
@@ -52,27 +85,19 @@ public class Program
         // ************************************************
         // Draw the banner / intro 
         // ************************************************
-        var version = Assembly.GetExecutingAssembly().GetName().Version;
         consoleHelper.DrawBanner();
-        consoleHelper.WriteBorder();
-        consoleHelper.WriteInnerBorderedText($"OpenAPI Template Processor v{version}");
-        consoleHelper.WriteInnerBorderedText($"Original Concept by Jordan Bleu");
-        consoleHelper.WriteInnerBorderedText($"Ascii Art Stolen from https://fsymbols.com/text-art");
-        consoleHelper.WriteBorder();
-        Console.WriteLine();
-
-        // parse input args
-        var parser = new CommandLine.Parser();
-        var argumentsResult = parser.ParseArguments<Arguments>(args);
-
-        if (argumentsResult.Errors.Any())
+        
+        if (isVerbose)
         {
-            consoleHelper.WriteError("CLI Arguments are not valid >:( ",
-                argumentsResult.Errors.Select(e => e.ToFriendlyString()));
-            return;
+            var version = Assembly.GetExecutingAssembly().GetName().Version;
+            consoleHelper.WriteBorder();
+            consoleHelper.WriteInnerBorderedText($"OpenAPI Template Processor v{version}");
+            consoleHelper.WriteInnerBorderedText($"Original Concept by Jordan Bleu");
+            consoleHelper.WriteInnerBorderedText($"Ascii Art Stolen from https://fsymbols.com/text-art");
+            consoleHelper.WriteBorder();
+            Console.WriteLine();
         }
 
-        var arguments = argumentsResult.Value;
         var outputDir = arguments.OutputDirectory;
 
         // ************************************************
@@ -221,6 +246,20 @@ public class Program
             consoleHelper.WriteError("There was an error (or a bunch maybe) generating output.", new[] { ex.Message },
                 ex);
             throw;
+        }
+        
+        // ************************************************
+        // Generate the optional json file
+        // ************************************************
+        if (arguments.DumpJson.ToLowerInvariant() == "true")
+        {
+            var dumpFile = Path.Combine(instructionSetBaseDir, outputDir, "swagabond-dump.json");
+            var json = JsonSerializer.Serialize(api, JsonDumpSerializerOptions);
+
+            if (File.Exists(dumpFile))
+                File.Delete(dumpFile);
+
+            await File.WriteAllTextAsync(dumpFile, json);
         }
 
         logger.LogInformation("\n\n");

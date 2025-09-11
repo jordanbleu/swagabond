@@ -25,6 +25,19 @@
     }
   ],
   "paths": {
+    "/api/v1/blank": {
+      "post": {
+        "tags": [
+          "Blank"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "x-operationExtension": "hello world"
+      }
+    },
     "/api/v1/franchises": {
       "get": {
         "tags": [

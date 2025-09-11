@@ -3,10 +3,6 @@
 
 SampleWebApi version v1
 
-TEST DELETE THIS 
-
-ExtensionDictionary.x-infoTwitterHandle == 
-
 ## About this API
 
 ### Description
@@ -30,6 +26,8 @@ This is a sample web api for testing / demo purposes for Swagabond.
 
 
 ## All Routes
+
+* [/api/v1/blank](./paths/Apiv1Blank.md)
 
 * [/api/v1/franchises](./paths/Apiv1Franchises.md)
 

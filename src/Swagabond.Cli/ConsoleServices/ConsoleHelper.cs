@@ -4,6 +4,8 @@ namespace Swagabond.Cli.ConsoleServices;
 
 public class ConsoleHelper
 {
+    public static bool Verbose = true;
+    
     private const string LogoAsciiArt =
 @"
 █▀     █ █ █     ▄▀█     █▀▀     ▄▀█     █▄▄     █▀█     █▄ █     █▀▄
@@ -54,13 +56,29 @@ public class ConsoleHelper
     public void WriteError(string message)
     {
         DrawFailWhale();
-        _logger.LogInformation(message);
+        _logger.LogError(message);
     }
 
-    public void DrawBanner() =>System.Console.WriteLine(LogoAsciiArt);
+    public void DrawBanner()
+    {
+        if (Verbose)
+        {
+            System.Console.WriteLine(LogoAsciiArt);
+            return;
+        }
+
+        System.Console.WriteLine("SWAGaBOND is running...");
+    }
+
+
 
     public void DrawRobotAscii(string message, string message2 = "")
     {
+        if (!Verbose)
+        {
+            Console.WriteLine("Swagabond Completed Successfully!");
+        }
+
         _logger.LogInformation(string.Format(RobotAsciiArt, message, message2));
     }
  
