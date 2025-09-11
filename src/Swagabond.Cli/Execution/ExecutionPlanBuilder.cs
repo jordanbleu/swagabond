@@ -119,6 +119,15 @@ public class ExecutionPlanBuilder
         }
         
         _logger.LogInformation("[{}] Writing template output to {0}", taskId, finalOutputPath);
+
+        // replace line endings
+        output = instructionSet.LineEndingStyle switch
+        {
+            LineEndingStyle.LF => output.ReplaceLineEndings("\n"),
+            LineEndingStyle.CRLF => output.ReplaceLineEndings("\r\n"),
+            _ => output
+        };
+
         await File.WriteAllTextAsync(finalOutputPath, output);
     }
 

@@ -32,6 +32,9 @@ public class InstructionSet
     /// </summary>
     [YamlMember(Alias = "metadata")]
     public Dictionary<string, string> Metadata { get; set; } = new();
+
+    [YamlMember(Alias = "force_line_endings")]
+    public LineEndingStyle LineEndingStyle { get; set; } = LineEndingStyle.OS_DEFAULT;
 }
 
 public class ProcessTemplateInstruction
