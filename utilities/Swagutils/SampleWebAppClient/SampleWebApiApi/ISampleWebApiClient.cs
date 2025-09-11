@@ -17,6 +17,10 @@ namespace SampleWebApiApi;
 public interface ISampleWebApiClient
 {
     /// <remarks>
+    /// POST /api/v1/blank
+    /// </remarks>
+    Task<string> PostApiv1BlankAsync(Dictionary<string, string> requestHeaders);
+    /// <remarks>
     /// GET /api/v1/franchises
     /// </remarks>
     Task<FranchiseGetResponseItem[]> GetApiv1FranchisesAsync(Dictionary<string, string> requestHeaders);

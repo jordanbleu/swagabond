@@ -27,4 +27,10 @@ public class Arguments
     
     [Option(shortName: 'c', longName: "cleanOutput", HelpText = "If true, the output directory will be cleaned before generating new files.", Required = false)]
     public string CleanOutputDirectory { get; set; } = "false";
+
+    [Option(shortName: 'j', longName: "dumpJson", HelpText = "If true, a json file will be generated and saved to the output dir.", Required = false)]
+    public string DumpJson { get; set; } = "false";
+
+    [Option(shortName: 'v', longName: "verbose", HelpText = "If true, the console output will be much more informative and verbose.", Required = false)]
+    public string Verbose { get; set; } = "false";
 }

@@ -26,12 +26,15 @@ public class InstructionSet
 
     [YamlMember(Alias = "for_paths")]
     public List<ProcessTemplateInstruction> PathScopedInstructions { get; set; } = new();
-    
+
     /// <summary>
     /// Any arbitrary metadata that can be accessed via templates
     /// </summary>
     [YamlMember(Alias = "metadata")]
     public Dictionary<string, string> Metadata { get; set; } = new();
+
+    [YamlMember(Alias = "force_line_endings")]
+    public LineEndingStyle LineEndingStyle { get; set; } = LineEndingStyle.OS_DEFAULT;
 }
 
 public class ProcessTemplateInstruction

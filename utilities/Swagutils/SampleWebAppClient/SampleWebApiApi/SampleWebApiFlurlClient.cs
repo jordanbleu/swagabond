@@ -28,6 +28,21 @@ public class SampleWebApiFlurlClient : ISampleWebApiClient
     }
 
     /// <remarks>
+    /// POST /api/v1/blank
+    /// </remarks>
+    public async Task<string> PostApiv1BlankAsync(Dictionary<string, string> requestHeaders)
+    {
+        var path = "/api/v1/blank";
+
+        var response = await _baseUrl
+            .AppendPathSegment(path)
+            .WithHeaders(requestHeaders)
+            .PostAsync();
+
+        return await DeserializeFlurlResponse<string>(response);
+
+    }
+    /// <remarks>
     /// GET /api/v1/franchises
     /// </remarks>
     public async Task<FranchiseGetResponseItem[]> GetApiv1FranchisesAsync(Dictionary<string, string> requestHeaders)
