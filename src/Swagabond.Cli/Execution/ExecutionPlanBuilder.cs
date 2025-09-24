@@ -197,41 +197,35 @@ public class ExecutionPlanBuilder
 
     public async Task Execute(int maxDegreeOfParallelism)
     {
-        if (maxDegreeOfParallelism <= 0) 
+        if (maxDegreeOfParallelism <= 0)
             maxDegreeOfParallelism = 1;
 
-        var executionPlanTasks = _executionPlan.Values.ToList();
-    
         var semaphore = new SemaphoreSlim(maxDegreeOfParallelism);
-    
+
         try
         {
-            var taskList = new List<Task>();
-
-            foreach (var task in executionPlanTasks)
-            {
-                await semaphore.WaitAsync();
-
-                taskList.Add(Task.Run(async () =>
-                {
-                    try
-                    {
-                        await task();
-                    }
-                    finally
-                    {
-                        semaphore.Release();
-                    }
-                }));
-            }
-
-            await Task.WhenAll(taskList);
+            var tasks = _executionPlan.Values.Select(task => RunWithSemaphore(task, semaphore));
+            await Task.WhenAll(tasks);
         }
         finally
         {
             semaphore.Dispose();
         }
     }
+
+    private static async Task RunWithSemaphore(Func<Task> task, SemaphoreSlim semaphore)
+    {
+        await semaphore.WaitAsync();
+        try
+        {
+            await task();
+        }
+        finally
+        {
+            semaphore.Release();
+        }
+    }
+
     
 
 

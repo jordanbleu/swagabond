@@ -67,7 +67,7 @@ public class OpenApiMapper
         
         foreach (var error in diag.Errors)
         {
-            _logger.LogError("OpenAPI spec error: {0}", error.Message);
+            _logger.LogWarning("OpenAPI spec error: {0}", error.Message);
         }
         
         if (request.FailOnDefinitionError && diag.Errors.Any())
