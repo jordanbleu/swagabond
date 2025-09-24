@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Flurl.Util;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swagabond.Cli.Args;
@@ -33,7 +34,7 @@ public class Program
 
         if (argumentsResult.Errors.Any())
         {
-            Console.WriteLine($"CLI Arguments are not valid:\n{argumentsResult.Errors.Select(e => e.ToFriendlyString())}");
+            Console.WriteLine($"CLI Arguments are not valid:\n{argumentsResult.Errors.WriteErrorString()}");
             return;
         }
 
