@@ -1,5 +1,6 @@
 using AutoFixture;
 using Microsoft.OpenApi.Models;
+using Moq;
 using Moq.AutoMock;
 using Shouldly;
 using Swagabond.ObjectModelV1;
@@ -49,5 +50,52 @@ public class SchemaDefinitionV1TransformerTests
         constraints.Pattern.ShouldBe("123");
         constraints.IsNullable.ShouldBe(true);
 
+    }
+
+    [Fact]
+    public void FromOpenApi_SelfReferencingSchema_DoesNotStackOverflow()
+    {
+        var autoMocker = new AutoMocker();
+
+        autoMocker.GetMock<IDataTypeV1Transformer>()
+            .Setup(x => x.FromOpenApi("object", It.IsAny<string>()))
+            .Returns(DataTypeV1.Object);
+
+        autoMocker.GetMock<IDataTypeV1Transformer>()
+            .Setup(x => x.FromOpenApi("string", It.IsAny<string>()))
+            .Returns(DataTypeV1.String);
+
+        autoMocker.GetMock<ISchemaReferenceV1Transformer>()
+            .Setup(x => x.FromOpenApi(It.IsAny<string>(), It.IsAny<SchemaDefinitionV1>(), It.IsAny<ApiV1>()))
+            .Returns((string name, SchemaDefinitionV1 schema, ApiV1 _) =>
+                new SchemaReferenceV1 { Name = name, Schema = schema, IsEmpty = false });
+
+        var target = autoMocker.CreateInstance<SchemaDefinitionV1Transformer>();
+
+        // ErrorResponse.errors is an array of ErrorResponse (circular)
+        var selfRefSchema = new OpenApiSchema
+        {
+            Type = "object",
+            Reference = new OpenApiReference { Id = "ErrorResponse", Type = ReferenceType.Schema },
+            Properties = new Dictionary<string, OpenApiSchema>()
+        };
+
+        selfRefSchema.Properties["message"] = new OpenApiSchema { Type = "string" };
+        selfRefSchema.Properties["errors"] = new OpenApiSchema
+        {
+            Type = "array",
+            Items = selfRefSchema
+        };
+
+        var api = new ApiV1();
+
+        var result = target.FromOpenApi(selfRefSchema, api);
+
+        result.ShouldNotBeNull();
+        result.IsEmpty.ShouldBeFalse();
+        result.Properties.Count.ShouldBe(2);
+
+        var errorsRef = result.Properties.First(p => p.Name == "errors");
+        errorsRef.Schema.Properties.ShouldBeEmpty("circular ref should produce a stub with no nested properties");
     }
 }

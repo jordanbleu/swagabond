@@ -1215,6 +1215,25 @@
         "xml": {
           "name": "##default"
         }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "Standard error envelope with optional nested errors",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
       }
     },
     "requestBodies": {
