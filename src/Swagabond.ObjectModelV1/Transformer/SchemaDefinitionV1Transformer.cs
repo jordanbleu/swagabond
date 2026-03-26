@@ -31,10 +31,13 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
 
     public SchemaDefinitionV1 FromOpenApi(OpenApiSchema schema, ApiV1 api)
     {
+        return FromOpenApiInternal(schema, api, new HashSet<string>());
+    }
+
+    private SchemaDefinitionV1 FromOpenApiInternal(OpenApiSchema schema, ApiV1 api, HashSet<string> visitedSchemaIds)
+    {
         if (schema is null)
             return SchemaDefinitionV1.Empty;
-        
-        
         
         var apiSchema = new SchemaDefinitionV1();
         // todo: extra properties 
@@ -65,11 +68,13 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
             apiSchema.DataType = _dataTypeV1Transformer.FromOpenApi(schema.Type, schema.Format);
         }
         
-        
         // open api puts the interesting info in schema.items if this is an array
         var schemaToUse = isArray ? schema.Items : schema;
         
         var schemaId = schemaToUse.Reference?.Id;
+        
+        // Detect circular references to prevent stack overflow on self-referential schemas
+        var isCircularRef = schemaId != null && !visitedSchemaIds.Add(schemaId);
 
         apiSchema.IsEmpty = false;
         apiSchema.Name = schemaId?.ToClassName() ?? apiSchema.DataType.ToString();
@@ -82,15 +87,14 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
 
         apiSchema.Constraints = BuildPropertyConstraints(schemaToUse);
         
-        // If this is an object, map it's properties recursively
-        if (apiSchema.DataType == DataTypeV1.Object)
+        // If this is an object, map its properties recursively (skip if we've already
+        // seen this schema on the current call stack to break circular references)
+        if (apiSchema.DataType == DataTypeV1.Object && !isCircularRef)
         {
             foreach (var prop in schemaToUse.Properties)
             {
-                // First recursively map each property 
-                var propSchema = FromOpenApi(prop.Value, api);
-                // then wrap in a reference with a name 
-                apiSchema.Properties.Add(_schemaReferenceV1Transformer.FromOpenApi(prop.Key, propSchema, api ));
+                var propSchema = FromOpenApiInternal(prop.Value, api, visitedSchemaIds);
+                apiSchema.Properties.Add(_schemaReferenceV1Transformer.FromOpenApi(prop.Key, propSchema, api));
             }
         }
         
@@ -102,6 +106,10 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         apiSchema.Example = string.IsNullOrEmpty(example) ? WriteGenericExample(apiSchema) : example;
         
         apiSchema.Api = api;
+
+        // Allow this schema to be fully processed in other (non-ancestor) branches
+        if (schemaId != null && !isCircularRef)
+            visitedSchemaIds.Remove(schemaId);
 
         return apiSchema;
     }
