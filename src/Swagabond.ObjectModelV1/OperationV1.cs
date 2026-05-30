@@ -156,6 +156,6 @@ public class OperationV1 : IObjectV1, INamedObject
         return $"OperationV1 {Method} {Path.Route}";
     }
 
-    public static OperationV1 Empty = new();
+    public static readonly OperationV1 Empty = new();
 
 }

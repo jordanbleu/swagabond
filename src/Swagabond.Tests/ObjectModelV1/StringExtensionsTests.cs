@@ -30,6 +30,8 @@ public class StringExtensionsTests
     [InlineData("Pet", "Pet")]
     [InlineData("my_schema", "MySchema")]
     [InlineData("G4.Marketing.CustomPixelValues", "G4MarketingCustomPixelValues")]
+    [InlineData("/items", "Items")]
+    [InlineData("/pet/{petId}", "PetpetId")]
     public void ToClassName_ProducesValidIdentifier(string input, string expected)
     {
         input.ToClassName().ShouldBe(expected);
@@ -39,6 +41,23 @@ public class StringExtensionsTests
     public void ToClassName_LeadingDigit_PrependedWithN()
     {
         "123Schema".ToClassName().ShouldStartWith("N");
+    }
+
+    [Theory]
+    [InlineData("---")]
+    [InlineData("!!!")]
+    [InlineData("...")]
+    public void ToClassName_AllSpecialChars_ReturnsEmpty(string input)
+    {
+        input.ToClassName().ShouldBe(string.Empty);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void ToClassName_NullOrEmpty_ReturnsEmpty(string? input)
+    {
+        input.ToClassName().ShouldBe(string.Empty);
     }
 
     [Theory]

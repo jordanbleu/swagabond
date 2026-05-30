@@ -25,6 +25,9 @@ public static class StringExtensions
         // join the words back together
         var joined = string.Join(string.Empty, words);
         
+        if (joined.Length == 0)
+            return joined;
+
         // ensure the first letter is a character
         if (char.IsDigit(joined[0]))
             joined = "C" + joined;

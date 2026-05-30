@@ -34,6 +34,9 @@
       <Content Include="SwaggerFiles/swagger_3_0_4.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <Content Include="SwaggerFiles/swagger_constraints.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
