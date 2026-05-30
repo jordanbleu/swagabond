@@ -140,7 +140,7 @@ Returns true if the schema type is a simple value (not a complex object)
 
 ### `JsonExample`
 
-
+A JSON-serialized example for this schema, built from the example values of each property. Use this instead of <see cref="P:Swagabond.ObjectModelV1.SchemaDefinitionV1.Example" /> for complex (non-primitive) objects.
 
 
 
