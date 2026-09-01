@@ -74,7 +74,7 @@ func x_BuildMethodSignatureForOperation(operation)
     $pathName = f_PascalCase(operation.Path.Name)
     $methodName = $httpMethod + $pathName + "Async"
 
-    $responseClassName = x_GetSchemaName(f_LastDottedSegment(operation.SuccessResponseBody.Schema.OriginalName))
+    $responseClassName = operation.SuccessResponseBody.Schema.Name
 
     # Figure out a response object
     $returnObject = "Task"
@@ -97,7 +97,7 @@ func x_BuildMethodSignatureForOperation(operation)
     $index = 0
     if (operation.PathParameters != empty)
         for $pathParam in operation.PathParameters
-            $pathParamType = x_CSharpType($pathParam.Schema.DataType, $pathParam.Schema.IsEnum, $pathParam.Schema.IsArray, x_GetSchemaName($pathParam.Schema.OriginalName))
+            $pathParamType = x_CSharpType($pathParam.Schema.DataType, $pathParam.Schema.IsEnum, $pathParam.Schema.IsArray, $pathParam.Schema.Name)
             $pathParamName = f_CamelCase($pathParam.Name)
 
             $parameterString = $parameterString + $pathParamType + " " + $pathParamName
@@ -115,7 +115,7 @@ func x_BuildMethodSignatureForOperation(operation)
     $index = 0
     if (operation.QueryParameters != empty)
         for $queryParam in operation.QueryParameters
-            $queryParamType = x_CSharpType($queryParam.Schema.DataType, $queryParam.Schema.IsEnum, $queryParam.Schema.IsArray, x_GetSchemaName($queryParam.Schema.OriginalName))
+            $queryParamType = x_CSharpType($queryParam.Schema.DataType, $queryParam.Schema.IsEnum, $queryParam.Schema.IsArray, $queryParam.Schema.Name)
             $queryParamName = f_CamelCase($queryParam.Name)
 
             $parameterString = $parameterString + $queryParamType + " " + $queryParamName
@@ -133,7 +133,7 @@ func x_BuildMethodSignatureForOperation(operation)
 
     # Finally, add the request body
     if (!operation.RequestBody.IsEmpty)
-        $requestBodyType = x_CSharpType(operation.RequestBody.Schema.DataType, operation.RequestBody.Schema.IsEnum, operation.RequestBody.Schema.IsArray, x_GetSchemaName(operation.RequestBody.Schema.OriginalName))
+        $requestBodyType = x_CSharpType(operation.RequestBody.Schema.DataType, operation.RequestBody.Schema.IsEnum, operation.RequestBody.Schema.IsArray, operation.RequestBody.Schema.Name)
         $requestBodyName = f_CamelCase(operation.RequestBody.Name)
         $parameterString = $parameterString + $requestBodyType + " " + $requestBodyName
     end
@@ -145,15 +145,5 @@ func x_BuildMethodSignatureForOperation(operation)
     # Parameter string will be like Dictionary<string, string> headers, string thingId, int blahId
     ret $returnObject + " " + $methodName + "(" + $parameterString + ")"
 end
-
-#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-# Assumes that schemas will be namespace.BlahController.BlahRequest, and returns only the BlahRequest portion.
-#   Could cause name collisions if you use the same class name in multiple namespaces on your API code.
-#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-func x_GetSchemaName(originalName)
-    ret f_LastDottedSegment(originalName)
-end
-
-
 
 -}}

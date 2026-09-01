@@ -102,7 +102,8 @@ public class ApiV1 : IObjectV1, INamedObject
     /// <summary>
     /// A flattened list of all operations that are defined in the API, by any path.
     /// </summary>
-    public IEnumerable<OperationV1> Operations => Paths.SelectMany(p => p.Operations);
+    public IReadOnlyList<OperationV1> Operations => _operations ??= Paths.SelectMany(p => p.Operations).ToList();
+    private IReadOnlyList<OperationV1>? _operations;
 
     /// <summary>
     /// List of base or direct URLs that host the API.
@@ -113,7 +114,8 @@ public class ApiV1 : IObjectV1, INamedObject
     /// List of BaseUrls registered for this server.  Based on the 'servers'
     /// that are defined by your API spec.
     /// </summary>
-    public IEnumerable<string> BaseUrls => Servers.Select(s => s.Url);
+    public IReadOnlyList<string> BaseUrls => _baseUrls ??= Servers.Select(s => s.Url).ToList();
+    private IReadOnlyList<string>? _baseUrls;
 
     public override string ToString()
     {

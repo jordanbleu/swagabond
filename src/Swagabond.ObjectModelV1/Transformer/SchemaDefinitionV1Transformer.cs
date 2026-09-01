@@ -185,13 +185,13 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
             _ => string.Empty
         };
 
-        if (!isArray)
-        {
-            // captialize the first letter of the data type chunk
-            dataTypeChunk = char.ToUpper(dataTypeChunk[0]) + dataTypeChunk[1..];
-        }
+        if (string.IsNullOrEmpty(dataTypeChunk))
+            return existingDescription;
 
-        return $"{arrayChunk} {dataTypeChunk}";
+        if (isArray)
+            return $"{arrayChunk}{dataTypeChunk}";
+
+        return char.ToUpper(dataTypeChunk[0]) + dataTypeChunk[1..];
 
     }
 

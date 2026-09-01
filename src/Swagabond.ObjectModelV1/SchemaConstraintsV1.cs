@@ -7,7 +7,7 @@ namespace Swagabond.ObjectModelV1;
 /// </summary>
 public class SchemaConstraintsV1 : IObjectV1
 {
-    public static SchemaConstraintsV1 Empty = new();
+    public static readonly SchemaConstraintsV1 Empty = new();
     /// <summary>
     /// Whether there are any constraints specified on this property at all
     /// </summary>

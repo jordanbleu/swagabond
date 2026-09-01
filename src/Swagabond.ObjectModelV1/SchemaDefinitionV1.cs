@@ -52,7 +52,11 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     public object Example { get; internal set; } = string.Empty;
 
     private string? _jsonExample = null;
-    public string JsonExample 
+    /// <summary>
+    /// A JSON-serialized example for this schema, built from the example values of each property.
+    /// Use this instead of <see cref="Example"/> for complex (non-primitive) objects.
+    /// </summary>
+    public string JsonExample
     {
         get
         {

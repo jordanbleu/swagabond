@@ -38,7 +38,6 @@ public class ApiV1Transformer : IApiV1Transformer
         var api = new ApiV1();
 
         api.IsEmpty = false;
-        api.Metadata = v1Request.Metadata;
         
         var info = document.Info;
         api.Info = _infoV1Transformer.FromOpenApi(info);
@@ -59,7 +58,7 @@ public class ApiV1Transformer : IApiV1Transformer
 
         // schemas
         //
-        foreach (var schema in document.Components.Schemas)
+        foreach (var schema in document.Components?.Schemas ?? new Dictionary<string, OpenApiSchema>())
         {
             api.Schemas.Add(_schemaDefinitionV1Transformer.FromOpenApi(schema.Value, api));
         }

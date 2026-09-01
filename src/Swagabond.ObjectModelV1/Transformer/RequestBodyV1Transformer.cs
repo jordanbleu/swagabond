@@ -42,7 +42,7 @@ public class RequestBodyV1Transformer : IRequestBodyV1Transformer
     
     private string GetName(OpenApiRequestBody requestBody, PathV1 path, OperationV1 operationV1)
     {
-        return $"{path.Route.ToPascalCase().ToClassName()}{operationV1.Method.ToPascalCase().ToClassName()}Request";
+        return $"{path.Route.ToClassName()}{operationV1.Method.ToPascalCase().ToClassName()}Request";
     }
     
 }
