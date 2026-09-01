@@ -3,6 +3,18 @@
 > *Defines the entire structure of a schema used in an API. A SchemaDefinition can be a primitive type, complex object, enum, array, and more.* 
 
 
+### `AdditionalPropertiesSchema`
+
+The schema shared by every additional, non-fixed property this object allows (OpenAPI's additionalProperties keyword, generalized). Empty if this object doesn't allow additional properties of a known schema - this is independent of <see cref="P:Swagabond.ObjectModelV1.SchemaDefinitionV1.Properties" />, since an object can have both fixed properties and an open-ended additional-properties schema at once.
+
+
+
+* ⚒️ Underlying Type: SchemaDefinitionV1
+
+* ℹ️ : [SchemaDefinitionV1 Properties...](./SchemaDefinitionV1.md)
+
+
+
 ### `Api`
 
 The API that this belongs to
@@ -101,6 +113,16 @@ List of arbitrary extensions for this schema definition.
 ### `IsArray`
 
 If true, this schema defines an array of items rather than a single item.
+
+
+
+* ⚒️ Underlying Type: Boolean
+
+
+
+### `IsDictionary`
+
+True if this schema is nothing but a string-keyed map/dictionary - no fixed properties, only a schema shared by every value (<see cref="P:Swagabond.ObjectModelV1.SchemaDefinitionV1.AdditionalPropertiesSchema" />).
 
 
 

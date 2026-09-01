@@ -37,6 +37,21 @@
       <Content Include="SwaggerFiles/swagger_constraints.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <Content Include="SwaggerFiles/swagger_dictionary.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <!-- Linked to the real csharp-flurl templates so this project exercises what actually ships. -->
+      <Content Include="..\..\templates\csharp-flurl\functions.scriban">
+        <Link>Templates\csharp-flurl\functions.scriban</Link>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="..\..\templates\csharp-flurl\schema.scriban">
+        <Link>Templates\csharp-flurl\schema.scriban</Link>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>

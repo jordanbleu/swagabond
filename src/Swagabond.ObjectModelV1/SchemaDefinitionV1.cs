@@ -144,7 +144,21 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     /// Each item in this list contains the property name and its schema definition.
     /// </summary>
     public List<SchemaReferenceV1> Properties { get; set; } = new();
-    
+
+    /// <summary>
+    /// The schema shared by every additional, non-fixed property this object allows (OpenAPI's
+    /// additionalProperties keyword, generalized). Empty if this object doesn't allow additional properties
+    /// of a known schema - this is independent of <see cref="Properties"/>, since an object can have both
+    /// fixed properties and an open-ended additional-properties schema at once.
+    /// </summary>
+    public SchemaDefinitionV1 AdditionalPropertiesSchema { get; internal set; } = Empty;
+
+    /// <summary>
+    /// True if this schema is nothing but a string-keyed map/dictionary - no fixed properties, only a
+    /// schema shared by every value (<see cref="AdditionalPropertiesSchema"/>).
+    /// </summary>
+    public bool IsDictionary => Properties.Count == 0 && !AdditionalPropertiesSchema.IsEmpty;
+
     /// <summary>
     /// An identifier for this schema item.  For OpenAPI, this will point to the schema reference id.
     /// </summary>

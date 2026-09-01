@@ -98,4 +98,128 @@ public class SchemaDefinitionV1TransformerTests
         var errorsRef = result.Properties.First(p => p.Name == "errors");
         errorsRef.Schema.Properties.ShouldBeEmpty("circular ref should produce a stub with no nested properties");
     }
+
+    [Fact]
+    public void FromOpenApi_AdditionalPropertiesWithSchemaAndNoProperties_IsMappedAsDictionary()
+    {
+        var autoMocker = new AutoMocker();
+
+        autoMocker.GetMock<IDataTypeV1Transformer>()
+            .Setup(x => x.FromOpenApi("object", It.IsAny<string>()))
+            .Returns(DataTypeV1.Object);
+
+        autoMocker.GetMock<IDataTypeV1Transformer>()
+            .Setup(x => x.FromOpenApi("string", It.IsAny<string>()))
+            .Returns(DataTypeV1.String);
+
+        var target = autoMocker.CreateInstance<SchemaDefinitionV1Transformer>();
+
+        var schema = new OpenApiSchema
+        {
+            Type = "object",
+            Properties = new Dictionary<string, OpenApiSchema>(),
+            AdditionalPropertiesAllowed = true,
+            AdditionalProperties = new OpenApiSchema { Type = "string" }
+        };
+
+        var result = target.FromOpenApi(schema, new ApiV1());
+
+        result.IsDictionary.ShouldBeTrue();
+        result.DataType.ShouldBe(DataTypeV1.Object);
+        result.Properties.ShouldBeEmpty();
+        result.AdditionalPropertiesSchema.DataType.ShouldBe(DataTypeV1.String);
+    }
+
+    [Fact]
+    public void FromOpenApi_ObjectWithBothPropertiesAndAdditionalProperties_IsNotADictionary_ButKeepsAdditionalPropertiesSchema()
+    {
+        var autoMocker = new AutoMocker();
+
+        autoMocker.GetMock<IDataTypeV1Transformer>()
+            .Setup(x => x.FromOpenApi("object", It.IsAny<string>()))
+            .Returns(DataTypeV1.Object);
+
+        autoMocker.GetMock<IDataTypeV1Transformer>()
+            .Setup(x => x.FromOpenApi("string", It.IsAny<string>()))
+            .Returns(DataTypeV1.String);
+
+        autoMocker.GetMock<ISchemaReferenceV1Transformer>()
+            .Setup(x => x.FromOpenApi(It.IsAny<string>(), It.IsAny<SchemaDefinitionV1>(), It.IsAny<ApiV1>()))
+            .Returns((string name, SchemaDefinitionV1 schema, ApiV1 _) =>
+                new SchemaReferenceV1 { Name = name, Schema = schema, IsEmpty = false });
+
+        var target = autoMocker.CreateInstance<SchemaDefinitionV1Transformer>();
+
+        var schema = new OpenApiSchema
+        {
+            Type = "object",
+            Properties = new Dictionary<string, OpenApiSchema> { ["id"] = new OpenApiSchema { Type = "string" } },
+            AdditionalPropertiesAllowed = true,
+            AdditionalProperties = new OpenApiSchema { Type = "string" }
+        };
+
+        var result = target.FromOpenApi(schema, new ApiV1());
+
+        result.IsDictionary.ShouldBeFalse();
+        result.Properties.Count.ShouldBe(1);
+        result.AdditionalPropertiesSchema.IsEmpty.ShouldBeFalse();
+        result.AdditionalPropertiesSchema.DataType.ShouldBe(DataTypeV1.String);
+    }
+
+    [Fact]
+    public void FromOpenApi_EmptyObjectWithNoAdditionalProperties_IsNotMappedAsDictionary()
+    {
+        // AdditionalPropertiesAllowed defaults to true with no AdditionalProperties schema whether
+        // additionalProperties: true was explicitly set or the keyword was omitted entirely - the two
+        // are indistinguishable, so a bare empty object must not be reclassified as a dictionary.
+        var autoMocker = new AutoMocker();
+
+        autoMocker.GetMock<IDataTypeV1Transformer>()
+            .Setup(x => x.FromOpenApi("object", It.IsAny<string>()))
+            .Returns(DataTypeV1.Object);
+
+        var target = autoMocker.CreateInstance<SchemaDefinitionV1Transformer>();
+
+        var schema = new OpenApiSchema
+        {
+            Type = "object",
+            Properties = new Dictionary<string, OpenApiSchema>(),
+            AdditionalPropertiesAllowed = true,
+            AdditionalProperties = null
+        };
+
+        var result = target.FromOpenApi(schema, new ApiV1());
+
+        result.IsDictionary.ShouldBeFalse();
+    }
+
+    [Fact]
+    public void FromOpenApi_AdditionalPropertiesExplicitlyFalse_DoesNotSetAdditionalPropertiesSchema()
+    {
+        var autoMocker = new AutoMocker();
+
+        autoMocker.GetMock<IDataTypeV1Transformer>()
+            .Setup(x => x.FromOpenApi("object", It.IsAny<string>()))
+            .Returns(DataTypeV1.Object);
+
+        autoMocker.GetMock<ISchemaReferenceV1Transformer>()
+            .Setup(x => x.FromOpenApi(It.IsAny<string>(), It.IsAny<SchemaDefinitionV1>(), It.IsAny<ApiV1>()))
+            .Returns((string name, SchemaDefinitionV1 schema, ApiV1 _) =>
+                new SchemaReferenceV1 { Name = name, Schema = schema, IsEmpty = false });
+
+        var target = autoMocker.CreateInstance<SchemaDefinitionV1Transformer>();
+
+        var schema = new OpenApiSchema
+        {
+            Type = "object",
+            Properties = new Dictionary<string, OpenApiSchema> { ["id"] = new OpenApiSchema { Type = "string" } },
+            AdditionalPropertiesAllowed = false,
+            AdditionalProperties = null
+        };
+
+        var result = target.FromOpenApi(schema, new ApiV1());
+
+        result.IsDictionary.ShouldBeFalse();
+        result.AdditionalPropertiesSchema.IsEmpty.ShouldBeTrue();
+    }
 }

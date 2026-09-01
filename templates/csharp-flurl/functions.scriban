@@ -8,7 +8,7 @@
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 # Write out the proper C# type given a smattering of information
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-func x_CSharpType(dataType, isEnum, isArray, schemaName)
+func x_CSharpType(dataType, isEnum, isArray, schemaName, isDictionary, dictionaryValueSchema)
 
     $type = f_Lower(dataType)
 
@@ -17,10 +17,16 @@ func x_CSharpType(dataType, isEnum, isArray, schemaName)
         $arrayBrackets = "[]"
     end
 
-    # Objects and enums should return their own name 
-    if ($type == "object" || isEnum) 
+    # Dictionaries render as Dictionary<string, TValue>, recursing to resolve the value type
+    if (isDictionary)
+        $valueType = x_CSharpType(dictionaryValueSchema.DataType, dictionaryValueSchema.IsEnum, dictionaryValueSchema.IsArray, dictionaryValueSchema.Name, dictionaryValueSchema.IsDictionary, dictionaryValueSchema.AdditionalPropertiesSchema)
+        ret "Dictionary<string, " + $valueType + ">" + $arrayBrackets
+    end
+
+    # Objects and enums should return their own name
+    if ($type == "object" || isEnum)
         ret schemaName + $arrayBrackets
-    end 
+    end
 
     # Primitive types should return the corresponding C# type
     if ($type == "string")
@@ -79,7 +85,7 @@ func x_BuildMethodSignatureForOperation(operation)
     # Figure out a response object
     $returnObject = "Task"
     if !operation.SuccessResponseBody.IsEmpty
-        $csharpReturnType = x_CSharpType(operation.SuccessResponseBody.Schema.DataType, operation.SuccessResponseBody.Schema.IsEnum, operation.SuccessResponseBody.Schema.IsArray, $responseClassName)
+        $csharpReturnType = x_CSharpType(operation.SuccessResponseBody.Schema.DataType, operation.SuccessResponseBody.Schema.IsEnum, operation.SuccessResponseBody.Schema.IsArray, $responseClassName, operation.SuccessResponseBody.Schema.IsDictionary, operation.SuccessResponseBody.Schema.AdditionalPropertiesSchema)
         $returnObject = "Task<" + $csharpReturnType + ">"
     end
 
@@ -97,7 +103,7 @@ func x_BuildMethodSignatureForOperation(operation)
     $index = 0
     if (operation.PathParameters != empty)
         for $pathParam in operation.PathParameters
-            $pathParamType = x_CSharpType($pathParam.Schema.DataType, $pathParam.Schema.IsEnum, $pathParam.Schema.IsArray, $pathParam.Schema.Name)
+            $pathParamType = x_CSharpType($pathParam.Schema.DataType, $pathParam.Schema.IsEnum, $pathParam.Schema.IsArray, $pathParam.Schema.Name, $pathParam.Schema.IsDictionary, $pathParam.Schema.AdditionalPropertiesSchema)
             $pathParamName = f_CamelCase($pathParam.Name)
 
             $parameterString = $parameterString + $pathParamType + " " + $pathParamName
@@ -115,7 +121,7 @@ func x_BuildMethodSignatureForOperation(operation)
     $index = 0
     if (operation.QueryParameters != empty)
         for $queryParam in operation.QueryParameters
-            $queryParamType = x_CSharpType($queryParam.Schema.DataType, $queryParam.Schema.IsEnum, $queryParam.Schema.IsArray, $queryParam.Schema.Name)
+            $queryParamType = x_CSharpType($queryParam.Schema.DataType, $queryParam.Schema.IsEnum, $queryParam.Schema.IsArray, $queryParam.Schema.Name, $queryParam.Schema.IsDictionary, $queryParam.Schema.AdditionalPropertiesSchema)
             $queryParamName = f_CamelCase($queryParam.Name)
 
             $parameterString = $parameterString + $queryParamType + " " + $queryParamName
@@ -133,7 +139,7 @@ func x_BuildMethodSignatureForOperation(operation)
 
     # Finally, add the request body
     if (!operation.RequestBody.IsEmpty)
-        $requestBodyType = x_CSharpType(operation.RequestBody.Schema.DataType, operation.RequestBody.Schema.IsEnum, operation.RequestBody.Schema.IsArray, operation.RequestBody.Schema.Name)
+        $requestBodyType = x_CSharpType(operation.RequestBody.Schema.DataType, operation.RequestBody.Schema.IsEnum, operation.RequestBody.Schema.IsArray, operation.RequestBody.Schema.Name, operation.RequestBody.Schema.IsDictionary, operation.RequestBody.Schema.AdditionalPropertiesSchema)
         $requestBodyName = f_CamelCase(operation.RequestBody.Name)
         $parameterString = $parameterString + $requestBodyType + " " + $requestBodyName
     end

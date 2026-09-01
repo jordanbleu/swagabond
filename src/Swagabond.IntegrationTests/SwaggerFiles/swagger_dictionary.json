@@ -1,0 +1,51 @@
+{
+  "openapi": "3.0.0",
+  "info": { "title": "DictionaryTest", "version": "1.0.0" },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "ScoresByUser": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "Player": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "attributes": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Attribute"
+            }
+          }
+        }
+      },
+      "Attribute": {
+        "type": "object",
+        "properties": {
+          "value": { "type": "integer", "format": "int32" }
+        }
+      },
+      "OpenAccount": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" }
+        },
+        "additionalProperties": {
+          "$ref": "#/components/schemas/Attribute"
+        }
+      },
+      "ClosedAccount": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

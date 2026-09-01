@@ -23,6 +23,10 @@ run against, and ships a few example template sets (`templates/csharp-flurl`, `t
 - Don't put implementation details in comments on interfaces or abstract classes.
 - Developers have existing templates written against this object model and CLI. If a change could break an
   existing template, call that out explicitly. Prefer backwards-compatible changes when possible.
+- Don't reference OpenAPI in anything under `templates/` (Scriban logic, generated output, comments). Templates
+  are meant to stay spec-format-agnostic so other spec formats besides OpenAPI can target them later.
+- After adding code, build and check for new compiler warnings — especially nullable reference warnings — and
+  address them rather than leaving them.
 
 ## Solutions and layout
 

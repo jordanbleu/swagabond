@@ -87,6 +87,20 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
 
         apiSchema.Constraints = BuildPropertyConstraints(schemaToUse);
         
+        // additionalProperties with a schema is mapped regardless of whether this object also has fixed
+        // properties - the two are independent. additionalProperties: true is indistinguishable from an
+        // omitted additionalProperties keyword in the underlying OpenApi model (both leave
+        // AdditionalPropertiesAllowed = true and AdditionalProperties = null), so that case is not mapped
+        // rather than guessed at.
+        var hasAdditionalPropertiesSchema = schemaToUse.AdditionalPropertiesAllowed
+            && schemaToUse.AdditionalProperties != null;
+
+        if (hasAdditionalPropertiesSchema && !isCircularRef)
+        {
+            apiSchema.DataType = DataTypeV1.Object;
+            apiSchema.AdditionalPropertiesSchema = FromOpenApiInternal(schemaToUse.AdditionalProperties, api, visitedSchemaIds);
+        }
+
         // If this is an object, map its properties recursively (skip if we've already
         // seen this schema on the current call stack to break circular references)
         if (apiSchema.DataType == DataTypeV1.Object && !isCircularRef)

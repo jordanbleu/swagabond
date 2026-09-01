@@ -11,6 +11,10 @@ using System;
 
 namespace {{Api.Name}}Api.Models;
 
+{{~if IsDictionary~}}
+// {{Name}} is a map/dictionary schema and has no standalone type here;
+// it's rendered inline as Dictionary<string, TValue> wherever it's referenced.
+{{~else~}}
 {{~if !f_IsBlank Description~}}
 /// <summary>
 /// {{ f_StripNewlines Description }}
@@ -31,7 +35,11 @@ public record {{Name}}
     /// {{f_StripNewlines prop.Description}}
     /// </summary>
     {{~end~}}{{~#/if prop.Description != empty~}}
-    public {{x_CSharpType prop.Schema.DataType prop.Schema.IsEnum prop.Schema.IsArray prop.Schema.Name}} {{prop.Name}} { get; set; }
+    public {{x_CSharpType prop.Schema.DataType prop.Schema.IsEnum prop.Schema.IsArray prop.Schema.Name prop.Schema.IsDictionary prop.Schema.AdditionalPropertiesSchema}} {{prop.Name}} { get; set; }
 {{~end~}}{{~#/for prop in Properties~}}
+{{~if !AdditionalPropertiesSchema.IsEmpty~}}
+    public Dictionary<string, {{x_CSharpType AdditionalPropertiesSchema.DataType AdditionalPropertiesSchema.IsEnum AdditionalPropertiesSchema.IsArray AdditionalPropertiesSchema.Name AdditionalPropertiesSchema.IsDictionary AdditionalPropertiesSchema.AdditionalPropertiesSchema}}> AdditionalProperties { get; set; }
+{{~end~}}{{~#/if !AdditionalPropertiesSchema.IsEmpty~}}
 {{~end~}}{{~#/if IsEnum~}}
 }
+{{~end~}}{{~#/if IsDictionary~}}
