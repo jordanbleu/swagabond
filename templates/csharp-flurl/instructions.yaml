@@ -18,7 +18,7 @@ for_api:
 
 for_schema_definitions:
 - use_template_file: schema.scriban
-  write_output_to: ./{{Api.Name}}Api/Models/{{OriginalName}}.cs
+  write_output_to: ./{{Api.Name}}Api/Models/{{Name}}.cs
   use_template_processor: Scriban
   include_before:
   - functions.scriban
