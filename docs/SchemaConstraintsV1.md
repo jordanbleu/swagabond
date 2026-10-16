@@ -75,7 +75,7 @@ If true, the value of MinValue itself is allowed for this value.  So `value >= M
 
 ### `IsNullable`
 
-If true, this value can be null, even if the underlying type is a value type. For a string, this does not include empty strings. This is slightly different from IsRequired = false in the sense that the value can be present on the request and explicitly set to null.
+If true, this value can be null, even if the underlying type is a value type. For a string, this does not include empty strings. This is slightly different from IsRequired = false in the sense that the value can be present on the request and explicitly set to null. For arrays, this applies to the array's items; see <see cref="P:Swagabond.ObjectModelV1.SchemaDefinitionV1.IsNullableArray" /> for whether the array itself can be null.
 
 
 

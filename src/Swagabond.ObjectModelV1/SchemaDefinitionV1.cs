@@ -92,6 +92,13 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     public bool IsArray { get; internal set; } = false;
 
     /// <summary>
+    /// If true, this schema defines an array and the array itself can be null. Always false when
+    /// <see cref="IsArray"/> is false. Whether the array's items can be null is indicated by
+    /// <see cref="SchemaConstraintsV1.IsNullable"/> on <see cref="Constraints"/>.
+    /// </summary>
+    public bool IsNullableArray { get; internal set; } = false;
+
+    /// <summary>
     /// Whether this is an enum or not. An enum is a special type of schema that defines a set of named values.
     /// </summary>
     public bool IsEnum { get; internal set; } = false;

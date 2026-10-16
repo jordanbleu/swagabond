@@ -1,0 +1,122 @@
+{
+  "openapi": "3.0.1",
+  "info": { "title": "CompositionTest", "version": "1.0.0" },
+  "paths": {
+    "/things": {
+      "get": {
+        "operationId": "getThings",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "allOf": [ { "$ref": "#/components/schemas/Status" } ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [ { "$ref": "#/components/schemas/Thing" } ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Status": {
+        "type": "integer",
+        "format": "int32",
+        "enum": [ 0, 1 ],
+        "x-enumNames": [ "Active", "Inactive" ]
+      },
+      "NullableStatus": {
+        "nullable": true,
+        "oneOf": [ { "$ref": "#/components/schemas/Status" } ]
+      },
+      "Widget": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" }
+        }
+      },
+      "Thing": {
+        "type": "object",
+        "properties": {
+          "plainStatus": { "$ref": "#/components/schemas/Status" },
+          "oneOfNullableStatus": {
+            "nullable": true,
+            "oneOf": [ { "$ref": "#/components/schemas/Status" } ]
+          },
+          "allOfNullableStatus": {
+            "nullable": true,
+            "description": "Wrapper description",
+            "allOf": [ { "$ref": "#/components/schemas/Status" } ]
+          },
+          "anyOfStatus": {
+            "anyOf": [ { "$ref": "#/components/schemas/Status" } ]
+          },
+          "nullableWidget": {
+            "nullable": true,
+            "allOf": [ { "$ref": "#/components/schemas/Widget" } ]
+          },
+          "statusList": {
+            "type": "array",
+            "items": {
+              "nullable": true,
+              "oneOf": [ { "$ref": "#/components/schemas/Status" } ]
+            }
+          },
+          "nullableWidgetArray": {
+            "oneOf": [
+              { "enum": [ null ], "nullable": true },
+              { "type": "array", "items": { "$ref": "#/components/schemas/Widget" } }
+            ]
+          },
+          "nullableArrayOfNullableInts": {
+            "oneOf": [
+              { "enum": [ null ], "nullable": true },
+              { "type": "array", "items": { "type": "integer", "format": "int32", "nullable": true } }
+            ]
+          },
+          "plainNullableWidgetArray": {
+            "type": "array",
+            "nullable": true,
+            "items": { "$ref": "#/components/schemas/Widget" }
+          },
+          "arrayOfNullableInts": {
+            "type": "array",
+            "items": { "type": "integer", "format": "int32", "nullable": true }
+          },
+          "union": {
+            "oneOf": [
+              { "$ref": "#/components/schemas/Status" },
+              { "$ref": "#/components/schemas/Widget" }
+            ]
+          },
+          "nullEnumBranchWidget": {
+            "oneOf": [
+              { "enum": [ null ], "nullable": true },
+              { "$ref": "#/components/schemas/Widget" }
+            ]
+          },
+          "oneOfNullableWidget": {
+            "oneOf": [ { "$ref": "#/components/schemas/Widget" } ],
+            "nullable": true
+          },
+          "nullableName": { "type": "string", "nullable": true },
+          "refToWrapper": { "$ref": "#/components/schemas/NullableStatus" }
+        }
+      }
+    }
+  }
+}
