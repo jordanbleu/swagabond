@@ -35,7 +35,7 @@ public record {{Name}}
     /// {{f_StripNewlines prop.Description}}
     /// </summary>
     {{~end~}}{{~#/if prop.Description != empty~}}
-    public {{x_CSharpType prop.Schema.DataType prop.Schema.IsEnum prop.Schema.IsArray prop.Schema.Name prop.Schema.IsDictionary prop.Schema.AdditionalPropertiesSchema}}{{if prop.Schema.Constraints.IsNullable}}?{{end}} {{prop.Name}} { get; set; }
+    public {{x_CSharpType prop.Schema.DataType prop.Schema.IsEnum false prop.Schema.Name prop.Schema.IsDictionary prop.Schema.AdditionalPropertiesSchema}}{{if prop.Schema.Constraints.IsNullable}}?{{end}}{{if prop.Schema.IsArray}}[]{{end}}{{if prop.Schema.IsNullableArray}}?{{end}} {{prop.Name}} { get; set; }
 {{~end~}}{{~#/for prop in Properties~}}
 {{~if !AdditionalPropertiesSchema.IsEmpty~}}
     public Dictionary<string, {{x_CSharpType AdditionalPropertiesSchema.DataType AdditionalPropertiesSchema.IsEnum AdditionalPropertiesSchema.IsArray AdditionalPropertiesSchema.Name AdditionalPropertiesSchema.IsDictionary AdditionalPropertiesSchema.AdditionalPropertiesSchema}}> AdditionalProperties { get; set; }

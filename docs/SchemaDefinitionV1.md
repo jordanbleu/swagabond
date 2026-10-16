@@ -150,6 +150,16 @@ Whether this is an enum or not. An enum is a special type of schema that defines
 
 
 
+### `IsNullableArray`
+
+If true, this schema defines an array and the array itself can be null. Always false when <see cref="P:Swagabond.ObjectModelV1.SchemaDefinitionV1.IsArray" /> is false. Whether the array's items can be null is indicated by <see cref="P:Swagabond.ObjectModelV1.SchemaConstraintsV1.IsNullable" /> on <see cref="P:Swagabond.ObjectModelV1.SchemaDefinitionV1.Constraints" />.
+
+
+
+* ⚒️ Underlying Type: Boolean
+
+
+
 ### `IsPrimitive`
 
 Returns true if the schema type is a simple value (not a complex object)

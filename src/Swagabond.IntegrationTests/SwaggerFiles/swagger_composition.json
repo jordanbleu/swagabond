@@ -76,6 +76,27 @@
               "oneOf": [ { "$ref": "#/components/schemas/Status" } ]
             }
           },
+          "nullableWidgetArray": {
+            "oneOf": [
+              { "enum": [ null ], "nullable": true },
+              { "type": "array", "items": { "$ref": "#/components/schemas/Widget" } }
+            ]
+          },
+          "nullableArrayOfNullableInts": {
+            "oneOf": [
+              { "enum": [ null ], "nullable": true },
+              { "type": "array", "items": { "type": "integer", "format": "int32", "nullable": true } }
+            ]
+          },
+          "plainNullableWidgetArray": {
+            "type": "array",
+            "nullable": true,
+            "items": { "$ref": "#/components/schemas/Widget" }
+          },
+          "arrayOfNullableInts": {
+            "type": "array",
+            "items": { "type": "integer", "format": "int32", "nullable": true }
+          },
           "union": {
             "oneOf": [
               { "$ref": "#/components/schemas/Status" },

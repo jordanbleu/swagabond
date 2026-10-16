@@ -66,6 +66,7 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
             }
 
             apiSchema.IsArray = true;
+            apiSchema.IsNullableArray = schema.Nullable;
             apiSchema.DataType = _dataTypeV1Transformer.FromOpenApi(itemsSchema.Type, itemsSchema.Format);
         }
         else
@@ -169,7 +170,12 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         var apiSchema = FromOpenApiInternal(wrappedSchema, api, visitedSchemaIds);
 
         if (wrapper.Nullable || hasNullBranch)
-            apiSchema.Constraints.IsNullable = true;
+        {
+            if (apiSchema.IsArray)
+                apiSchema.IsNullableArray = true;
+            else
+                apiSchema.Constraints.IsNullable = true;
+        }
 
         if (!string.IsNullOrWhiteSpace(wrapper.Description))
             apiSchema.Description = wrapper.Description;

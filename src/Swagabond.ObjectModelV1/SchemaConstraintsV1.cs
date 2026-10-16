@@ -93,6 +93,8 @@ public class SchemaConstraintsV1 : IObjectV1
     /// For a string, this does not include empty strings.
     /// This is slightly different from IsRequired = false in the sense that
     /// the value can be present on the request and explicitly set to null.
+    /// For arrays, this applies to the array's items; see <see cref="SchemaDefinitionV1.IsNullableArray"/>
+    /// for whether the array itself can be null.
     /// </summary>
     public bool IsNullable { get; set; } = false;
 }

@@ -107,6 +107,30 @@ public class CompositionSchemaTests : IClassFixture<CompositionSchemaTestsFixtur
         ShouldBeStatusEnum(schema);
     }
 
+    [Theory]
+    [InlineData("nullableWidgetArray", true, false)]
+    [InlineData("nullableArrayOfNullableInts", true, true)]
+    [InlineData("plainNullableWidgetArray", true, false)]
+    [InlineData("arrayOfNullableInts", false, true)]
+    public void Array_SeparatesArrayNullabilityFromItemNullability(string propertyName, bool arrayNullable, bool itemsNullable)
+    {
+        var schema = GetThingProperty(propertyName);
+
+        schema.IsArray.ShouldBeTrue();
+        schema.IsNullableArray.ShouldBe(arrayNullable);
+        schema.Constraints.IsNullable.ShouldBe(itemsNullable);
+    }
+
+    [Fact]
+    public void NullableWrappedArrayOfReference_KeepsReferencedItemType()
+    {
+        var schema = GetThingProperty("nullableWidgetArray");
+
+        schema.Name.ShouldBe("Widget");
+        schema.ReferenceId.ShouldBe("Widget");
+        schema.DataType.ShouldBe(DataTypeV1.Object);
+    }
+
     [Fact]
     public void MultiBranchOneOf_FallsBackToString()
     {

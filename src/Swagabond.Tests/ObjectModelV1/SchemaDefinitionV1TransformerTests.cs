@@ -333,6 +333,89 @@ public class SchemaDefinitionV1TransformerTests
         result.ExtensionDictionary.ShouldContainKey("x-enumNames");
     }
 
+    private static OpenApiSchema CreateNullEnumBranch() =>
+        new() { Nullable = true, Enum = new List<IOpenApiAny> { new OpenApiNull() } };
+
+    private static OpenApiSchema CreateWidgetSchema() => new()
+    {
+        Type = "object",
+        Reference = new OpenApiReference { Id = "Widget", Type = ReferenceType.Schema },
+        Properties = new Dictionary<string, OpenApiSchema> { ["id"] = new OpenApiSchema { Type = "string" } }
+    };
+
+    [Theory]
+    [InlineData(false, false)]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    [InlineData(true, true)]
+    public void FromOpenApi_Array_SeparatesArrayNullabilityFromItemNullability(bool arrayNullable, bool itemsNullable)
+    {
+        var target = CreateRealTransformer();
+        var schema = new OpenApiSchema
+        {
+            Type = "array",
+            Nullable = arrayNullable,
+            Items = new OpenApiSchema { Type = "integer", Nullable = itemsNullable }
+        };
+
+        var result = target.FromOpenApi(schema, new ApiV1());
+
+        result.IsArray.ShouldBeTrue();
+        result.IsNullableArray.ShouldBe(arrayNullable);
+        result.Constraints.IsNullable.ShouldBe(itemsNullable);
+    }
+
+    [Fact]
+    public void FromOpenApi_NullableNonArray_IsNotANullableArray()
+    {
+        var target = CreateRealTransformer();
+
+        var result = target.FromOpenApi(new OpenApiSchema { Type = "string", Nullable = true }, new ApiV1());
+
+        result.IsNullableArray.ShouldBeFalse();
+        result.Constraints.IsNullable.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void FromOpenApi_NullableWrappedArrayOfReference_IsNullableArrayWithNonNullableItems()
+    {
+        var target = CreateRealTransformer();
+        var array = new OpenApiSchema { Type = "array", Items = CreateWidgetSchema() };
+
+        var result = target.FromOpenApi(CreateWrapper("oneOf", false, CreateNullEnumBranch(), array), new ApiV1());
+
+        result.IsArray.ShouldBeTrue();
+        result.DataType.ShouldBe(DataTypeV1.Object);
+        result.ReferenceId.ShouldBe("Widget");
+        result.IsNullableArray.ShouldBeTrue();
+        result.Constraints.IsNullable.ShouldBeFalse();
+    }
+
+    [Fact]
+    public void FromOpenApi_NullableWrappedArrayOfNullableItems_IsNullableArrayWithNullableItems()
+    {
+        var target = CreateRealTransformer();
+        var array = new OpenApiSchema { Type = "array", Items = new OpenApiSchema { Type = "integer", Nullable = true } };
+
+        var result = target.FromOpenApi(CreateWrapper("oneOf", false, CreateNullEnumBranch(), array), new ApiV1());
+
+        result.IsArray.ShouldBeTrue();
+        result.IsNullableArray.ShouldBeTrue();
+        result.Constraints.IsNullable.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void FromOpenApi_NullableWrappedNonArray_IsNullableButNotANullableArray()
+    {
+        var target = CreateRealTransformer();
+
+        var result = target.FromOpenApi(CreateWrapper("oneOf", false, CreateNullEnumBranch(), CreateWidgetSchema()), new ApiV1());
+
+        result.IsArray.ShouldBeFalse();
+        result.IsNullableArray.ShouldBeFalse();
+        result.Constraints.IsNullable.ShouldBeTrue();
+    }
+
     [Fact]
     public void FromOpenApi_ArrayOfSingleBranchComposition_IsMappedAsArrayOfTheWrappedSchema()
     {
