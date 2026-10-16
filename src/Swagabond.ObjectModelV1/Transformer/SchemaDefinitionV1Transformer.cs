@@ -39,7 +39,7 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         if (schema is null)
             return SchemaDefinitionV1.Empty;
 
-        var wrappedSchema = GetSingleCompositionBranch(schema, out var hasNullBranch);
+        var wrappedSchema = GetWrappedSchema(schema, out var hasNullBranch);
         if (wrappedSchema != null)
             return FromWrapper(schema, wrappedSchema, hasNullBranch, api, visitedSchemaIds);
         
@@ -47,7 +47,7 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         // todo: extra properties 
 
         var isArray = schema.Type == "array";
-        var itemsSchema = isArray ? GetSingleCompositionBranch(schema.Items, out _) ?? schema.Items : null;
+        var itemsSchema = isArray ? GetWrappedSchema(schema.Items, out _) ?? schema.Items : null;
         
         // Map as an enum
         if (schema.Enum.Any())
@@ -133,9 +133,9 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         return apiSchema;
     }
 
-    // A schema whose only content is a oneOf/anyOf/allOf with exactly one non-null branch is
-    // mapped as that branch. Anything else (unions, multi-branch allOf) is left as-is.
-    private static OpenApiSchema? GetSingleCompositionBranch(OpenApiSchema schema, out bool hasNullBranch)
+    // Unwraps a reference the best we can by direct ref, oneOf, anyOf, allOf.
+    // Does not support multiple type definitions in oneOf / anyOf / allOf
+    private static OpenApiSchema? GetWrappedSchema(OpenApiSchema schema, out bool hasNullBranch)
     {
         hasNullBranch = false;
 
