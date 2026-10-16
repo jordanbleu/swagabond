@@ -38,11 +38,16 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
     {
         if (schema is null)
             return SchemaDefinitionV1.Empty;
+
+        var wrappedSchema = GetSingleCompositionBranch(schema, out var hasNullBranch);
+        if (wrappedSchema != null)
+            return FromWrapper(schema, wrappedSchema, hasNullBranch, api, visitedSchemaIds);
         
         var apiSchema = new SchemaDefinitionV1();
         // todo: extra properties 
 
         var isArray = schema.Type == "array";
+        var itemsSchema = isArray ? GetSingleCompositionBranch(schema.Items, out _) ?? schema.Items : null;
         
         // Map as an enum
         if (schema.Enum.Any())
@@ -52,16 +57,16 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         }
         
         // Map the type 
-        if (isArray)
+        if (itemsSchema != null)
         {
-            if (schema.Items.Enum.Any())
+            if (itemsSchema.Enum.Any())
             {
                 apiSchema.IsEnum = true;
-                apiSchema.EnumOptions = _enumOptionTransformer.FromOpenApi(schema.Items.Enum, schema.Items.Extensions);
+                apiSchema.EnumOptions = _enumOptionTransformer.FromOpenApi(itemsSchema.Enum, itemsSchema.Extensions);
             }
 
             apiSchema.IsArray = true;
-            apiSchema.DataType = _dataTypeV1Transformer.FromOpenApi(schema.Items.Type, schema.Items.Format);
+            apiSchema.DataType = _dataTypeV1Transformer.FromOpenApi(itemsSchema.Type, itemsSchema.Format);
         }
         else
         {
@@ -69,7 +74,7 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         }
         
         // open api puts the interesting info in schema.items if this is an array
-        var schemaToUse = isArray ? schema.Items : schema;
+        var schemaToUse = itemsSchema ?? schema;
         
         var schemaId = schemaToUse.Reference?.Id;
         
@@ -124,6 +129,55 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         // Allow this schema to be fully processed in other (non-ancestor) branches
         if (schemaId != null && !isCircularRef)
             visitedSchemaIds.Remove(schemaId);
+
+        return apiSchema;
+    }
+
+    // A schema whose only content is a oneOf/anyOf/allOf with exactly one non-null branch is
+    // mapped as that branch. Anything else (unions, multi-branch allOf) is left as-is.
+    private static OpenApiSchema? GetSingleCompositionBranch(OpenApiSchema schema, out bool hasNullBranch)
+    {
+        hasNullBranch = false;
+
+        if (schema.Reference != null || schema.Type == "array" || schema.Enum.Any() || schema.Properties.Any())
+            return null;
+
+        var compositions = new[] { schema.OneOf, schema.AnyOf, schema.AllOf }
+            .Where(c => c.Any())
+            .ToList();
+
+        if (compositions.Count != 1)
+            return null;
+
+        var branches = compositions[0];
+        var nonNullBranches = branches.Where(b => b.Type != "null").ToList();
+
+        if (nonNullBranches.Count != 1)
+            return null;
+
+        hasNullBranch = nonNullBranches.Count != branches.Count;
+        return nonNullBranches[0];
+    }
+
+    private SchemaDefinitionV1 FromWrapper(OpenApiSchema wrapper, OpenApiSchema wrappedSchema, bool hasNullBranch,
+        ApiV1 api, HashSet<string> visitedSchemaIds)
+    {
+        var apiSchema = FromOpenApiInternal(wrappedSchema, api, visitedSchemaIds);
+
+        if (wrapper.Nullable || hasNullBranch)
+            apiSchema.Constraints.IsNullable = true;
+
+        if (!string.IsNullOrWhiteSpace(wrapper.Description))
+            apiSchema.Description = wrapper.Description;
+
+        var wrapperExtensions = _extensionV1Transformer.FromOpenApi(wrapper.Extensions);
+        if (wrapperExtensions.Any())
+        {
+            var wrapperExtensionNames = wrapperExtensions.Select(e => e.Name).ToHashSet();
+            apiSchema.Extensions = wrapperExtensions
+                .Concat(apiSchema.Extensions.Where(e => !wrapperExtensionNames.Contains(e.Name)))
+                .ToList();
+        }
 
         return apiSchema;
     }

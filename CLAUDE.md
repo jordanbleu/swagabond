@@ -18,6 +18,9 @@ run against, and ships a few example template sets (`templates/csharp-flurl`, `t
 - Never hand-edit anything under `docs/` — it's generated (see "regenerate the docs" below).
 - After changing `Swagabond.ObjectModelV1` classes (properties, XML doc comments), run `./update-docs.sh`.
 - Add unit/integration tests for changes where feasible.
+- Don't write tests that render or assert on the example template sets under `templates/`. They're rough examples,
+  not shipped products; test the object model and template engine instead. Still update the example templates to
+  use new object-model features as they're added, so they stay representative.
 - Keep comments minimal. A comment should describe only the code's current behavior — no rationale, history, or
   justification for why it's written that way, and nothing that's already obvious from the code.
 - Don't put implementation details in comments on interfaces or abstract classes.

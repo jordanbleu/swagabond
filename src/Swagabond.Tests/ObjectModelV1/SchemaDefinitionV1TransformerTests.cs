@@ -1,4 +1,6 @@
 using AutoFixture;
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using Moq;
 using Moq.AutoMock;
@@ -221,5 +223,204 @@ public class SchemaDefinitionV1TransformerTests
 
         result.IsDictionary.ShouldBeFalse();
         result.AdditionalPropertiesSchema.IsEmpty.ShouldBeTrue();
+    }
+    private static SchemaDefinitionV1Transformer CreateRealTransformer() =>
+        new(new EnumOptionV1Transformer(), new DataTypeV1Transformer(), new ExtensionV1Transformer(),
+            new SchemaReferenceV1Transformer());
+
+    private static OpenApiSchema CreateStatusEnumSchema() => new()
+    {
+        Type = "integer",
+        Reference = new OpenApiReference { Id = "Status", Type = ReferenceType.Schema },
+        Enum = new List<IOpenApiAny> { new OpenApiInteger(0), new OpenApiInteger(1) },
+        Extensions = new Dictionary<string, IOpenApiExtension>
+        {
+            ["x-enumNames"] = new OpenApiArray { new OpenApiString("Active"), new OpenApiString("Inactive") }
+        }
+    };
+
+    private static OpenApiSchema CreateWrapper(string keyword, bool nullable, params OpenApiSchema[] branches)
+    {
+        var wrapper = new OpenApiSchema { Nullable = nullable };
+        var list = keyword switch
+        {
+            "oneOf" => wrapper.OneOf,
+            "anyOf" => wrapper.AnyOf,
+            "allOf" => wrapper.AllOf,
+            _ => throw new ArgumentOutOfRangeException(nameof(keyword))
+        };
+        foreach (var branch in branches)
+            list.Add(branch);
+        return wrapper;
+    }
+
+    [Theory]
+    [InlineData("oneOf", true)]
+    [InlineData("anyOf", true)]
+    [InlineData("allOf", true)]
+    [InlineData("oneOf", false)]
+    [InlineData("anyOf", false)]
+    [InlineData("allOf", false)]
+    public void FromOpenApi_SingleBranchComposition_IsMappedAsTheWrappedSchema(string keyword, bool nullable)
+    {
+        var target = CreateRealTransformer();
+
+        var result = target.FromOpenApi(CreateWrapper(keyword, nullable, CreateStatusEnumSchema()), new ApiV1());
+
+        result.IsEnum.ShouldBeTrue();
+        result.Name.ShouldBe("Status");
+        result.ReferenceId.ShouldBe("Status");
+        result.DataType.ShouldBe(DataTypeV1.Int32);
+        result.EnumOptions.Select(o => o.Name).ShouldBe(new[] { "Active", "Inactive" });
+        result.Constraints.IsNullable.ShouldBe(nullable);
+    }
+
+    [Fact]
+    public void FromOpenApi_SingleBranchCompositionWithNullTypeBranch_IsNullable()
+    {
+        var target = CreateRealTransformer();
+        var wrapper = CreateWrapper("oneOf", false, CreateStatusEnumSchema(), new OpenApiSchema { Type = "null" });
+
+        var result = target.FromOpenApi(wrapper, new ApiV1());
+
+        result.IsEnum.ShouldBeTrue();
+        result.Name.ShouldBe("Status");
+        result.Constraints.IsNullable.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void FromOpenApi_SingleBranchComposition_WrapperDescriptionAndExtensionsWin()
+    {
+        var target = CreateRealTransformer();
+        var inner = CreateStatusEnumSchema();
+        inner.Description = "inner description";
+        inner.Extensions["x-shared"] = new OpenApiString("inner");
+        var wrapper = CreateWrapper("allOf", true, inner);
+        wrapper.Description = "wrapper description";
+        wrapper.Extensions["x-shared"] = new OpenApiString("wrapper");
+
+        var result = target.FromOpenApi(wrapper, new ApiV1());
+
+        result.Description.ShouldBe("wrapper description");
+        result.ExtensionDictionary["x-shared"].ShouldBe("wrapper");
+        result.ExtensionDictionary.ShouldContainKey("x-enumNames");
+    }
+
+    [Fact]
+    public void FromOpenApi_ArrayOfSingleBranchComposition_IsMappedAsArrayOfTheWrappedSchema()
+    {
+        var target = CreateRealTransformer();
+        var schema = new OpenApiSchema
+        {
+            Type = "array",
+            Items = CreateWrapper("oneOf", true, CreateStatusEnumSchema())
+        };
+
+        var result = target.FromOpenApi(schema, new ApiV1());
+
+        result.IsArray.ShouldBeTrue();
+        result.IsEnum.ShouldBeTrue();
+        result.Name.ShouldBe("Status");
+        result.DataType.ShouldBe(DataTypeV1.Int32);
+    }
+
+    [Fact]
+    public void FromOpenApi_SingleBranchCompositionOfObject_MapsObjectProperties()
+    {
+        var target = CreateRealTransformer();
+        var inner = new OpenApiSchema
+        {
+            Type = "object",
+            Reference = new OpenApiReference { Id = "Widget", Type = ReferenceType.Schema },
+            Properties = new Dictionary<string, OpenApiSchema> { ["id"] = new OpenApiSchema { Type = "string" } }
+        };
+
+        var result = target.FromOpenApi(CreateWrapper("allOf", true, inner), new ApiV1());
+
+        result.Name.ShouldBe("Widget");
+        result.DataType.ShouldBe(DataTypeV1.Object);
+        result.Properties.Select(p => p.OriginalName).ShouldBe(new[] { "id" });
+        result.Constraints.IsNullable.ShouldBeTrue();
+    }
+
+    [Theory]
+    [InlineData("oneOf")]
+    [InlineData("anyOf")]
+    [InlineData("allOf")]
+    public void FromOpenApi_MultiBranchComposition_FallsBackToString(string keyword)
+    {
+        var target = CreateRealTransformer();
+        var other = new OpenApiSchema
+        {
+            Type = "object",
+            Reference = new OpenApiReference { Id = "Widget", Type = ReferenceType.Schema }
+        };
+
+        var result = target.FromOpenApi(CreateWrapper(keyword, false, CreateStatusEnumSchema(), other), new ApiV1());
+
+        result.IsEnum.ShouldBeFalse();
+        result.DataType.ShouldBe(DataTypeV1.String);
+        result.Name.ShouldBe("String");
+    }
+
+    [Fact]
+    public void FromOpenApi_MultipleCompositionKeywords_FallsBackToString()
+    {
+        var target = CreateRealTransformer();
+        var wrapper = CreateWrapper("oneOf", false, CreateStatusEnumSchema());
+        wrapper.AllOf.Add(CreateStatusEnumSchema());
+
+        var result = target.FromOpenApi(wrapper, new ApiV1());
+
+        result.IsEnum.ShouldBeFalse();
+        result.DataType.ShouldBe(DataTypeV1.String);
+    }
+
+    [Fact]
+    public void FromOpenApi_CompositionWithOwnProperties_IsNotUnwrapped()
+    {
+        var target = CreateRealTransformer();
+        var wrapper = CreateWrapper("allOf", false, CreateStatusEnumSchema());
+        wrapper.Type = "object";
+        wrapper.Properties["extra"] = new OpenApiSchema { Type = "string" };
+
+        var result = target.FromOpenApi(wrapper, new ApiV1());
+
+        result.IsEnum.ShouldBeFalse();
+        result.DataType.ShouldBe(DataTypeV1.Object);
+        result.Properties.Select(p => p.OriginalName).ShouldBe(new[] { "extra" });
+    }
+
+    [Fact]
+    public void FromOpenApi_ReferencedCompositionSchema_IsNotUnwrapped()
+    {
+        var target = CreateRealTransformer();
+        var wrapper = CreateWrapper("oneOf", true, CreateStatusEnumSchema());
+        wrapper.Reference = new OpenApiReference { Id = "NullableStatus", Type = ReferenceType.Schema };
+
+        var result = target.FromOpenApi(wrapper, new ApiV1());
+
+        result.Name.ShouldBe("NullableStatus");
+        result.IsEnum.ShouldBeFalse();
+    }
+
+    [Fact]
+    public void FromOpenApi_SelfReferenceThroughComposition_DoesNotStackOverflow()
+    {
+        var target = CreateRealTransformer();
+        var node = new OpenApiSchema
+        {
+            Type = "object",
+            Reference = new OpenApiReference { Id = "Node", Type = ReferenceType.Schema },
+            Properties = new Dictionary<string, OpenApiSchema>()
+        };
+        node.Properties["parent"] = CreateWrapper("allOf", true, node);
+
+        var result = target.FromOpenApi(node, new ApiV1());
+
+        var parent = result.Properties.Single(p => p.OriginalName == "parent");
+        parent.Schema.Name.ShouldBe("Node");
+        parent.Schema.Constraints.IsNullable.ShouldBeTrue();
+        parent.Schema.Properties.ShouldBeEmpty("circular ref should produce a stub with no nested properties");
     }
 }
