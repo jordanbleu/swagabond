@@ -82,6 +82,16 @@
               { "$ref": "#/components/schemas/Widget" }
             ]
           },
+          "nullEnumBranchWidget": {
+            "oneOf": [
+              { "enum": [ null ], "nullable": true },
+              { "$ref": "#/components/schemas/Widget" }
+            ]
+          },
+          "oneOfNullableWidget": {
+            "oneOf": [ { "$ref": "#/components/schemas/Widget" } ],
+            "nullable": true
+          },
           "nullableName": { "type": "string", "nullable": true },
           "refToWrapper": { "$ref": "#/components/schemas/NullableStatus" }
         }

@@ -84,10 +84,13 @@ public class CompositionSchemaTests : IClassFixture<CompositionSchemaTestsFixtur
         GetThingProperty("allOfNullableStatus").Description.ShouldBe("Wrapper description");
     }
 
-    [Fact]
-    public void NullableSingleBranchCompositionOfObject_IsMappedAsNullableObject()
+    [Theory]
+    [InlineData("nullableWidget")]
+    [InlineData("oneOfNullableWidget")]
+    [InlineData("nullEnumBranchWidget")]
+    public void NullableSingleBranchCompositionOfObject_IsMappedAsNullableObject(string propertyName)
     {
-        var schema = GetThingProperty("nullableWidget");
+        var schema = GetThingProperty(propertyName);
 
         schema.Name.ShouldBe("Widget");
         schema.DataType.ShouldBe(DataTypeV1.Object);

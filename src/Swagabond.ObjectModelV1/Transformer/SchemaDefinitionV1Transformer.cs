@@ -150,7 +150,7 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
             return null;
 
         var branches = compositions[0];
-        var nonNullBranches = branches.Where(b => b.Type != "null").ToList();
+        var nonNullBranches = branches.Where(b => !IsNullOnlySchema(b)).ToList();
 
         if (nonNullBranches.Count != 1)
             return null;
@@ -158,6 +158,10 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         hasNullBranch = nonNullBranches.Count != branches.Count;
         return nonNullBranches[0];
     }
+
+    private static bool IsNullOnlySchema(OpenApiSchema schema) =>
+        schema.Type == "null"
+        || (schema.Type == null && schema.Enum.Any() && schema.Enum.All(e => e is OpenApiNull));
 
     private SchemaDefinitionV1 FromWrapper(OpenApiSchema wrapper, OpenApiSchema wrappedSchema, bool hasNullBranch,
         ApiV1 api, HashSet<string> visitedSchemaIds)

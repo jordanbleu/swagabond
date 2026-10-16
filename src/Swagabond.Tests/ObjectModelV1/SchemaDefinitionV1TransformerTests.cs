@@ -289,6 +289,33 @@ public class SchemaDefinitionV1TransformerTests
     }
 
     [Fact]
+    public void FromOpenApi_SingleBranchCompositionWithNullEnumBranch_IsNullable()
+    {
+        var target = CreateRealTransformer();
+        var nullBranch = new OpenApiSchema { Nullable = true, Enum = new List<IOpenApiAny> { new OpenApiNull() } };
+        var wrapper = CreateWrapper("oneOf", false, nullBranch, CreateStatusEnumSchema());
+
+        var result = target.FromOpenApi(wrapper, new ApiV1());
+
+        result.IsEnum.ShouldBeTrue();
+        result.Name.ShouldBe("Status");
+        result.Constraints.IsNullable.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void FromOpenApi_EnumBranchWithNullAndOtherValues_IsNotTreatedAsNullBranch()
+    {
+        var target = CreateRealTransformer();
+        var mixedBranch = new OpenApiSchema { Enum = new List<IOpenApiAny> { new OpenApiNull(), new OpenApiInteger(1) } };
+        var wrapper = CreateWrapper("oneOf", false, mixedBranch, CreateStatusEnumSchema());
+
+        var result = target.FromOpenApi(wrapper, new ApiV1());
+
+        result.Name.ShouldBe("String");
+        result.DataType.ShouldBe(DataTypeV1.String);
+    }
+
+    [Fact]
     public void FromOpenApi_SingleBranchComposition_WrapperDescriptionAndExtensionsWin()
     {
         var target = CreateRealTransformer();
