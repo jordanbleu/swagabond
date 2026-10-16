@@ -28,6 +28,7 @@ run against, and ships a few example template sets (`templates/csharp-flurl`, `t
   existing template, call that out explicitly. Prefer backwards-compatible changes when possible.
 - Don't reference OpenAPI in anything under `templates/` (Scriban logic, generated output, comments). Templates
   are meant to stay spec-format-agnostic so other spec formats besides OpenAPI can target them later.
+- Never create or delete git branches (local or on GitHub) without asking first.
 - After adding code, build and check for new compiler warnings — especially nullable reference warnings — and
   address them rather than leaving them.
 
