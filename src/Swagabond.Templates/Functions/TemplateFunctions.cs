@@ -270,7 +270,7 @@ public partial class TemplateFunctions
         var dt = utc ? DateTime.UtcNow : DateTime.Now;
         try
         {
-            return DateTime.Now.ToString(format);
+            return dt.ToString(format);
         }
         catch (Exception e)
         {
