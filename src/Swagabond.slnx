@@ -7,7 +7,7 @@
     <Project Path="Swagabond.Tests/Swagabond.Tests.csproj" />
   </Folder>
   <Folder Name="/_SolutionItems/">
-    <File Path="Directory.Build.Props" />
+    <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
   </Folder>
   <Project Path="Swagabond.Cli/Swagabond.Cli.csproj" />
