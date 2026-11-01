@@ -7,8 +7,13 @@
     <PackageId>Swagabond.Cli</PackageId>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/jordanbleu/swagabond</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
-  
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="CommandLineParser" />
     <PackageReference Include="Flurl.Http" />
