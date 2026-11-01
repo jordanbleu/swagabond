@@ -1,5 +1,6 @@
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -104,12 +105,12 @@ public partial class TemplateFunctions
         if (string.IsNullOrWhiteSpace(input))
             return string.Empty;
 
-        var invalidCharsRgx = TemplateFunctions.InvalidCharsRgx();
+        var invalidCharsRgx = InvalidCharsRgx();
         var whiteSpace = WhiteSpace();
-        var startsWithLowerCaseChar = TemplateFunctions.StartsWithLowerCaseChar();
+        var startsWithLowerCaseChar = StartsWithLowerCaseChar();
         var firstCharFollowedByUpperCasesOnly = FirstCharFollowedByUpperCasesOnly();
         var lowerCaseNextToNumber = LowerCaseNextToNumber();
-        var upperCaseInside = TemplateFunctions.upperCaseInside();
+        var upperCaseInside = UpperCaseInside();
 
         // replace white spaces with undescore, then replace all invalid chars with empty string
         var pascalCase = invalidCharsRgx.Replace(whiteSpace.Replace(input, "_"), string.Empty)
@@ -324,4 +325,22 @@ public partial class TemplateFunctions
     /// </summary>
     /// <param name="input">input string</param>
     public static string Wdb(string input) => WrapDoubleBraces(input);
+
+    [GeneratedRegex("[^_a-zA-Z0-9]", RegexOptions.Compiled)]
+    private static partial Regex InvalidCharsRgx();
+
+    [GeneratedRegex(@"(?<=\s)", RegexOptions.Compiled)]
+    private static partial Regex WhiteSpace();
+
+    [GeneratedRegex("^[a-z]", RegexOptions.Compiled)]
+    private static partial Regex StartsWithLowerCaseChar();
+
+    [GeneratedRegex("(?<=[A-Z])[A-Z0-9]+$", RegexOptions.Compiled)]
+    private static partial Regex FirstCharFollowedByUpperCasesOnly();
+
+    [GeneratedRegex("(?<=[0-9])[a-z]", RegexOptions.Compiled)]
+    private static partial Regex LowerCaseNextToNumber();
+
+    [GeneratedRegex("(?<=[A-Z])[A-Z]+?((?=[A-Z][a-z])|(?=[0-9]))", RegexOptions.Compiled)]
+    private static partial Regex UpperCaseInside();
 }

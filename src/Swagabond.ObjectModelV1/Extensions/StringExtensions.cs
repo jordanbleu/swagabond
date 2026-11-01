@@ -63,14 +63,19 @@ public static partial class StringExtensions
 
     [GeneratedRegex("[^_a-zA-Z0-9]", RegexOptions.Compiled)]
     private static partial Regex InvalidCharsRgx();
+
     [GeneratedRegex(@"(?<=\s)", RegexOptions.Compiled)]
     private static partial Regex WhiteSpace();
+
     [GeneratedRegex("^[a-z]", RegexOptions.Compiled)]
     private static partial Regex StartsWithLowerCaseChar();
+
     [GeneratedRegex("(?<=[A-Z])[A-Z0-9]+$", RegexOptions.Compiled)]
     private static partial Regex FirstCharFollowedByUpperCasesOnly();
+
     [GeneratedRegex("(?<=[0-9])[a-z]", RegexOptions.Compiled)]
     private static partial Regex LowerCaseNextToNumber();
+
     [GeneratedRegex("(?<=[A-Z])[A-Z]+?((?=[A-Z][a-z])|(?=[0-9]))", RegexOptions.Compiled)]
     private static partial Regex UpperCaseInside();
 }
