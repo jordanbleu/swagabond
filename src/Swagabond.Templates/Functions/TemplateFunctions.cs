@@ -16,6 +16,11 @@ namespace Swagabond.Templates.Functions;
 /// </summary>
 public partial class TemplateFunctions
 {
+    private static readonly JsonSerializerOptions _jsonSerializerOptions = new()
+    {
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    };
+
     private const string QuotationMark = "\"";
     private const string LeftBraces = "{{";
     private const string RightBraces = "}}";
@@ -72,10 +77,7 @@ public partial class TemplateFunctions
         if (string.IsNullOrWhiteSpace(input))
             return string.Empty;
 
-        var serializedAsJson = JsonSerializer.Serialize(input, new JsonSerializerOptions()
-        {
-            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-        });
+        var serializedAsJson = JsonSerializer.Serialize(input, _jsonSerializerOptions);
 
         return serializedAsJson;
     }
@@ -115,7 +117,7 @@ public partial class TemplateFunctions
         // replace white spaces with undescore, then replace all invalid chars with empty string
         var pascalCase = invalidCharsRgx.Replace(whiteSpace.Replace(input, "_"), string.Empty)
             // split by underscores
-            .Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries)
+            .Split(['_'], StringSplitOptions.RemoveEmptyEntries)
             // set first letter to uppercase
             .Select(w => startsWithLowerCaseChar.Replace(w, m => m.Value.ToUpper()))
             // replace second and all following upper case letters to lower if there is no next lower (ABC -> Abc)
@@ -272,7 +274,7 @@ public partial class TemplateFunctions
         {
             return dt.ToString(format);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return "!!! GetFormattedDateTime - UNABLE TO FORMAT DATETIME USING FORMAT STRING " + format + "!!!";
         }
