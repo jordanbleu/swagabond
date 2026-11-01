@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/ObjectModels/">
+    <Project Path="Swagabond.ObjectModelV1/Swagabond.ObjectModelV1.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Swagabond.IntegrationTests/Swagabond.IntegrationTests.csproj" />
+    <Project Path="Swagabond.Tests/Swagabond.Tests.csproj" />
+  </Folder>
+  <Folder Name="/_SolutionItems/">
+    <File Path="Directory.Build.Props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="Swagabond.Cli/Swagabond.Cli.csproj" />
+  <Project Path="Swagabond.Configuration/Swagabond.Configuration.csproj" />
+  <Project Path="Swagabond.Core/Swagabond.Core.csproj" />
+  <Project Path="Swagabond.Templates/Swagabond.Templates.csproj" />
+</Solution>
