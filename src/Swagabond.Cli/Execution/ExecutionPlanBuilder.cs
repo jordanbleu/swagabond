@@ -23,7 +23,7 @@ public class ExecutionPlanBuilder
     /// <summary>
     /// The key is the filename, and the value is each task that will output to that file.
     /// </summary>
-    private Dictionary<string, Func<Task>> _executionPlan { get; set; } = new();
+    private Dictionary<string, Func<Task>> _executionPlan { get; set; } = [];
     
     /// <summary>
     /// evaluate the template with the passed in model object and write the output to a file.

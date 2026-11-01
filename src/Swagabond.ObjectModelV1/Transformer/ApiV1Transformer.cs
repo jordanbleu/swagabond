@@ -10,7 +10,7 @@ public interface IApiV1Transformer
 
 public class TransformerV1Request
 {
-    public Dictionary<string, string> Metadata { get; init; } = new();
+    public Dictionary<string, string> Metadata { get; init; } = [];
 }
 
 

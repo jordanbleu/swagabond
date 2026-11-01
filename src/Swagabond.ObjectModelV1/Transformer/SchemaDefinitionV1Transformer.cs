@@ -31,7 +31,7 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
 
     public SchemaDefinitionV1 FromOpenApi(OpenApiSchema schema, ApiV1 api)
     {
-        return FromOpenApiInternal(schema, api, new HashSet<string>());
+        return FromOpenApiInternal(schema, api, []);
     }
 
     private SchemaDefinitionV1 FromOpenApiInternal(OpenApiSchema schema, ApiV1 api, HashSet<string> visitedSchemaIds)
@@ -184,9 +184,8 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         if (wrapperExtensions.Any())
         {
             var wrapperExtensionNames = wrapperExtensions.Select(e => e.Name).ToHashSet();
-            apiSchema.Extensions = wrapperExtensions
-                .Concat(apiSchema.Extensions.Where(e => !wrapperExtensionNames.Contains(e.Name)))
-                .ToList();
+            apiSchema.Extensions = [.. wrapperExtensions
+, .. apiSchema.Extensions.Where(e => !wrapperExtensionNames.Contains(e.Name))];
         }
 
         return apiSchema;

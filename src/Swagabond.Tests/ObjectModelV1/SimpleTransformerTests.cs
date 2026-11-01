@@ -127,7 +127,7 @@ public class ServerV1TransformerTests
 
         autoMocker.GetMock<IExtensionV1Transformer>()
             .Setup(x => x.FromOpenApi(It.IsAny<IDictionary<string, IOpenApiExtension>>()))
-            .Returns(new List<ExtensionV1>());
+            .Returns([]);
 
         var target = autoMocker.CreateInstance<ServerV1Transformer>();
 

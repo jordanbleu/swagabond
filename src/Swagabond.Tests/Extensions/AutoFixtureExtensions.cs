@@ -45,10 +45,10 @@ public class OpenApiDocumentBuilder : ISpecimenBuilder
         return new OpenApiDocument
         {
             Info = context.Create<OpenApiInfo>(),
-            Paths = new OpenApiPaths(),
+            Paths = [],
             Components = new OpenApiComponents(),
-            Tags = new List<OpenApiTag> { context.Create<OpenApiTag>() },
-            Servers = new List<OpenApiServer> { context.Create<OpenApiServer>() }
+            Tags = [context.Create<OpenApiTag>()],
+            Servers = [context.Create<OpenApiServer>()]
         };
     }
 }

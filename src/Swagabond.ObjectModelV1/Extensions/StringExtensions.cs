@@ -54,7 +54,7 @@ public static class StringExtensions
         var name = str.ToPascalCase();
         
         // Remove any non-alphanumeric characters
-        name = new string(name.Where(char.IsLetterOrDigit).ToArray());
+        name = new string([.. name.Where(char.IsLetterOrDigit)]);
         
         if (name.Length == 0)
             return name;

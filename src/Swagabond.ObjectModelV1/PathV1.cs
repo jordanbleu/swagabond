@@ -40,7 +40,7 @@ public class PathV1 : IObjectV1, INamedObject
     /// <summary>
     /// List of all endpoints (and their details) for this path
     /// </summary>
-    public List<OperationV1> Operations { get; set; } = new();
+    public List<OperationV1> Operations { get; set; } = [];
 
     /// <summary>
     /// The API this path belongs to
@@ -50,7 +50,7 @@ public class PathV1 : IObjectV1, INamedObject
     /// <summary>
     /// List of arbitrary extensions for this path
     /// </summary>
-    public List<ExtensionV1> Extensions { get; set; } = new();
+    public List<ExtensionV1> Extensions { get; set; } = [];
 
     private Dictionary<string, string>? _extensionDictionary = null;
 

@@ -109,7 +109,7 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     /// x-enumNames, with each name corresponding to an enum value in the same order. If there's no
     /// enumNames extension, each enum name will be something dumb like Item1, Item2, etc.
     /// </summary>
-    public List<EnumOptionV1> EnumOptions { get; internal set; } = new();
+    public List<EnumOptionV1> EnumOptions { get; internal set; } = [];
     
     /// <summary>
     /// This is the underlying type of the schema, whether it be an object or a primitive type.
@@ -120,7 +120,7 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     /// <summary>
     /// List of arbitrary extensions for this schema definition.
     /// </summary>
-    public List<ExtensionV1> Extensions { get; internal set; } = new();
+    public List<ExtensionV1> Extensions { get; internal set; } = [];
     
     private Dictionary<string, string>? _extensionDictionary = null;
 
@@ -150,7 +150,7 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     /// For a complex object type, this contains a list of inner properties for this schema definition.
     /// Each item in this list contains the property name and its schema definition.
     /// </summary>
-    public List<SchemaReferenceV1> Properties { get; set; } = new();
+    public List<SchemaReferenceV1> Properties { get; set; } = [];
 
     /// <summary>
     /// The schema shared by every additional, non-fixed property this object allows (OpenAPI's

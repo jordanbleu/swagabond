@@ -41,25 +41,25 @@ public class OperationV1 : IObjectV1, INamedObject
     /// A list of query parameters for this operation.  Query parameters
     /// are placed in the URL after the '?' character.
     /// </summary>
-    public List<SchemaReferenceV1> QueryParameters { get; set; } = new();
+    public List<SchemaReferenceV1> QueryParameters { get; set; } = [];
     
     /// <summary>
     /// List of header parameters for this operation.  Header parameters
     /// go in http headers.
     /// </summary>
-    public List<SchemaReferenceV1> HeaderParameters { get; set; } = new();
+    public List<SchemaReferenceV1> HeaderParameters { get; set; } = [];
 
     /// <summary>
     /// List of path parameters for this operation.  Path parameters are integrated
     /// into the url path, and are typically used to identify a specific resource.
     /// For example, in the url '/restaurants/{restaurantId}/menu', the {restaurantId} is a path parameter.
     /// </summary>
-    public List<SchemaReferenceV1> PathParameters { get; set; } = new();
+    public List<SchemaReferenceV1> PathParameters { get; set; } = [];
     
     /// <summary>
     /// List of cookie parameters that can (or should) be sent with the request.
     /// </summary>
-    public List<SchemaReferenceV1> CookieParameters { get; set; } = new();
+    public List<SchemaReferenceV1> CookieParameters { get; set; } = [];
     
     /// <summary>
     /// Information about the request Body (payload) for the operation, typically in Json or XML format.
@@ -70,7 +70,7 @@ public class OperationV1 : IObjectV1, INamedObject
     /// List of each documented response type for this operation, and the expected
     /// response body shape that goes along with it.
     /// </summary>
-    public List<ResponseBodyV1> ResponseBodies { get; set; } = new();
+    public List<ResponseBodyV1> ResponseBodies { get; set; } = [];
 
     /// <summary>
     /// A fallback response body for status codes that don't have a dedicated response body.
@@ -131,7 +131,7 @@ public class OperationV1 : IObjectV1, INamedObject
     /// <summary>
     /// List of arbitrary extensions for this operation
     /// </summary>
-    public List<ExtensionV1> Extensions { get; set; } = new();
+    public List<ExtensionV1> Extensions { get; set; } = [];
     
     private Dictionary<string, string>? _extensionDictionary = null;
 

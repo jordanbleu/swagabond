@@ -232,7 +232,7 @@ public class SchemaDefinitionV1TransformerTests
     {
         Type = "integer",
         Reference = new OpenApiReference { Id = "Status", Type = ReferenceType.Schema },
-        Enum = new List<IOpenApiAny> { new OpenApiInteger(0), new OpenApiInteger(1) },
+        Enum = [new OpenApiInteger(0), new OpenApiInteger(1)],
         Extensions = new Dictionary<string, IOpenApiExtension>
         {
             ["x-enumNames"] = new OpenApiArray { new OpenApiString("Active"), new OpenApiString("Inactive") }
@@ -292,7 +292,7 @@ public class SchemaDefinitionV1TransformerTests
     public void FromOpenApi_SingleBranchCompositionWithNullEnumBranch_IsNullable()
     {
         var target = CreateRealTransformer();
-        var nullBranch = new OpenApiSchema { Nullable = true, Enum = new List<IOpenApiAny> { new OpenApiNull() } };
+        var nullBranch = new OpenApiSchema { Nullable = true, Enum = [new OpenApiNull()] };
         var wrapper = CreateWrapper("oneOf", false, nullBranch, CreateStatusEnumSchema());
 
         var result = target.FromOpenApi(wrapper, new ApiV1());
@@ -306,7 +306,7 @@ public class SchemaDefinitionV1TransformerTests
     public void FromOpenApi_EnumBranchWithNullAndOtherValues_IsNotTreatedAsNullBranch()
     {
         var target = CreateRealTransformer();
-        var mixedBranch = new OpenApiSchema { Enum = new List<IOpenApiAny> { new OpenApiNull(), new OpenApiInteger(1) } };
+        var mixedBranch = new OpenApiSchema { Enum = [new OpenApiNull(), new OpenApiInteger(1)] };
         var wrapper = CreateWrapper("oneOf", false, mixedBranch, CreateStatusEnumSchema());
 
         var result = target.FromOpenApi(wrapper, new ApiV1());
@@ -334,7 +334,7 @@ public class SchemaDefinitionV1TransformerTests
     }
 
     private static OpenApiSchema CreateNullEnumBranch() =>
-        new() { Nullable = true, Enum = new List<IOpenApiAny> { new OpenApiNull() } };
+        new() { Nullable = true, Enum = [new OpenApiNull()] };
 
     private static OpenApiSchema CreateWidgetSchema() => new()
     {
