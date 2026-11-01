@@ -10,7 +10,11 @@ public static class StringExtensions
                 return string.Empty;
 
             // Remove newlines and extra spaces
-            return input.Replace("\n", " ").Replace("\r", " ").Trim();
+            return input
+                .Replace("\r\n", " ")
+                .Replace("\n", " ")
+                .Replace("\r", " ")
+                .Trim();
         }
     }
 }
