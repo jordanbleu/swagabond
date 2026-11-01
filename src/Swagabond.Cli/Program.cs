@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Flurl.Util;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swagabond.Cli.Args;
@@ -39,7 +38,7 @@ public class Program
         }
 
         var arguments = argumentsResult.Value;
-        
+
         // create a di container 
         var services = new ServiceCollection();
 
@@ -62,18 +61,18 @@ public class Program
         // core logic 
         services.AddSwagabondObjectMapper();
         services.AddSwagabondTemplateEngineFactory();
-        
+
         var serviceProvider = services.BuildServiceProvider();
-        
+
         var consoleHelper = serviceProvider.GetRequiredService<ConsoleHelper>();
-        
+
         await Run(serviceProvider, arguments);
     }
 
     public static async Task Run(ServiceProvider provider, Arguments arguments)
     {
         var isVerbose = arguments.Verbose.Equals("true", StringComparison.OrdinalIgnoreCase);
-        
+
         // ************************************************
         // Grab services from our DI container
         // ************************************************
@@ -87,7 +86,7 @@ public class Program
         // Draw the banner / intro 
         // ************************************************
         consoleHelper.DrawBanner();
-        
+
         if (isVerbose)
         {
             var version = Assembly.GetExecutingAssembly().GetName().Version;
@@ -148,7 +147,6 @@ public class Program
         // Create a stream that points to the swagger file.
         // ************************************************
         logger.LogInformation("Creating stream to your swagger file...");
-        var swaggerStream = await dataRetriever.GetDataStream(arguments.SwaggerFilePath);
 
         // ************************************************
         // Map to our object model
@@ -156,6 +154,7 @@ public class Program
 
         // Build a request for the core logic
         logger.LogInformation("Retrieving / parsing / mapping swagger file...");
+        await using var swaggerStream = await dataRetriever.GetDataStream(arguments.SwaggerFilePath);
 
         var request = new MapperRequest()
         {
@@ -222,7 +221,7 @@ public class Program
             var templateDir = Path.GetDirectoryName(arguments.InstructionSetFilePath) ?? string.Empty;
             var instructionSetOutputDir = outputDir;
             var pathToClean = Path.Combine(templateDir, instructionSetOutputDir);
-            
+
             if (Directory.Exists(pathToClean))
             {
                 logger.LogInformation($"Cleaning existing output directory {pathToClean}...");
@@ -248,7 +247,7 @@ public class Program
                 ex);
             throw;
         }
-        
+
         // ************************************************
         // Generate the optional json file
         // ************************************************

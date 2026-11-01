@@ -16,7 +16,7 @@ public class SchemaConstraintsTestsFixture : IAsyncLifetime
         var services = ApiTransformerFactory.CreateV1Transformer();
         var mapper = services.GetRequiredService<OpenApiMapper>();
         var path = Path.Combine(AppContext.BaseDirectory, "SwaggerFiles/swagger_constraints.json");
-        var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+        await using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
         MappedApi = await mapper.MapFromStreamV1(new()
         {
             FailOnDefinitionError = false,
