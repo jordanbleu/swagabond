@@ -328,21 +328,21 @@ public partial class TemplateFunctions
     /// <param name="input">input string</param>
     public static string Wdb(string input) => WrapDoubleBraces(input);
 
-    [GeneratedRegex("[^_a-zA-Z0-9]", RegexOptions.Compiled)]
+    [GeneratedRegex("[^_a-zA-Z0-9]")]
     private static partial Regex InvalidCharsRgx();
 
-    [GeneratedRegex(@"(?<=\s)", RegexOptions.Compiled)]
+    [GeneratedRegex(@"(?<=\s)")]
     private static partial Regex WhiteSpace();
 
-    [GeneratedRegex("^[a-z]", RegexOptions.Compiled)]
+    [GeneratedRegex("^[a-z]")]
     private static partial Regex StartsWithLowerCaseChar();
 
-    [GeneratedRegex("(?<=[A-Z])[A-Z0-9]+$", RegexOptions.Compiled)]
+    [GeneratedRegex("(?<=[A-Z])[A-Z0-9]+$")]
     private static partial Regex FirstCharFollowedByUpperCasesOnly();
 
-    [GeneratedRegex("(?<=[0-9])[a-z]", RegexOptions.Compiled)]
+    [GeneratedRegex("(?<=[0-9])[a-z]")]
     private static partial Regex LowerCaseNextToNumber();
 
-    [GeneratedRegex("(?<=[A-Z])[A-Z]+?((?=[A-Z][a-z])|(?=[0-9]))", RegexOptions.Compiled)]
+    [GeneratedRegex("(?<=[A-Z])[A-Z]+?((?=[A-Z][a-z])|(?=[0-9]))")]
     private static partial Regex UpperCaseInside();
 }
