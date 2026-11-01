@@ -10,14 +10,14 @@ namespace Swagabond.IntegrationTests;
 public class Swagger2MapperTestsFixture : IAsyncLifetime
 {
     public ApiV1 MappedApi { get; private set; }
-    
+
     public async Task InitializeAsync()
     {
         var apiV1Transformer = ApiTransformerFactory.CreateV1Transformer();
 
         var mapper = apiV1Transformer.GetRequiredService<OpenApiMapper>();
         var path = Path.Combine(AppContext.BaseDirectory, "SwaggerFiles/swagger_2_0.json");
-        var fs = new FileStream(path, FileMode.Open);
+        await using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
         var mapped = await mapper.MapFromStreamV1(new()
         {
             FailOnDefinitionError = false,
@@ -27,22 +27,19 @@ public class Swagger2MapperTestsFixture : IAsyncLifetime
         MappedApi = mapped;
     }
 
-    public Task DisposeAsync()
-    {
-        return Task.CompletedTask;
-    }
+    public Task DisposeAsync() => Task.CompletedTask;
 }
 
 public class Swagger2MapperTests : IClassFixture<Swagger2MapperTestsFixture>
 {
-    private Swagger2MapperTestsFixture _fixture;
+    private readonly Swagger2MapperTestsFixture _fixture;
 
     public Swagger2MapperTests(Swagger2MapperTestsFixture fixture)
     {
         _fixture = fixture;
     }
-    
-    
+
+
     [Fact]
     [Category("integration_openapi_2")]
     public void TopLevelProperties_AreMappedCorrectly()
@@ -52,7 +49,7 @@ public class Swagger2MapperTests : IClassFixture<Swagger2MapperTestsFixture>
         api.Description.ShouldStartWith(
             "This is a sample server Petstore server.");
         api.Extensions.ShouldBeEmpty();
-        api.Name.ShouldBe("SwaggerPetstore"); 
+        api.Name.ShouldBe("SwaggerPetstore");
         api.Version.ShouldBe("1.0.7");
         api.IsEmpty.ShouldBeFalse();
         api.SpecType.ShouldBe(SpecTypeV1.OpenApi);
@@ -84,7 +81,7 @@ public class Swagger2MapperTests : IClassFixture<Swagger2MapperTestsFixture>
         servers.Count.ShouldBe(2);
         // I think for 2.0 it derives servers from the 'host' 
         // which is pretty damn neat.
-        
+
         servers.ForEach(s =>
         {
             s.Url.ShouldContain("petstore.swagger.io");

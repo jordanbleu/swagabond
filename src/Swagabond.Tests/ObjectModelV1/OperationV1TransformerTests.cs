@@ -18,7 +18,7 @@ public class OperationV1TransformerTests
     {
         _mocker.GetMock<IExtensionV1Transformer>()
             .Setup(x => x.FromOpenApi(It.IsAny<IDictionary<string, IOpenApiExtension>>()))
-            .Returns(new List<ExtensionV1>());
+            .Returns([]);
 
         _mocker.GetMock<ISchemaDefinitionV1Transformer>()
             .Setup(x => x.FromOpenApi(It.IsAny<OpenApiSchema>(), It.IsAny<ApiV1>()))
@@ -155,13 +155,13 @@ public class OperationV1TransformerTests
     {
         var op = new OpenApiOperation
         {
-            Parameters = new List<OpenApiParameter>
-            {
+            Parameters =
+            [
                 new() { In = ParameterLocation.Query, Name = "q", Schema = new OpenApiSchema() },
                 new() { In = ParameterLocation.Path, Name = "id", Schema = new OpenApiSchema() },
                 new() { In = ParameterLocation.Header, Name = "X-Trace", Schema = new OpenApiSchema() },
                 new() { In = ParameterLocation.Cookie, Name = "sess", Schema = new OpenApiSchema() },
-            }
+            ]
         };
         var kvp = new KeyValuePair<OperationType, OpenApiOperation>(OperationType.Get, op);
 
@@ -315,9 +315,9 @@ public class OperationV1TransformerTests
     private static KeyValuePair<OperationType, OpenApiOperation> MakeOperationWithParam(ParameterLocation location, string name) =>
         new(OperationType.Get, new OpenApiOperation
         {
-            Parameters = new List<OpenApiParameter>
-            {
+            Parameters =
+            [
                 new() { In = location, Name = name, Schema = new OpenApiSchema() }
-            }
+            ]
         });
 }

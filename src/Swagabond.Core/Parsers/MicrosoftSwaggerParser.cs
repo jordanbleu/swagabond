@@ -20,8 +20,5 @@ public class MicrosoftSwaggerParser : IMicrosoftSwaggerParser
         _openApiReader = openApiReader;
     }
 
-    public Task<ReadResult> ParseAsOpenApiDocument(Stream swaggerStream)
-    {
-        return _openApiReader.ReadAsync(swaggerStream);
-    }
+    public Task<ReadResult> ParseAsOpenApiDocument(Stream swaggerStream) => _openApiReader.ReadAsync(swaggerStream);
 }

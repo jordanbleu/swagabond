@@ -14,8 +14,5 @@ public class EnumOptionV1
     /// </summary>
     public string Value { get; set; } = string.Empty;
 
-    public override string ToString()
-    {
-        return $"EnumOptionV1 {Name} = {Value}";
-    }
+    public override string ToString() => $"EnumOptionV1 {Name} = {Value}";
 }

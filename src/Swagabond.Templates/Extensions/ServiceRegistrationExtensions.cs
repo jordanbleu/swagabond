@@ -5,15 +5,17 @@ namespace Swagabond.Templates.Extensions;
 
 public static class ServiceRegistrationExtensions
 {
-    public static IServiceCollection AddSwagabondTemplateEngineFactory(this IServiceCollection services)
+    extension(IServiceCollection services)
     {
-        // Template Engines
-        services.AddTransient<ITemplateEngine, ScribanTemplateEngine>();
-        
-        // Factory
-        services.AddTransient<TemplateEngineFactory>();
+        public IServiceCollection AddSwagabondTemplateEngineFactory()
+        {
+            // Template Engines
+            services.AddTransient<ITemplateEngine, ScribanTemplateEngine>();
 
-        return services;
+            // Factory
+            services.AddTransient<TemplateEngineFactory>();
+
+            return services;
+        }
     }
-    
 }

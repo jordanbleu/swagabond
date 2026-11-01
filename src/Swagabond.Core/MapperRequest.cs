@@ -17,5 +17,5 @@ public class MapperRequest
     /// <summary>
     /// Any arbitrary metadata to be passed along, and made available to the templates.
     /// </summary>
-    public Dictionary<string, string> Metadata { get; init; } = new();
+    public Dictionary<string, string> Metadata { get; init; } = [];
 }

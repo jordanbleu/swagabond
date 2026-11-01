@@ -1,8 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.ObjectModel;
 using System.Reflection;
 using LoxSmoke.DocXml;
-using Scriban;
 using Swagabond.ObjectModelV1;
 using Swagabond.Templates.Engines;
 using Swagabond.Templates.Functions;
@@ -11,12 +9,12 @@ namespace ObjectModelDocGenerator;
 
 public class Program
 {
-    private static List<string> ProcessedTypes = new List<string>();
-    
+    private static readonly List<string> ProcessedTypes = [];
+
     private static readonly string ObjectModelTemplateFile = "Templates/readme_template.scriban";
     private static readonly string TemplateFunctionsTemplateFile = "Templates/templatefunctions_template.scriban";
 
-    
+
     private static readonly string ObjectModelFile = "../../../../../../src/Swagabond.ObjectModelV1/bin/debug/net8.0/Swagabond.ObjectModelV1.xml";
     private static readonly string TemplatesFile = "../../../../../../src/Swagabond.Templates/bin/debug/net8.0/Swagabond.Templates.xml";
 
@@ -26,17 +24,17 @@ public class Program
         Console.WriteLine("Current Dir: " + Directory.GetCurrentDirectory());
         if (!File.Exists(ObjectModelTemplateFile))
             throw new Exception("Missing object model template file.");
-        
+
         if (!File.Exists(TemplateFunctionsTemplateFile))
             throw new Exception("Missing template functions template file.");
-               
+
         if (!File.Exists(ObjectModelFile))
             throw new Exception("Make sure the Swagabond.ObjectModelV1 project is built before running this tool.");
 
         var docXmlReader = new DocXmlReader(ObjectModelFile);
 
         var objectModelTemplateContent = await File.ReadAllTextAsync(ObjectModelTemplateFile);
-        
+
         await GenerateMarkdownForObjectModel(typeof(ApiV1), docXmlReader, objectModelTemplateContent);
         await GenerateMarkdownForTemplateFunctions();
 
@@ -47,22 +45,22 @@ public class Program
     private static async Task GenerateMarkdownForTemplateFunctions()
     {
         var reader = new DocXmlReader(TemplatesFile);
-        
+
         var data = new TemplateFunctionsData();
-        
+
         // the first one is hard coded because it isn't defined on TemplateFunctions
         data.Functions.Add(new TemplateFunction()
         {
             Name = "f_Log",
             Comment = "Used for debugging. Will log a message to the console or the configured logger.",
-            Params = new List<TemplateFunctionParam>()
-            {
+            Params =
+            [
                 new()
                 {
                     Name = "message",
                     Comment = "The message to log."
                 }
-            }
+            ]
         });
 
         var templateFuncs = typeof(TemplateFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static);
@@ -70,45 +68,45 @@ public class Program
         foreach (var templateFunc in templateFuncs)
         {
             var cmt = reader.GetMethodComments(templateFunc);
-            
+
             var templateFuncData = new TemplateFunction()
             {
                 Comment = cmt.Summary,
                 Name = "f_" + templateFunc.Name,
             };
-            
-            foreach (var asdf in cmt.Parameters)
+
+            foreach (var (Name, Text) in cmt.Parameters)
             {
                 templateFuncData.Params.Add(new TemplateFunctionParam()
                 {
-                    Name = asdf.Name,
-                    Comment = asdf.Text
+                    Name = Name,
+                    Comment = Text
                 });
             }
-            
+
             data.Functions.Add(templateFuncData);
         }
 
         var templateContent = await File.ReadAllTextAsync(TemplateFunctionsTemplateFile);
-        
+
         // Here we are actually using our very own template renderer to render the template
         // for writing templates for our template renderer. Absolute insanity!
         var templateEngine = new ScribanTemplateEngine();
         var contents = await templateEngine.RenderTemplate(templateContent, data, LogCallback);
-        
+
         await File.WriteAllTextAsync($"../../../../../../docs/TemplateFunctions.md", contents);
     }
 
     public class TemplateFunctionsData
     {
-        public List<TemplateFunction> Functions { get; set; } = new();
+        public List<TemplateFunction> Functions { get; set; } = [];
     }
 
     public class TemplateFunction
     {
         public string Name { get; set; }
         public string Comment { get; set; }
-        public List<TemplateFunctionParam> Params { get; set; } = new();
+        public List<TemplateFunctionParam> Params { get; set; } = [];
     }
 
     public class TemplateFunctionParam
@@ -129,7 +127,7 @@ public class Program
         var classComment = reader.GetTypeComments(t);
         var typeComment = classComment.Summary.RemoveNewlines();
         ClassData data;
-        
+
         // enums are a whole separate thing lol
         if (t.IsEnum)
         {
@@ -146,7 +144,7 @@ public class Program
                 var valueComment = enumComment.ValueComments.FirstOrDefault(x => x.Value == (int)enumValue);
                 var enumValueName = Enum.GetName(t, enumValue) ?? string.Empty;
                 var enumValueSummary = valueComment?.Summary ?? String.Empty;
-                
+
                 data.EnumValues.Add(new()
                 {
                     Name = enumValueName,
@@ -155,17 +153,17 @@ public class Program
             }
 
         }
-        else 
+        else
         {
 
             data = new ClassData()
             {
                 Name = t.Name,
                 Comment = typeComment.RemoveNewlines(),
-                Properties = new List<PropertyData>()
+                Properties = []
             };
 
-            var props = t.GetProperties(BindingFlags.Public | BindingFlags.Instance).OrderBy(x=>x.Name);
+            var props = t.GetProperties(BindingFlags.Public | BindingFlags.Instance).OrderBy(x => x.Name);
             foreach (var prop in props)
             {
                 var propComment = reader.GetMemberComments(prop);
@@ -188,7 +186,7 @@ public class Program
                     if (splitRemarks?.Length > 0)
                         remarks.AddRange(splitRemarks);
                 }
-                
+
                 // This is a collection type (except strings)
                 if (propType != typeof(string) && typeof(IEnumerable).IsAssignableFrom(propType))
                 {
@@ -261,19 +259,14 @@ public class Program
         // for writing templates for our template renderer. Absolute insanity!
         var templateEngine = new ScribanTemplateEngine();
         var contents = await templateEngine.RenderTemplate(templateContent, data, LogCallback);
-        
+
         await File.WriteAllTextAsync($"../../../../../../docs/{data.Name}.md", contents);
 
     }
-    
+
     private static void LogCallback(string s) => Console.WriteLine(s);
 
-    private static bool IsPrimitive(Type t)
-    {
-        return t.IsPrimitive || t == typeof(string) || t == typeof(decimal);
-
-    }
-
+    private static bool IsPrimitive(Type t) => t.IsPrimitive || t == typeof(string) || t == typeof(decimal);
 }
 
 public class ClassData
@@ -282,12 +275,12 @@ public class ClassData
 
     public string Comment { get; set; }
 
-    public List<PropertyData> Properties { get; set; } = new();
+    public List<PropertyData> Properties { get; set; } = [];
 
     public bool IsEnum { get; set; } = false;
 
-    public List<EnumOption> EnumValues { get; set; } = new List<EnumOption>();
-    
+    public List<EnumOption> EnumValues { get; set; } = [];
+
 }
 
 public class PropertyData
@@ -301,8 +294,8 @@ public class PropertyData
     public string PropertyTypeName { get; set; } = string.Empty;
 
     public bool HasRemarks => Remarks.Count != 0;
-    
-    public List<string> Remarks { get; set; } = new();
+
+    public List<string> Remarks { get; set; } = [];
 
 }
 

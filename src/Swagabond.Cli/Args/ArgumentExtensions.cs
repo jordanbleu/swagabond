@@ -6,23 +6,25 @@ namespace Swagabond.Cli.Args;
 
 public static class ArgumentExtensions
 {
-    public static string WriteErrorString(this IEnumerable<Error> cliErrors)
+    extension(IEnumerable<Error> cliErrors)
     {
-        var sb = new StringBuilder();
-
-        foreach (var err in cliErrors)
+        public string WriteErrorString()
         {
-            if (err is TokenError te)
+            var sb = new StringBuilder();
+
+            foreach (var err in cliErrors)
             {
-                sb.AppendLine(te.Token + " is not a valid token");
+                if (err is TokenError te)
+                {
+                    sb.AppendLine(te.Token + " is not a valid token");
+                }
+                else
+                {
+                    sb.AppendLine(err.GetType().Name + ": " + err.ToFriendlyString());
+                }
             }
-            else
-            {
-                sb.AppendLine(err.GetType().Name + ": " + err.ToFriendlyString());
-            }
+
+            return sb.ToString();
         }
-
-        return sb.ToString();
     }
-
 }

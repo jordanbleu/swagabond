@@ -9,7 +9,7 @@ public class ServerV1
     /// A list of arbitrary extensions for the server
     /// </summary>
     public List<ExtensionV1> Extensions { get; set; }
-    
+
     private Dictionary<string, string>? _extensionDictionary = null;
 
     /// <summary>
@@ -17,13 +17,11 @@ public class ServerV1
     /// is its value.  This allows you to bind directly to known keys instead of iterating
     /// over the list of extensions. Values can be accessed via `ExtensionDictionary["x-myKey"]`
     /// </summary>
-    public Dictionary<string, string> ExtensionDictionary {
+    public Dictionary<string, string> ExtensionDictionary
+    {
         get
         {
-            if (_extensionDictionary == null)
-            {
-                _extensionDictionary = Extensions.ToDictionary(e => e.Name, e => e.Value);
-            }
+            _extensionDictionary ??= Extensions.ToDictionary(e => e.Name, e => e.Value);
 
             return _extensionDictionary;
         }

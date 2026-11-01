@@ -16,7 +16,7 @@ public class CompositionSchemaTestsFixture : IAsyncLifetime
 
         var mapper = services.GetRequiredService<OpenApiMapper>();
         var path = Path.Combine(AppContext.BaseDirectory, "SwaggerFiles/swagger_composition.json");
-        await using var fs = new FileStream(path, FileMode.Open);
+        await using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
         MappedApi = await mapper.MapFromStreamV1(new()
         {
             FailOnDefinitionError = false,
@@ -46,7 +46,7 @@ public class CompositionSchemaTests : IClassFixture<CompositionSchemaTestsFixtur
         schema.Name.ShouldBe("Status");
         schema.ReferenceId.ShouldBe("Status");
         schema.DataType.ShouldBe(DataTypeV1.Int32);
-        schema.EnumOptions.Select(o => o.Name).ShouldBe(new[] { "Active", "Inactive" });
+        schema.EnumOptions.Select(o => o.Name).ShouldBe(["Active", "Inactive"]);
     }
 
     [Fact]
@@ -79,10 +79,7 @@ public class CompositionSchemaTests : IClassFixture<CompositionSchemaTestsFixtur
     }
 
     [Fact]
-    public void SingleBranchComposition_UsesWrapperDescription()
-    {
-        GetThingProperty("allOfNullableStatus").Description.ShouldBe("Wrapper description");
-    }
+    public void SingleBranchComposition_UsesWrapperDescription() => GetThingProperty("allOfNullableStatus").Description.ShouldBe("Wrapper description");
 
     [Theory]
     [InlineData("nullableWidget")]
@@ -94,7 +91,7 @@ public class CompositionSchemaTests : IClassFixture<CompositionSchemaTestsFixtur
 
         schema.Name.ShouldBe("Widget");
         schema.DataType.ShouldBe(DataTypeV1.Object);
-        schema.Properties.Select(p => p.OriginalName).ShouldBe(new[] { "id" });
+        schema.Properties.Select(p => p.OriginalName).ShouldBe(["id"]);
         schema.Constraints.IsNullable.ShouldBeTrue();
     }
 
@@ -151,12 +148,9 @@ public class CompositionSchemaTests : IClassFixture<CompositionSchemaTestsFixtur
     }
 
     [Fact]
-    public void WrapperComponent_KeepsItsOwnName()
-    {
-        _fixture.MappedApi.Schemas.Select(s => s.Name).ShouldBe(
-            new[] { "Status", "NullableStatus", "Widget", "Thing" },
+    public void WrapperComponent_KeepsItsOwnName() => _fixture.MappedApi.Schemas.Select(s => s.Name).ShouldBe(
+            ["Status", "NullableStatus", "Widget", "Thing"],
             ignoreOrder: true);
-    }
 
     [Fact]
     public void NullableSingleBranchCompositionQueryParameter_IsMappedAsNullableEnum()

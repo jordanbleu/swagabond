@@ -1,6 +1,4 @@
-using System.Dynamic;
 using System.Text.Json;
-using Swagabond.ObjectModelV1.Extensions;
 using Swagabond.ObjectModelV1.Interfaces;
 
 namespace Swagabond.ObjectModelV1;
@@ -13,19 +11,19 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
 {
     private static readonly JsonSerializerOptions ExampleSerializerSettings = new()
     {
-        WriteIndented = true  
+        WriteIndented = true
     };
-    
+
     /// <summary>
     /// True if the schema definition is empty.
     /// </summary>
     public bool IsEmpty { get; internal set; } = true;
-    
+
     /// <summary>
     /// A name for the schema definition, formatted as PascalCase. Suitable for code or filenames.
     /// </summary>
     public string Name { get; internal set; } = string.Empty;
-    
+
     /// <summary>
     /// The full / unfiltered schema name.  Useful in cases where the exact name
     /// must be used, including original casing (this does not format as pascal case).
@@ -33,7 +31,7 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     /// how the schema names will look for your api spec.
     /// </summary>
     public string OriginalName { get; internal set; } = string.Empty;
-    
+
     /// <summary>
     /// A more beautiful and gorgeous title for the schema definition. Not suitable for filenames, or code.
     /// </summary>
@@ -102,15 +100,15 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     /// Whether this is an enum or not. An enum is a special type of schema that defines a set of named values.
     /// </summary>
     public bool IsEnum { get; internal set; } = false;
-    
+
     /// <summary>
     /// For enums, this will contain a list of each enum name / value.  For non-enums, this will be
     /// empty.  Enum names are determined by adding an extension to the schema in your spec called
     /// x-enumNames, with each name corresponding to an enum value in the same order. If there's no
     /// enumNames extension, each enum name will be something dumb like Item1, Item2, etc.
     /// </summary>
-    public List<EnumOptionV1> EnumOptions { get; internal set; } = new();
-    
+    public List<EnumOptionV1> EnumOptions { get; internal set; } = [];
+
     /// <summary>
     /// This is the underlying type of the schema, whether it be an object or a primitive type.
     /// For enums, this represents the backing value of the enum (usually an int).
@@ -120,8 +118,8 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     /// <summary>
     /// List of arbitrary extensions for this schema definition.
     /// </summary>
-    public List<ExtensionV1> Extensions { get; internal set; } = new();
-    
+    public List<ExtensionV1> Extensions { get; internal set; } = [];
+
     private Dictionary<string, string>? _extensionDictionary = null;
 
     /// <summary>
@@ -129,13 +127,11 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     /// is its value.  This allows you to bind directly to known keys instead of iterating
     /// over the list of extensions. Values can be accessed via `ExtensionDictionary["x-myKey"]`
     /// </summary>
-    public Dictionary<string, string> ExtensionDictionary {
+    public Dictionary<string, string> ExtensionDictionary
+    {
         get
         {
-            if (_extensionDictionary == null)
-            {
-                _extensionDictionary = Extensions.ToDictionary(e => e.Name, e => e.Value);
-            }
+            _extensionDictionary ??= Extensions.ToDictionary(e => e.Name, e => e.Value);
 
             return _extensionDictionary;
         }
@@ -150,7 +146,7 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     /// For a complex object type, this contains a list of inner properties for this schema definition.
     /// Each item in this list contains the property name and its schema definition.
     /// </summary>
-    public List<SchemaReferenceV1> Properties { get; set; } = new();
+    public List<SchemaReferenceV1> Properties { get; set; } = [];
 
     /// <summary>
     /// The schema shared by every additional, non-fixed property this object allows (OpenAPI's
@@ -186,10 +182,7 @@ public class SchemaDefinitionV1 : IObjectV1, INamedObject
     }
 
 
-    public override string ToString()
-    {
-        return $"SchemaDefinition {Name} {DataType}";
-    }
+    public override string ToString() => $"SchemaDefinition {Name} {DataType}";
 
-    public static readonly SchemaDefinitionV1 Empty = new ();
+    public static readonly SchemaDefinitionV1 Empty = new();
 }

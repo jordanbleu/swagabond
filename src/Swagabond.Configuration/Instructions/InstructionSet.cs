@@ -16,22 +16,22 @@ public class InstructionSet
     public string TemplateBaseDirectory { get; set; } = ".";
     
     [YamlMember(Alias = "for_api")]
-    public List<ProcessTemplateInstruction> ApiScopedInstructions { get; set; } = new();
+    public List<ProcessTemplateInstruction> ApiScopedInstructions { get; set; } = [];
 
     [YamlMember(Alias = "for_schema_definitions")]
-    public List<ProcessTemplateInstruction> SchemaScopedInstructions { get; set; } = new();
+    public List<ProcessTemplateInstruction> SchemaScopedInstructions { get; set; } = [];
     
     [YamlMember(Alias = "for_operations")]
-    public List<ProcessTemplateInstruction> OperationScopedInstructions { get; set; } = new();
+    public List<ProcessTemplateInstruction> OperationScopedInstructions { get; set; } = [];
 
     [YamlMember(Alias = "for_paths")]
-    public List<ProcessTemplateInstruction> PathScopedInstructions { get; set; } = new();
+    public List<ProcessTemplateInstruction> PathScopedInstructions { get; set; } = [];
 
     /// <summary>
     /// Any arbitrary metadata that can be accessed via templates
     /// </summary>
     [YamlMember(Alias = "metadata")]
-    public Dictionary<string, string> Metadata { get; set; } = new();
+    public Dictionary<string, string> Metadata { get; set; } = [];
 
     [YamlMember(Alias = "force_line_endings")]
     public LineEndingStyle LineEndingStyle { get; set; } = LineEndingStyle.OS_DEFAULT;
@@ -49,9 +49,9 @@ public class ProcessTemplateInstruction
     public TemplateType TemplateType { get; set; } = TemplateType.Scriban;
     
     [YamlMember(Alias = "include_before")]
-    public List<string> IncludeFilesBefore { get; set; } = new();
+    public List<string> IncludeFilesBefore { get; set; } = [];
     
     [YamlMember(Alias = "include_after")]
-    public List<string> IncludeFilesAfter { get; set; } = new();
+    public List<string> IncludeFilesAfter { get; set; } = [];
 }
 

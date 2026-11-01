@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Readers;
 using Moq;
@@ -31,8 +30,9 @@ public class OpenApiMapperTests
     public async Task MapFromStreamV1_NoWarningsOrErrors_ReturnsApiV1()
     {
         SetupParser(warnings: 0, errors: 0);
+        await using var stream = new MemoryStream();
 
-        var result = await _target.MapFromStreamV1(new MapperRequest(), new MemoryStream());
+        var result = await _target.MapFromStreamV1(new MapperRequest(), stream);
 
         result.ShouldNotBeNull();
     }
@@ -42,9 +42,10 @@ public class OpenApiMapperTests
     {
         SetupParser(warnings: 1, errors: 0);
         var request = new MapperRequest { FailOnDefinitionWarning = true };
+        await using var stream = new MemoryStream();
 
         await Should.ThrowAsync<InvalidApiSpecException>(
-            () => _target.MapFromStreamV1(request, new MemoryStream()));
+            () => _target.MapFromStreamV1(request, stream));
     }
 
     [Fact]
@@ -52,8 +53,9 @@ public class OpenApiMapperTests
     {
         SetupParser(warnings: 1, errors: 0);
         var request = new MapperRequest { FailOnDefinitionWarning = false };
+        await using var stream = new MemoryStream();
 
-        await Should.NotThrowAsync(() => _target.MapFromStreamV1(request, new MemoryStream()));
+        await Should.NotThrowAsync(() => _target.MapFromStreamV1(request, stream));
     }
 
     [Fact]
@@ -61,9 +63,10 @@ public class OpenApiMapperTests
     {
         SetupParser(warnings: 0, errors: 1);
         var request = new MapperRequest { FailOnDefinitionError = true };
+        await using var stream = new MemoryStream();
 
         await Should.ThrowAsync<InvalidApiSpecException>(
-            () => _target.MapFromStreamV1(request, new MemoryStream()));
+            () => _target.MapFromStreamV1(request, stream));
     }
 
     [Fact]
@@ -71,8 +74,9 @@ public class OpenApiMapperTests
     {
         SetupParser(warnings: 0, errors: 1);
         var request = new MapperRequest { FailOnDefinitionError = false };
+        await using var stream = new MemoryStream();
 
-        await Should.NotThrowAsync(() => _target.MapFromStreamV1(request, new MemoryStream()));
+        await Should.NotThrowAsync(() => _target.MapFromStreamV1(request, stream));
     }
 
     [Fact]
@@ -81,8 +85,9 @@ public class OpenApiMapperTests
         SetupParser(warnings: 0, errors: 0);
         var metadata = new Dictionary<string, string> { ["env"] = "prod" };
         var request = new MapperRequest { Metadata = metadata };
+        await using var stream = new MemoryStream();
 
-        await _target.MapFromStreamV1(request, new MemoryStream());
+        await _target.MapFromStreamV1(request, stream);
 
         _mocker.GetMock<IApiV1Transformer>()
             .Verify(x => x.FromOpenApi(

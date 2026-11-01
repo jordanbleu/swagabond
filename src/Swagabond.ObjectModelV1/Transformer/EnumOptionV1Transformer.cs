@@ -20,17 +20,17 @@ public class EnumOptionV1Transformer : IEnumOptionV1Transformer
     /// The only supported extensions we recognize need to be just a basic list of strings, and the list
     /// of strings needs to be the same length as the enum values since we match them index by index.
     /// </summary>
-    private static readonly ICollection<string> EnumNamesExtensionKeys = new List<string> 
-    {
+    private static readonly ICollection<string> EnumNamesExtensionKeys =
+    [
         "x-enumNames",
         "x-enum-varnames",
         "x-speakeasy-enums"
-    };
+    ];
     
     public List<EnumOptionV1> FromOpenApi(IList<IOpenApiAny> enumValues, IDictionary<string, IOpenApiExtension> extensions)
     {
         if (!enumValues.Any())
-            return new();
+            return [];
         
         // To find a valid set of enum names:
         // First find an extension that has any of our supported enum name keys

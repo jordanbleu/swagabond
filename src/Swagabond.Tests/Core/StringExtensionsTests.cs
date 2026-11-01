@@ -12,18 +12,12 @@ public class CoreStringExtensionsTests
     [InlineData("camelCase", "Camelcase")]
     [InlineData("api.v1.endpoint", "ApiV1Endpoint")]
     [InlineData("x-enum-varnames", "XEnumVarnames")]
-    public void ToAlphaNumericCamelCase_ConvertsCorrectly(string input, string expected)
-    {
-        input.ToAlphaNumericCamelCase().ShouldBe(expected);
-    }
+    public void ToAlphaNumericCamelCase_ConvertsCorrectly(string input, string expected) => input.ToAlphaNumericCamelCase().ShouldBe(expected);
 
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-    public void ToAlphaNumericCamelCase_ReturnsEmptyForNullOrEmpty(string? input)
-    {
-        input.ToAlphaNumericCamelCase().ShouldBe(string.Empty);
-    }
+    public void ToAlphaNumericCamelCase_ReturnsEmptyForNullOrEmpty(string? input) => input.ToAlphaNumericCamelCase().ShouldBe(string.Empty);
 
     [Fact]
     public void ToAlphaNumericCamelCase_AllSpecialChars_ReturnsEmpty()
@@ -42,8 +36,5 @@ public class CoreStringExtensionsTests
     }
 
     [Fact]
-    public void ToAlphaNumericCamelCase_SingleWord_Capitalised()
-    {
-        "hello".ToAlphaNumericCamelCase().ShouldBe("Hello");
-    }
+    public void ToAlphaNumericCamelCase_SingleWord_Capitalised() => "hello".ToAlphaNumericCamelCase().ShouldBe("Hello");
 }

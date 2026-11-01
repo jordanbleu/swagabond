@@ -2,13 +2,19 @@ namespace ObjectModelDocGenerator;
 
 public static class StringExtensions
 {
-    public static string RemoveNewlines(this string input)
+    extension(string input)
     {
-        if (string.IsNullOrWhiteSpace(input))
-            return string.Empty;
+        public string RemoveNewlines()
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return string.Empty;
 
-        // Remove newlines and extra spaces
-        return input.Replace("\n", " ").Replace("\r", " ").Trim();
+            // Remove newlines and extra spaces
+            return input
+                .Replace("\r\n", " ")
+                .Replace("\n", " ")
+                .Replace("\r", " ")
+                .Trim();
+        }
     }
-    
 }

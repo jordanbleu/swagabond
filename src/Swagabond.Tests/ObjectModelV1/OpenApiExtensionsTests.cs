@@ -7,46 +7,25 @@ namespace Swagabond.Tests.ObjectModelV1;
 public class OpenApiExtensionsTests
 {
     [Fact]
-    public void WriteAsString_OpenApiString_ReturnsValue()
-    {
-        new OpenApiString("hello").WriteAsString().ShouldBe("hello");
-    }
+    public void WriteAsString_OpenApiString_ReturnsValue() => new OpenApiString("hello").WriteAsString().ShouldBe("hello");
 
     [Fact]
-    public void WriteAsString_OpenApiInteger_ReturnsStringRepresentation()
-    {
-        new OpenApiInteger(42).WriteAsString().ShouldBe("42");
-    }
+    public void WriteAsString_OpenApiInteger_ReturnsStringRepresentation() => new OpenApiInteger(42).WriteAsString().ShouldBe("42");
 
     [Fact]
-    public void WriteAsString_OpenApiLong_ReturnsStringRepresentation()
-    {
-        new OpenApiLong(9_999_999_999L).WriteAsString().ShouldBe("9999999999");
-    }
+    public void WriteAsString_OpenApiLong_ReturnsStringRepresentation() => new OpenApiLong(9_999_999_999L).WriteAsString().ShouldBe("9999999999");
 
     [Fact]
-    public void WriteAsString_OpenApiFloat_UsesInvariantCulture()
-    {
-        new OpenApiFloat(3.14f).WriteAsString().ShouldBe("3.14");
-    }
+    public void WriteAsString_OpenApiFloat_UsesInvariantCulture() => new OpenApiFloat(3.14f).WriteAsString().ShouldBe("3.14");
 
     [Fact]
-    public void WriteAsString_OpenApiDouble_UsesInvariantCulture()
-    {
-        new OpenApiDouble(3.14159).WriteAsString().ShouldBe("3.14159");
-    }
+    public void WriteAsString_OpenApiDouble_UsesInvariantCulture() => new OpenApiDouble(3.14159).WriteAsString().ShouldBe("3.14159");
 
     [Fact]
-    public void WriteAsString_OpenApiBooleanTrue_ReturnsTrue()
-    {
-        new OpenApiBoolean(true).WriteAsString().ShouldBe("True");
-    }
+    public void WriteAsString_OpenApiBooleanTrue_ReturnsTrue() => new OpenApiBoolean(true).WriteAsString().ShouldBe("True");
 
     [Fact]
-    public void WriteAsString_OpenApiBooleanFalse_ReturnsFalse()
-    {
-        new OpenApiBoolean(false).WriteAsString().ShouldBe("False");
-    }
+    public void WriteAsString_OpenApiBooleanFalse_ReturnsFalse() => new OpenApiBoolean(false).WriteAsString().ShouldBe("False");
 
     [Fact]
     public void WriteAsString_OpenApiArray_ReturnsCommaJoined()
@@ -76,15 +55,10 @@ public class OpenApiExtensionsTests
     }
 
     [Fact]
-    public void WriteAsString_UnknownType_ReturnsEmpty()
-    {
+    public void WriteAsString_UnknownType_ReturnsEmpty() =>
         // OpenApiNull is not handled by the switch
         new OpenApiNull().WriteAsString().ShouldBe(string.Empty);
-    }
 
     [Fact]
-    public void WriteAsString_EmptyArray_ReturnsEmpty()
-    {
-        new OpenApiArray().WriteAsString().ShouldBe(string.Empty);
-    }
+    public void WriteAsString_EmptyArray_ReturnsEmpty() => new OpenApiArray().WriteAsString().ShouldBe(string.Empty);
 }

@@ -10,9 +10,9 @@ public interface IPathV1Transformer
 
 public class PathV1Transformer : IPathV1Transformer
 {
-    private IOperationV1Transformer _operationV1Transformer;
-    private IExtensionV1Transformer _extensionV1Transformer;
-    
+    private readonly IOperationV1Transformer _operationV1Transformer;
+    private readonly IExtensionV1Transformer _extensionV1Transformer;
+
     public PathV1Transformer(IOperationV1Transformer operationV1Transformer, IExtensionV1Transformer extensionV1Transformer)
     {
         _operationV1Transformer = operationV1Transformer;
@@ -23,16 +23,17 @@ public class PathV1Transformer : IPathV1Transformer
     {
         var route = path.Key;
         var p = path.Value;
-        
-        var apiPath = new PathV1();
 
-        apiPath.IsEmpty = false;
-        apiPath.Name = route.ToClassName();
-        apiPath.Title = route;
-        apiPath.Description = p.Description ?? route;
-        apiPath.Route = route;
-        apiPath.Extensions = _extensionV1Transformer.FromOpenApi(p.Extensions);
-        
+        var apiPath = new PathV1
+        {
+            IsEmpty = false,
+            Name = route.ToClassName(),
+            Title = route,
+            Description = p.Description ?? route,
+            Route = route,
+            Extensions = _extensionV1Transformer.FromOpenApi(p.Extensions)
+        };
+
 
         foreach (var op in p.Operations)
         {
@@ -40,7 +41,7 @@ public class PathV1Transformer : IPathV1Transformer
         }
 
         apiPath.Api = apiV1;
-        
+
         return apiPath;
     }
 

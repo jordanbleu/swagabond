@@ -106,7 +106,7 @@ public class ParameterMappingTests_OpenApi3 : IClassFixture<Swagger3MapperTestsF
         statusParam.Schema.IsEnum.ShouldBeTrue();
         statusParam.Schema.EnumOptions.Count.ShouldBe(3);
         statusParam.Schema.EnumOptions.Select(e => e.Value)
-            .ShouldBe(new[] { "available", "pending", "sold" }, ignoreOrder: false);
+            .ShouldBe(["available", "pending", "sold"], ignoreOrder: false);
     }
 }
 

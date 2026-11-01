@@ -17,7 +17,7 @@ public class PathV1TransformerTests
     {
         _mocker.GetMock<IExtensionV1Transformer>()
             .Setup(x => x.FromOpenApi(It.IsAny<IDictionary<string, IOpenApiExtension>>()))
-            .Returns(new List<ExtensionV1>());
+            .Returns([]);
 
         _mocker.GetMock<IOperationV1Transformer>()
             .Setup(x => x.FromOpenApi(

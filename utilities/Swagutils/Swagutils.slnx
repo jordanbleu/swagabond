@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/_Docs/">
+    <File Path="readme.md" />
+  </Folder>
+  <Folder Name="/_ReferencedProjects/">
+    <Project Path="../../src/Swagabond.ObjectModelV1/Swagabond.ObjectModelV1.csproj" />
+    <Project Path="../../src/Swagabond.Templates/Swagabond.Templates.csproj" />
+  </Folder>
+  <Folder Name="/_SolutionItems/">
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="ObjectModelDocGenerator/ObjectModelDocGenerator.csproj" />
+</Solution>

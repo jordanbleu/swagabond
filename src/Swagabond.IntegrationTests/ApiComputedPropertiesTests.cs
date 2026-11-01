@@ -118,7 +118,7 @@ public class MetadataPassthroughTests
         var services = ApiTransformerFactory.CreateV1Transformer();
         var mapper = services.GetRequiredService<OpenApiMapper>();
         var path = Path.Combine(AppContext.BaseDirectory, "SwaggerFiles/swagger_3_0_4.json");
-        await using var fs = new FileStream(path, FileMode.Open);
+        await using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
 
         var api = await mapper.MapFromStreamV1(new()
         {
@@ -142,7 +142,7 @@ public class MetadataPassthroughTests
         var services = ApiTransformerFactory.CreateV1Transformer();
         var mapper = services.GetRequiredService<OpenApiMapper>();
         var path = Path.Combine(AppContext.BaseDirectory, "SwaggerFiles/swagger_3_0_4.json");
-        await using var fs = new FileStream(path, FileMode.Open);
+        await using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
 
         var api = await mapper.MapFromStreamV1(new()
         {

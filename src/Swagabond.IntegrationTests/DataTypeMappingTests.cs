@@ -32,22 +32,13 @@ public class DataTypeMappingTests_OpenApi3 : IClassFixture<Swagger3MapperTestsFi
     }
 
     [Fact]
-    public void IntegerInt32Format_MapsToInt32()
-    {
-        GetProp("Order", "quantity").Schema.DataType.ShouldBe(DataTypeV1.Int32);
-    }
+    public void IntegerInt32Format_MapsToInt32() => GetProp("Order", "quantity").Schema.DataType.ShouldBe(DataTypeV1.Int32);
 
     [Fact]
-    public void StringDateTimeFormat_MapsToDateTime()
-    {
-        GetProp("Order", "shipDate").Schema.DataType.ShouldBe(DataTypeV1.DateTime);
-    }
+    public void StringDateTimeFormat_MapsToDateTime() => GetProp("Order", "shipDate").Schema.DataType.ShouldBe(DataTypeV1.DateTime);
 
     [Fact]
-    public void Boolean_MapsToBoolean()
-    {
-        GetProp("Order", "complete").Schema.DataType.ShouldBe(DataTypeV1.Boolean);
-    }
+    public void Boolean_MapsToBoolean() => GetProp("Order", "complete").Schema.DataType.ShouldBe(DataTypeV1.Boolean);
 
     [Fact]
     public void PlainString_MapsToString()
@@ -107,28 +98,16 @@ public class DataTypeMappingTests_OpenApi2 : IClassFixture<Swagger2MapperTestsFi
         GetSchema(schemaId).Properties.First(p => p.OriginalName == propName);
 
     [Fact]
-    public void IntegerInt64Format_MapsToInt64()
-    {
-        GetProp("Order", "id").Schema.DataType.ShouldBe(DataTypeV1.Int64);
-    }
+    public void IntegerInt64Format_MapsToInt64() => GetProp("Order", "id").Schema.DataType.ShouldBe(DataTypeV1.Int64);
 
     [Fact]
-    public void IntegerInt32Format_MapsToInt32()
-    {
-        GetProp("Order", "quantity").Schema.DataType.ShouldBe(DataTypeV1.Int32);
-    }
+    public void IntegerInt32Format_MapsToInt32() => GetProp("Order", "quantity").Schema.DataType.ShouldBe(DataTypeV1.Int32);
 
     [Fact]
-    public void StringDateTimeFormat_MapsToDateTime()
-    {
-        GetProp("Order", "shipDate").Schema.DataType.ShouldBe(DataTypeV1.DateTime);
-    }
+    public void StringDateTimeFormat_MapsToDateTime() => GetProp("Order", "shipDate").Schema.DataType.ShouldBe(DataTypeV1.DateTime);
 
     [Fact]
-    public void Boolean_MapsToBoolean()
-    {
-        GetProp("Order", "complete").Schema.DataType.ShouldBe(DataTypeV1.Boolean);
-    }
+    public void Boolean_MapsToBoolean() => GetProp("Order", "complete").Schema.DataType.ShouldBe(DataTypeV1.Boolean);
 }
 
 [Category("integration_sample")]

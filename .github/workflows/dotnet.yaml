@@ -22,27 +22,27 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 9.0.x
+        dotnet-version: 10.0.x
 
     - name: Restore dependencies for main solution
-      run: dotnet restore ./src/Swagabond.sln
+      run: dotnet restore ./src/Swagabond.slnx
       
     - name: Restore tools for main solution
       run: dotnet tool restore 
       working-directory: ./src
 
     - name: Build Main Solution
-      run: dotnet build ./src/Swagabond.sln --no-restore
+      run: dotnet build ./src/Swagabond.slnx --no-restore
 
     - name: Restore dependencies for utility projects
-      run: dotnet restore ./utilities/Swagutils/Swagutils.sln
+      run: dotnet restore ./utilities/Swagutils/Swagutils.slnx
 
     - name: Restore tools for utility projects
       run: dotnet tool restore
       working-directory: ./utilities/Swagutils
 
     - name: Build Utility Projects
-      run: dotnet build ./utilities/Swagutils/Swagutils.sln --no-restore
+      run: dotnet build ./utilities/Swagutils/Swagutils.slnx --no-restore
 
     - name: UnitTests
       run: dotnet test ./src/Swagabond.Tests

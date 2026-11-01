@@ -1,7 +1,6 @@
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Web;
 
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -15,12 +14,17 @@ namespace Swagabond.Templates.Functions;
 ///
 /// Note - by Swagabond convention functions are camelCase and prefixed by 'f_'
 /// </summary>
-public class TemplateFunctions
+public partial class TemplateFunctions
 {
+    private static readonly JsonSerializerOptions _jsonSerializerOptions = new()
+    {
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    };
+
     private const string QuotationMark = "\"";
     private const string LeftBraces = "{{";
     private const string RightBraces = "}}";
-    
+
     /// <summary>
     /// Converts the input string to UPPERCASE
     /// </summary>
@@ -73,10 +77,7 @@ public class TemplateFunctions
         if (string.IsNullOrWhiteSpace(input))
             return string.Empty;
 
-        var serializedAsJson = JsonSerializer.Serialize(input, new JsonSerializerOptions()
-        {
-            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-        });
+        var serializedAsJson = JsonSerializer.Serialize(input, _jsonSerializerOptions);
 
         return serializedAsJson;
     }
@@ -92,7 +93,7 @@ public class TemplateFunctions
     {
         if (string.IsNullOrEmpty(input))
             return string.Empty;
-        
+
         return input.Substring(start, length);
     }
 
@@ -105,18 +106,18 @@ public class TemplateFunctions
         // Copied from https://stackoverflow.com/questions/18627112/how-can-i-convert-text-to-pascal-case 
         if (string.IsNullOrWhiteSpace(input))
             return string.Empty;
-        
-        var invalidCharsRgx = new Regex("[^_a-zA-Z0-9]");
-        var whiteSpace = new Regex(@"(?<=\s)");
-        var startsWithLowerCaseChar = new Regex("^[a-z]");
-        var firstCharFollowedByUpperCasesOnly = new Regex("(?<=[A-Z])[A-Z0-9]+$");
-        var lowerCaseNextToNumber = new Regex("(?<=[0-9])[a-z]");
-        var upperCaseInside = new Regex("(?<=[A-Z])[A-Z]+?((?=[A-Z][a-z])|(?=[0-9]))");
+
+        var invalidCharsRgx = InvalidCharsRgx();
+        var whiteSpace = WhiteSpace();
+        var startsWithLowerCaseChar = StartsWithLowerCaseChar();
+        var firstCharFollowedByUpperCasesOnly = FirstCharFollowedByUpperCasesOnly();
+        var lowerCaseNextToNumber = LowerCaseNextToNumber();
+        var upperCaseInside = UpperCaseInside();
 
         // replace white spaces with undescore, then replace all invalid chars with empty string
         var pascalCase = invalidCharsRgx.Replace(whiteSpace.Replace(input, "_"), string.Empty)
             // split by underscores
-            .Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries)
+            .Split(['_'], StringSplitOptions.RemoveEmptyEntries)
             // set first letter to uppercase
             .Select(w => startsWithLowerCaseChar.Replace(w, m => m.Value.ToUpper()))
             // replace second and all following upper case letters to lower if there is no next lower (ABC -> Abc)
@@ -127,8 +128,8 @@ public class TemplateFunctions
             .Select(w => upperCaseInside.Replace(w, m => m.Value.ToLower()));
 
         var result = string.Concat(pascalCase);
-        
-        
+
+
         return result;
     }
 
@@ -140,9 +141,9 @@ public class TemplateFunctions
     {
         if (string.IsNullOrEmpty(input))
             return string.Empty;
-        
+
         var pascalCase = PascalCase(input);
-        
+
         // just lowercase the first letter 
         return char.ToLower(pascalCase[0]) + pascalCase[1..];
     }
@@ -156,7 +157,7 @@ public class TemplateFunctions
     {
         if (string.IsNullOrEmpty(input))
             return string.Empty;
-        
+
         var parts = input.Split('.');
         return parts.LastOrDefault() ?? string.Empty;
     }
@@ -178,12 +179,12 @@ public class TemplateFunctions
         if (string.IsNullOrEmpty(input))
             return string.Empty;
 
-        var lines = input.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+        var lines = input.Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
         var prefixedLines = lines.Skip(1).Select(line => $"{prefix}{line}");
-        
+
         var combinedLines = new List<string> { lines[0] }; // Keep the first line as is
         combinedLines.AddRange(prefixedLines);// Add the prefixed lines
-        
+
         return string.Join(Environment.NewLine, combinedLines);
     }
 
@@ -191,9 +192,9 @@ public class TemplateFunctions
     /// returns true if the input string is null or whitespace
     /// </summary>
     /// <param name="input">input string</param>
-    public static bool IsBlank(string input) => 
+    public static bool IsBlank(string input) =>
         string.IsNullOrWhiteSpace(input);
-    
+
     /// <summary>
     /// Returns a random guid each time it is called.
     /// </summary>
@@ -256,7 +257,7 @@ public class TemplateFunctions
     /// </summary>
     /// <param name="utc">if true, will use utc timezone</param>
     /// <returns></returns>
-    public static string GetTime(bool utc = true) => 
+    public static string GetTime(bool utc = true) =>
         utc ? DateTime.UtcNow.ToLongTimeString() : DateTime.Now.ToLongTimeString();
 
     /// <summary>
@@ -271,9 +272,9 @@ public class TemplateFunctions
         var dt = utc ? DateTime.UtcNow : DateTime.Now;
         try
         {
-            return DateTime.Now.ToString(format);
+            return dt.ToString(format);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return "!!! GetFormattedDateTime - UNABLE TO FORMAT DATETIME USING FORMAT STRING " + format + "!!!";
         }
@@ -285,16 +286,16 @@ public class TemplateFunctions
     /// </summary>
     /// <param name="inputs">A collection of inputs</param>
     /// <returns></returns>
-    public static string FirstItem(IEnumerable<string> inputs) => 
+    public static string FirstItem(IEnumerable<string> inputs) =>
         inputs?.FirstOrDefault() ?? string.Empty;
-    
+
     /// <summary>
     /// Given a list of inputs, will return the last item in the collection.
     /// If the list is empty will return an empty string.
     /// </summary>
     /// <param name="inputs">A collection of inputs</param>
     /// <returns></returns>
-    public static string LastItem(IEnumerable<string> inputs) => 
+    public static string LastItem(IEnumerable<string> inputs) =>
         inputs?.LastOrDefault() ?? string.Empty;
 
     /// <summary>
@@ -311,7 +312,7 @@ public class TemplateFunctions
     /// <param name="input">input string</param>
     /// <returns></returns>
     public static string Wq(string input) => WrapQuotes(input);
-    
+
     /// <summary>
     /// Wraps the input in double braces without evaluating it's input.
     /// inputString becomes {{inputString}}. Can help avoid awkward template
@@ -326,5 +327,22 @@ public class TemplateFunctions
     /// </summary>
     /// <param name="input">input string</param>
     public static string Wdb(string input) => WrapDoubleBraces(input);
-    
+
+    [GeneratedRegex("[^_a-zA-Z0-9]")]
+    private static partial Regex InvalidCharsRgx();
+
+    [GeneratedRegex(@"(?<=\s)")]
+    private static partial Regex WhiteSpace();
+
+    [GeneratedRegex("^[a-z]")]
+    private static partial Regex StartsWithLowerCaseChar();
+
+    [GeneratedRegex("(?<=[A-Z])[A-Z0-9]+$")]
+    private static partial Regex FirstCharFollowedByUpperCasesOnly();
+
+    [GeneratedRegex("(?<=[0-9])[a-z]")]
+    private static partial Regex LowerCaseNextToNumber();
+
+    [GeneratedRegex("(?<=[A-Z])[A-Z]+?((?=[A-Z][a-z])|(?=[0-9]))")]
+    private static partial Regex UpperCaseInside();
 }

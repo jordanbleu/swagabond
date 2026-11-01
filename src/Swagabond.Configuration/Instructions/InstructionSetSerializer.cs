@@ -14,14 +14,8 @@ public static class InstructionSetSerializer
         .Build();
 
 
-    public static InstructionSet Deserialize(string yaml)
-    {
-        return YamlDeserializer.Deserialize<InstructionSet>(yaml);
-    }
-    
-    public static string Serialize(InstructionSet instructionSet)
-    {
-        return YamlSerializer.Serialize(instructionSet);
-    }
+    public static InstructionSet Deserialize(string yaml) => YamlDeserializer.Deserialize<InstructionSet>(yaml);
+
+    public static string Serialize(InstructionSet instructionSet) => YamlSerializer.Serialize(instructionSet);
 
 }

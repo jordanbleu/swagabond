@@ -12,5 +12,5 @@ dotnet build ../src/Swagabond.Templates/Swagabond.Templates.csproj -c debug
 # Run the doc generator 
 dotnet build ./Swagutils/ObjectModelDocGenerator/ObjectModelDocGenerator.csproj -c debug
 
-cd ./Swagutils/ObjectModelDocGenerator/bin/debug/net9.0 || exit
+cd ./Swagutils/ObjectModelDocGenerator/bin/debug/net10.0 || exit
 dotnet run --project ../../../ObjectModelDocGenerator.csproj

@@ -14,14 +14,14 @@ public class OperationV1 : IObjectV1, INamedObject
     /// If true, this is an empty operation.
     /// </summary>
     public bool IsEmpty { get; internal set; } = true;
-    
+
     /// <summary>
     /// The name of the operation, formatted as PascalCase in a way that is suitable for use in code or filenames.
     /// The name will always be unique for each operation.
     /// </summary>
     /// <example>GetRestaurantData</example>
     public string Name { get; internal set; } = string.Empty;
-    
+
     /// <summary>
     /// A more beautiful and gorgeous title for the operation.  Not suitable for filenames.
     /// </summary>
@@ -36,31 +36,31 @@ public class OperationV1 : IObjectV1, INamedObject
     /// The Http Method for the operation
     /// </summary>
     public string Method { get; set; } = string.Empty;
-    
+
     /// <summary>
     /// A list of query parameters for this operation.  Query parameters
     /// are placed in the URL after the '?' character.
     /// </summary>
-    public List<SchemaReferenceV1> QueryParameters { get; set; } = new();
-    
+    public List<SchemaReferenceV1> QueryParameters { get; set; } = [];
+
     /// <summary>
     /// List of header parameters for this operation.  Header parameters
     /// go in http headers.
     /// </summary>
-    public List<SchemaReferenceV1> HeaderParameters { get; set; } = new();
+    public List<SchemaReferenceV1> HeaderParameters { get; set; } = [];
 
     /// <summary>
     /// List of path parameters for this operation.  Path parameters are integrated
     /// into the url path, and are typically used to identify a specific resource.
     /// For example, in the url '/restaurants/{restaurantId}/menu', the {restaurantId} is a path parameter.
     /// </summary>
-    public List<SchemaReferenceV1> PathParameters { get; set; } = new();
-    
+    public List<SchemaReferenceV1> PathParameters { get; set; } = [];
+
     /// <summary>
     /// List of cookie parameters that can (or should) be sent with the request.
     /// </summary>
-    public List<SchemaReferenceV1> CookieParameters { get; set; } = new();
-    
+    public List<SchemaReferenceV1> CookieParameters { get; set; } = [];
+
     /// <summary>
     /// Information about the request Body (payload) for the operation, typically in Json or XML format.
     /// </summary>
@@ -70,7 +70,7 @@ public class OperationV1 : IObjectV1, INamedObject
     /// List of each documented response type for this operation, and the expected
     /// response body shape that goes along with it.
     /// </summary>
-    public List<ResponseBodyV1> ResponseBodies { get; set; } = new();
+    public List<ResponseBodyV1> ResponseBodies { get; set; } = [];
 
     /// <summary>
     /// A fallback response body for status codes that don't have a dedicated response body.
@@ -86,9 +86,9 @@ public class OperationV1 : IObjectV1, INamedObject
     /// If your api returns different response shapes for different success status codes, you shouldn't
     /// use this, and instead you'll need more nuanced logic.
     /// </summary>
-    public ResponseBodyV1 SuccessResponseBody 
+    public ResponseBodyV1 SuccessResponseBody
     {
-        get 
+        get
         {
             var firstSuccessResponse = ResponseBodies.FirstOrDefault(r => !r.IsEmpty && r.StatusCode is > 199 and < 300);
 
@@ -98,7 +98,7 @@ public class OperationV1 : IObjectV1, INamedObject
             return DefaultResponseBody;
         }
     }
-    
+
     /// <summary>
     /// Assuming response body will be the same for any error http status (300+) this will
     /// be the first error response body or the default fallback.
@@ -106,19 +106,19 @@ public class OperationV1 : IObjectV1, INamedObject
     /// If your api returns different response shapes for different error status codes, you shouldn't
     /// use this, and instead you'll need more nuanced logic.
     /// </summary>
-    public ResponseBodyV1 ErrorResponseBody 
+    public ResponseBodyV1 ErrorResponseBody
     {
-        get 
+        get
         {
-            var firstErrorResponse = ResponseBodies.FirstOrDefault(r=>r.IsEmpty == false && r.StatusCode > 299 );
-            
+            var firstErrorResponse = ResponseBodies.FirstOrDefault(r => r.IsEmpty == false && r.StatusCode > 299);
+
             if (firstErrorResponse != null)
                 return firstErrorResponse;
-            
+
             return DefaultResponseBody;
         }
     }
-    
+
     /// <summary>
     /// The Path this operation belongs to. 
     /// </summary>
@@ -131,8 +131,8 @@ public class OperationV1 : IObjectV1, INamedObject
     /// <summary>
     /// List of arbitrary extensions for this operation
     /// </summary>
-    public List<ExtensionV1> Extensions { get; set; } = new();
-    
+    public List<ExtensionV1> Extensions { get; set; } = [];
+
     private Dictionary<string, string>? _extensionDictionary = null;
 
     /// <summary>
@@ -140,21 +140,16 @@ public class OperationV1 : IObjectV1, INamedObject
     /// is its value.  This allows you to bind directly to known keys instead of iterating
     /// over the list of extensions. Values can be accessed via `ExtensionDictionary["x-myKey"]`
     /// </summary>
-    public Dictionary<string, string> ExtensionDictionary {
+    public Dictionary<string, string> ExtensionDictionary
+    {
         get
         {
-            if (_extensionDictionary == null)
-            {
-                _extensionDictionary = Extensions.ToDictionary(e => e.Name, e => e.Value);
-            }
+            _extensionDictionary ??= Extensions.ToDictionary(e => e.Name, e => e.Value);
 
             return _extensionDictionary;
         }
     }
-    public override string ToString()
-    {
-        return $"OperationV1 {Method} {Path.Route}";
-    }
+    public override string ToString() => $"OperationV1 {Method} {Path.Route}";
 
     public static readonly OperationV1 Empty = new();
 

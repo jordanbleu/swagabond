@@ -12,19 +12,13 @@ public class StringExtensionsTests
     [InlineData("with_underscores", "WithUnderscores")]
     [InlineData("ALL_CAPS", "AllCaps")]
     [InlineData("camelCase", "CamelCase")]
-    public void ToPascalCase_ConvertsCorrectly(string input, string expected)
-    {
-        input.ToPascalCase().ShouldBe(expected);
-    }
+    public void ToPascalCase_ConvertsCorrectly(string input, string expected) => input.ToPascalCase().ShouldBe(expected);
 
     [Theory]
     [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public void ToPascalCase_ReturnsEmptyForBlankInput(string? input)
-    {
-        input.ToPascalCase().ShouldBe(string.Empty);
-    }
+    public void ToPascalCase_ReturnsEmptyForBlankInput(string? input) => input.ToPascalCase().ShouldBe(string.Empty);
 
     [Theory]
     [InlineData("Pet", "Pet")]
@@ -32,50 +26,32 @@ public class StringExtensionsTests
     [InlineData("G4.Marketing.CustomPixelValues", "G4MarketingCustomPixelValues")]
     [InlineData("/items", "Items")]
     [InlineData("/pet/{petId}", "PetpetId")]
-    public void ToClassName_ProducesValidIdentifier(string input, string expected)
-    {
-        input.ToClassName().ShouldBe(expected);
-    }
+    public void ToClassName_ProducesValidIdentifier(string input, string expected) => input.ToClassName().ShouldBe(expected);
 
     [Fact]
-    public void ToClassName_LeadingDigit_PrependedWithN()
-    {
-        "123Schema".ToClassName().ShouldStartWith("N");
-    }
+    public void ToClassName_LeadingDigit_PrependedWithN() => "123Schema".ToClassName().ShouldStartWith("N");
 
     [Theory]
     [InlineData("---")]
     [InlineData("!!!")]
     [InlineData("...")]
-    public void ToClassName_AllSpecialChars_ReturnsEmpty(string input)
-    {
-        input.ToClassName().ShouldBe(string.Empty);
-    }
+    public void ToClassName_AllSpecialChars_ReturnsEmpty(string input) => input.ToClassName().ShouldBe(string.Empty);
 
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-    public void ToClassName_NullOrEmpty_ReturnsEmpty(string? input)
-    {
-        input.ToClassName().ShouldBe(string.Empty);
-    }
+    public void ToClassName_NullOrEmpty_ReturnsEmpty(string? input) => input.ToClassName().ShouldBe(string.Empty);
 
     [Theory]
     [InlineData("line1\nline2", "line1 line2")]
     [InlineData("line1\r\nline2", "line1 line2")]
     [InlineData("line1\rline2", "line1 line2")]
     [InlineData("no newlines", "no newlines")]
-    public void StripNewLines_ReplacesAllNewlineStyles(string input, string expected)
-    {
-        input.StripNewLines().ShouldBe(expected);
-    }
+    public void StripNewLines_ReplacesAllNewlineStyles(string input, string expected) => input.StripNewLines().ShouldBe(expected);
 
     [Theory]
     [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public void StripNewLines_ReturnsInputForBlankStrings(string? input)
-    {
-        input.StripNewLines().ShouldBe(input);
-    }
+    public void StripNewLines_ReturnsInputForBlankStrings(string? input) => input.StripNewLines().ShouldBe(input);
 }

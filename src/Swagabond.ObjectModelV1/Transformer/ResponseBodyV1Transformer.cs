@@ -10,8 +10,8 @@ public interface IResponseBodyV1Transformer
 
 public class ResponseBodyV1Transformer : IResponseBodyV1Transformer
 {
-    
-    private ISchemaDefinitionV1Transformer _schemaDefinitionV1Transformer;
+
+    private readonly ISchemaDefinitionV1Transformer _schemaDefinitionV1Transformer;
 
     public ResponseBodyV1Transformer(ISchemaDefinitionV1Transformer schemaDefinitionV1Transformer)
     {
@@ -24,7 +24,7 @@ public class ResponseBodyV1Transformer : IResponseBodyV1Transformer
 
         var r = response.Value;
         var id = response.Key;
-        
+
         var name = $"{operation.Path.Name.ToPascalCase()}{response.Key.ToPascalCase()}{operation.Method.ToPascalCase()}Response";
 
         apiResponse.IsEmpty = false;
@@ -33,7 +33,7 @@ public class ResponseBodyV1Transformer : IResponseBodyV1Transformer
         apiResponse.Description = r.Description;
 
         apiResponse.ResponseId = id;
-        
+
         // try to add the status code if we can
         if (int.TryParse(id, out var statusCode))
             apiResponse.StatusCode = statusCode;

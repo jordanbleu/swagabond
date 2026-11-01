@@ -13,7 +13,7 @@ public class EnumOptionV1TransformerTests
     public void FromOpenApi_EmptyValues_ReturnsEmptyList()
     {
         var result = _target.FromOpenApi(
-            new List<IOpenApiAny>(),
+            [],
             new Dictionary<string, IOpenApiExtension>());
 
         result.ShouldBeEmpty();

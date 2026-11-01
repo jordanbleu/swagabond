@@ -23,10 +23,7 @@ public class DataTypeV1TransformerTests
     [InlineData("number", "decimal", DataTypeV1.Decimal)]
     [InlineData("boolean", null, DataTypeV1.Boolean)]
     [InlineData("object", null, DataTypeV1.Object)]
-    public void FromOpenApi_ReturnsExpectedDataType(string? dataType, string? format, DataTypeV1 expected)
-    {
-        _target.FromOpenApi(dataType, format).ShouldBe(expected);
-    }
+    public void FromOpenApi_ReturnsExpectedDataType(string? dataType, string? format, DataTypeV1 expected) => _target.FromOpenApi(dataType, format).ShouldBe(expected);
 
     [Theory]
     [InlineData("Integer", DataTypeV1.Int32)]
@@ -39,17 +36,11 @@ public class DataTypeV1TransformerTests
     [InlineData("OBJECT", DataTypeV1.Object)]
     [InlineData("String", DataTypeV1.String)]
     [InlineData("STRING", DataTypeV1.String)]
-    public void FromOpenApi_IsCaseInsensitive(string dataType, DataTypeV1 expected)
-    {
-        _target.FromOpenApi(dataType, null).ShouldBe(expected);
-    }
+    public void FromOpenApi_IsCaseInsensitive(string dataType, DataTypeV1 expected) => _target.FromOpenApi(dataType, null).ShouldBe(expected);
 
     [Theory]
     [InlineData("foobar")]
     [InlineData("array")]
     [InlineData("")]
-    public void FromOpenApi_UnknownType_DefaultsToString(string dataType)
-    {
-        _target.FromOpenApi(dataType, null).ShouldBe(DataTypeV1.String);
-    }
+    public void FromOpenApi_UnknownType_DefaultsToString(string dataType) => _target.FromOpenApi(dataType, null).ShouldBe(DataTypeV1.String);
 }
