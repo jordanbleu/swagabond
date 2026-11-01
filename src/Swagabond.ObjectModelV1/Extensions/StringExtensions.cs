@@ -1,23 +1,42 @@
-using System.Globalization;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Swagabond.ObjectModelV1.Extensions;
 
 public static class StringExtensions
 {
-    
-    public static string StripNewLines(this string str)
-    {
-        if (string.IsNullOrWhiteSpace(str))
-            return str;
 
-        return str.Replace("\r\n", " ")
-            .Replace("\n", " ")
-            .Replace("\r", " ");
+    extension(string str)
+    {
+        public string StripNewLines()
+        {
+            if (string.IsNullOrWhiteSpace(str))
+                return str;
+
+            return str.Replace("\r\n", " ")
+                .Replace("\n", " ")
+                .Replace("\r", " ");
+        }
+
+        public string ToClassName()
+        {
+            var name = str.ToPascalCase();
+
+            // Remove any non-alphanumeric characters
+            name = new string([.. name.Where(char.IsLetterOrDigit)]);
+
+            if (name.Length == 0)
+                return name;
+
+            // if name starts with a number, start with 'N'
+            if (char.IsDigit(name[0]))
+            {
+                name = "N" + name;
+            }
+
+            return name;
+        }
     }
 
-    
     private static readonly Regex InvalidCharsRgx = new("[^_a-zA-Z0-9]", RegexOptions.Compiled);
     private static readonly Regex WhiteSpace = new(@"(?<=\s)", RegexOptions.Compiled);
     private static readonly Regex StartsWithLowerCaseChar = new("^[a-z]", RegexOptions.Compiled);
@@ -44,27 +63,8 @@ public static class StringExtensions
             .Select(w => UpperCaseInside.Replace(w, m => m.Value.ToLower()));
 
         var result = string.Concat(pascalCase);
-        
-        
+
+
         return result;
-    }
-    
-    public static string ToClassName(this string str)
-    {
-        var name = str.ToPascalCase();
-        
-        // Remove any non-alphanumeric characters
-        name = new string([.. name.Where(char.IsLetterOrDigit)]);
-        
-        if (name.Length == 0)
-            return name;
-
-        // if name starts with a number, start with 'N'
-        if (char.IsDigit(name[0]))
-        {
-            name = "N" + name;
-        }
-
-        return name;
     }
 }
