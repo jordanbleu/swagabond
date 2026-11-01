@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace Swagabond.Core.Extensions;
 
-public static class StringExtensions
+public static partial class StringExtensions
 {
     extension(string str)
     {
@@ -12,7 +12,7 @@ public static class StringExtensions
                 return string.Empty;
 
             // split by any character that is not alphanumeric
-            var words = Regex.Split(str, @"[^a-zA-Z0-9]+");
+            var words = NonAlphanumericSplit().Split(str);
 
             // convert each word into title case
             for (var i = 0; i < words.Length; i++)
@@ -37,4 +37,7 @@ public static class StringExtensions
             return joined;
         }
     }
+
+    [GeneratedRegex(@"[^a-zA-Z0-9]+")]
+    private static partial Regex NonAlphanumericSplit();
 }
