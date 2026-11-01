@@ -16,7 +16,7 @@ public class SampleApiMapperTestsFixture : IAsyncLifetime
         var services = ApiTransformerFactory.CreateV1Transformer();
         var mapper = services.GetRequiredService<OpenApiMapper>();
         var path = Path.Combine(AppContext.BaseDirectory, "SwaggerFiles/swagger-sample.json");
-        var fs = new FileStream(path, FileMode.Open);
+        var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
         MappedApi = await mapper.MapFromStreamV1(new()
         {
             FailOnDefinitionError = false,

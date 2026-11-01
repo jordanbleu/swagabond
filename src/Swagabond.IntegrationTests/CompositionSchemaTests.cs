@@ -16,7 +16,7 @@ public class CompositionSchemaTestsFixture : IAsyncLifetime
 
         var mapper = services.GetRequiredService<OpenApiMapper>();
         var path = Path.Combine(AppContext.BaseDirectory, "SwaggerFiles/swagger_composition.json");
-        await using var fs = new FileStream(path, FileMode.Open);
+        await using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
         MappedApi = await mapper.MapFromStreamV1(new()
         {
             FailOnDefinitionError = false,
