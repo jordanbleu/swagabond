@@ -144,11 +144,6 @@ public class Program
         }
 
         // ************************************************
-        // Create a stream that points to the swagger file.
-        // ************************************************
-        logger.LogInformation("Creating stream to your swagger file...");
-
-        // ************************************************
         // Map to our object model
         // ************************************************
 
