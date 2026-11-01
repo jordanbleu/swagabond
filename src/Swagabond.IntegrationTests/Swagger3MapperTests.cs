@@ -10,7 +10,7 @@ namespace Swagabond.IntegrationTests;
 public class Swagger3MapperTestsFixture : IAsyncLifetime
 {
     public ApiV1 MappedApi { get; private set; }
-    
+
     public async Task InitializeAsync()
     {
         var apiV1Transformer = ApiTransformerFactory.CreateV1Transformer();
@@ -19,18 +19,15 @@ public class Swagger3MapperTestsFixture : IAsyncLifetime
         var path = Path.Combine(AppContext.BaseDirectory, "SwaggerFiles/swagger_3_0_4.json");
         var fs = new FileStream(path, FileMode.Open);
         var mapped = await mapper.MapFromStreamV1(new()
-            {
-                FailOnDefinitionError = false,
-                FailOnDefinitionWarning = false
-            }, fs);
+        {
+            FailOnDefinitionError = false,
+            FailOnDefinitionWarning = false
+        }, fs);
 
         MappedApi = mapped;
     }
 
-    public Task DisposeAsync()
-    {
-        return Task.CompletedTask;
-    }
+    public Task DisposeAsync() => Task.CompletedTask;
 }
 
 /// <summary>
@@ -38,7 +35,7 @@ public class Swagger3MapperTestsFixture : IAsyncLifetime
 /// </summary>
 public class Swagger3MapperTests : IClassFixture<Swagger3MapperTestsFixture>
 {
-    private Swagger3MapperTestsFixture _fixture;
+    private readonly Swagger3MapperTestsFixture _fixture;
 
     public Swagger3MapperTests(Swagger3MapperTestsFixture fixture)
     {
@@ -54,7 +51,7 @@ public class Swagger3MapperTests : IClassFixture<Swagger3MapperTestsFixture>
         api.Description.ShouldStartWith(
             "This is a sample Pet Store Server based on the OpenAPI 3.0 specification.");
         api.Extensions.ShouldBeEmpty();
-        api.Name.ShouldBe("SwaggerPetstoreOpenApi30"); 
+        api.Name.ShouldBe("SwaggerPetstoreOpenApi30");
         api.Version.ShouldBe("1.0.26");
         api.IsEmpty.ShouldBeFalse();
         api.SpecType.ShouldBe(SpecTypeV1.OpenApi);
@@ -178,19 +175,19 @@ public class Swagger3MapperTests : IClassFixture<Swagger3MapperTestsFixture>
 
         operation.ShouldNotBeNull();
         operation.IsEmpty.ShouldBeFalse();
-        
+
         operation.Api.ShouldNotBeNull();
         operation.Api.IsEmpty.ShouldBeFalse();
 
         operation.Description.ShouldBe("Update an existing pet by Id.");
-        
+
         operation.Extensions.ShouldNotBeNull();
         operation.Extensions.ShouldBeEmpty();
 
         operation.Method.ShouldBe("Put");
 
         operation.Name.ShouldBe("PutPet");
-        
+
         operation.Path.ShouldNotBeNull();
         operation.Path.IsEmpty.ShouldBeFalse();
 
@@ -220,16 +217,16 @@ public class Swagger3MapperTests : IClassFixture<Swagger3MapperTestsFixture>
 
         operation.ResponseBodies.Count.ShouldBe(4);
         operation.SuccessResponseBody.ShouldNotBeNull();
-        
+
         operation.SuccessResponseBody.StatusCode.ShouldBe(200);
         operation.SuccessResponseBody.Name.ShouldBe("Pet200PutResponse");
         operation.SuccessResponseBody.Schema.Properties.Count.ShouldBe(6);
-        
+
         operation.DefaultResponseBody.Description.ShouldBe("Unexpected error"); // api has a fallback error response
 
         // ErrorResponseBody doesn't make sense for this API (and will be empty) but still shouldn't be null
         operation.ErrorResponseBody.ShouldNotBeNull();
-        
+
 
 
     }

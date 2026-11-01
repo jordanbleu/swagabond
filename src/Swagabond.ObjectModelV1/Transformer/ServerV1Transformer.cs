@@ -1,4 +1,3 @@
-using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Models;
 
 namespace Swagabond.ObjectModelV1.Transformer;
@@ -10,7 +9,7 @@ public interface IServerV1Transformer
 
 public class ServerV1Transformer : IServerV1Transformer
 {
-    private IExtensionV1Transformer _extensionV1Transformer;
+    private readonly IExtensionV1Transformer _extensionV1Transformer;
 
     public ServerV1Transformer(IExtensionV1Transformer extensionV1Transformer)
     {
@@ -20,12 +19,13 @@ public class ServerV1Transformer : IServerV1Transformer
 
     public ServerV1 FromOpenApi(OpenApiServer openApiServer)
     {
-        var server = new ServerV1();
+        var server = new ServerV1
+        {
+            Extensions = _extensionV1Transformer.FromOpenApi(openApiServer.Extensions),
+            Url = openApiServer.Url,
+            Description = openApiServer.Description
+        };
 
-        server.Extensions = _extensionV1Transformer.FromOpenApi(openApiServer.Extensions);
-        server.Url = openApiServer.Url;
-        server.Description = openApiServer.Description;
-        
         return server;
     }
 

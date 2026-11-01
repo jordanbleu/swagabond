@@ -271,7 +271,7 @@ public class SchemaDefinitionV1TransformerTests
         result.Name.ShouldBe("Status");
         result.ReferenceId.ShouldBe("Status");
         result.DataType.ShouldBe(DataTypeV1.Int32);
-        result.EnumOptions.Select(o => o.Name).ShouldBe(new[] { "Active", "Inactive" });
+        result.EnumOptions.Select(o => o.Name).ShouldBe(["Active", "Inactive"]);
         result.Constraints.IsNullable.ShouldBe(nullable);
     }
 
@@ -449,7 +449,7 @@ public class SchemaDefinitionV1TransformerTests
 
         result.Name.ShouldBe("Widget");
         result.DataType.ShouldBe(DataTypeV1.Object);
-        result.Properties.Select(p => p.OriginalName).ShouldBe(new[] { "id" });
+        result.Properties.Select(p => p.OriginalName).ShouldBe(["id"]);
         result.Constraints.IsNullable.ShouldBeTrue();
     }
 
@@ -498,7 +498,7 @@ public class SchemaDefinitionV1TransformerTests
 
         result.IsEnum.ShouldBeFalse();
         result.DataType.ShouldBe(DataTypeV1.Object);
-        result.Properties.Select(p => p.OriginalName).ShouldBe(new[] { "extra" });
+        result.Properties.Select(p => p.OriginalName).ShouldBe(["extra"]);
     }
 
     [Fact]

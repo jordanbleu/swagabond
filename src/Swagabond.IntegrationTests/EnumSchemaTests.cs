@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using Shouldly;
-using Swagabond.ObjectModelV1;
 
 namespace Swagabond.IntegrationTests;
 
@@ -26,7 +25,7 @@ public class EnumSchemaTests_OpenApi3 : IClassFixture<Swagger3MapperTestsFixture
         statusProp.Schema.IsEnum.ShouldBeTrue();
         statusProp.Schema.EnumOptions.Count.ShouldBe(3);
         statusProp.Schema.EnumOptions.Select(e => e.Value)
-            .ShouldBe(new[] { "placed", "approved", "delivered" }, ignoreOrder: false);
+            .ShouldBe(["placed", "approved", "delivered"], ignoreOrder: false);
     }
 
     [Fact]
@@ -42,7 +41,7 @@ public class EnumSchemaTests_OpenApi3 : IClassFixture<Swagger3MapperTestsFixture
         statusProp.Schema.IsEnum.ShouldBeTrue();
         statusProp.Schema.EnumOptions.Count.ShouldBe(3);
         statusProp.Schema.EnumOptions.Select(e => e.Value)
-            .ShouldBe(new[] { "available", "pending", "sold" }, ignoreOrder: false);
+            .ShouldBe(["available", "pending", "sold"], ignoreOrder: false);
     }
 
     [Fact]
@@ -56,7 +55,7 @@ public class EnumSchemaTests_OpenApi3 : IClassFixture<Swagger3MapperTestsFixture
             .First(p => p.OriginalName == "status");
 
         statusProp.Schema.EnumOptions.Select(e => e.Name)
-            .ShouldBe(new[] { "Item0", "Item1", "Item2" }, ignoreOrder: false);
+            .ShouldBe(["Item0", "Item1", "Item2"], ignoreOrder: false);
     }
 }
 
@@ -82,7 +81,7 @@ public class EnumSchemaTests_OpenApi2 : IClassFixture<Swagger2MapperTestsFixture
         statusProp.Schema.IsEnum.ShouldBeTrue();
         statusProp.Schema.EnumOptions.Count.ShouldBe(3);
         statusProp.Schema.EnumOptions.Select(e => e.Value)
-            .ShouldBe(new[] { "placed", "approved", "delivered" }, ignoreOrder: false);
+            .ShouldBe(["placed", "approved", "delivered"], ignoreOrder: false);
     }
 
     [Fact]
@@ -98,6 +97,6 @@ public class EnumSchemaTests_OpenApi2 : IClassFixture<Swagger2MapperTestsFixture
         statusProp.Schema.IsEnum.ShouldBeTrue();
         statusProp.Schema.EnumOptions.Count.ShouldBe(3);
         statusProp.Schema.EnumOptions.Select(e => e.Value)
-            .ShouldBe(new[] { "available", "pending", "sold" }, ignoreOrder: false);
+            .ShouldBe(["available", "pending", "sold"], ignoreOrder: false);
     }
 }

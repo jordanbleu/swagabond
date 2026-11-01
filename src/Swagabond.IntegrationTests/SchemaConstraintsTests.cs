@@ -158,9 +158,7 @@ public class SchemaConstraintsTests : IClassFixture<SchemaConstraintsTestsFixtur
     }
 
     [Fact]
-    public void ConstrainedProperty_IsEmptyFalse()
-    {
+    public void ConstrainedProperty_IsEmptyFalse() =>
         // IsEmpty should be false on any schema we've touched (constraints object always created)
         GetProp("name").Schema.Constraints.IsEmpty.ShouldBeFalse();
-    }
 }

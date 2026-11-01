@@ -15,8 +15,7 @@ public static class TransformerMockExtensions
         /// <param name="modifyResult"></param>
         /// <typeparam name="TTransformer"></typeparam>
         /// <typeparam name="TResult"></typeparam>
-        public void SetupMockTransformer<TResult>(Action<TResult> modifyResult = null)
-        {
+        public void SetupMockTransformer<TResult>(Action<TResult> modifyResult = null) =>
             mock.SetupWithAny<TTransformer, TResult>("FromOpenApi")
                 .Returns(() =>
                 {
@@ -24,6 +23,5 @@ public static class TransformerMockExtensions
                     modifyResult?.Invoke(result);
                     return result;
                 });
-        }
     }
 }

@@ -1,5 +1,3 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swagabond.ObjectModelV1.Extensions;
@@ -14,13 +12,13 @@ public interface ISchemaDefinitionV1Transformer
 public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
 {
     private const string GuidExample = "f9a7b8c4-0c4f-46e1-b4f5-d2fe9e5b35bb";
- 
-    private IEnumOptionV1Transformer _enumOptionTransformer;
-    private IDataTypeV1Transformer _dataTypeV1Transformer;
-    private IExtensionV1Transformer _extensionV1Transformer;
-    private ISchemaReferenceV1Transformer _schemaReferenceV1Transformer;
 
-    public SchemaDefinitionV1Transformer(IEnumOptionV1Transformer enumOptionTransformer, IDataTypeV1Transformer dataTypeV1Transformer, 
+    private readonly IEnumOptionV1Transformer _enumOptionTransformer;
+    private readonly IDataTypeV1Transformer _dataTypeV1Transformer;
+    private readonly IExtensionV1Transformer _extensionV1Transformer;
+    private readonly ISchemaReferenceV1Transformer _schemaReferenceV1Transformer;
+
+    public SchemaDefinitionV1Transformer(IEnumOptionV1Transformer enumOptionTransformer, IDataTypeV1Transformer dataTypeV1Transformer,
         IExtensionV1Transformer extensionV1Transformer, ISchemaReferenceV1Transformer schemaReferenceV1Transformer)
     {
         _enumOptionTransformer = enumOptionTransformer;
@@ -29,10 +27,7 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         _schemaReferenceV1Transformer = schemaReferenceV1Transformer;
     }
 
-    public SchemaDefinitionV1 FromOpenApi(OpenApiSchema schema, ApiV1 api)
-    {
-        return FromOpenApiInternal(schema, api, []);
-    }
+    public SchemaDefinitionV1 FromOpenApi(OpenApiSchema schema, ApiV1 api) => FromOpenApiInternal(schema, api, []);
 
     private SchemaDefinitionV1 FromOpenApiInternal(OpenApiSchema schema, ApiV1 api, HashSet<string> visitedSchemaIds)
     {
@@ -42,20 +37,20 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         var wrappedSchema = GetWrappedSchema(schema, out var hasNullBranch);
         if (wrappedSchema != null)
             return FromWrapper(schema, wrappedSchema, hasNullBranch, api, visitedSchemaIds);
-        
+
         var apiSchema = new SchemaDefinitionV1();
         // todo: extra properties 
 
         var isArray = schema.Type == "array";
         var itemsSchema = isArray ? GetWrappedSchema(schema.Items, out _) ?? schema.Items : null;
-        
+
         // Map as an enum
         if (schema.Enum.Any())
         {
             apiSchema.IsEnum = true;
             apiSchema.EnumOptions = _enumOptionTransformer.FromOpenApi(schema.Enum, schema.Extensions);
         }
-        
+
         // Map the type 
         if (itemsSchema != null)
         {
@@ -73,12 +68,12 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         {
             apiSchema.DataType = _dataTypeV1Transformer.FromOpenApi(schema.Type, schema.Format);
         }
-        
+
         // open api puts the interesting info in schema.items if this is an array
         var schemaToUse = itemsSchema ?? schema;
-        
+
         var schemaId = schemaToUse.Reference?.Id;
-        
+
         // Detect circular references to prevent stack overflow on self-referential schemas
         var isCircularRef = schemaId != null && !visitedSchemaIds.Add(schemaId);
 
@@ -92,7 +87,7 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         }
 
         apiSchema.Constraints = BuildPropertyConstraints(schemaToUse);
-        
+
         // additionalProperties with a schema is mapped regardless of whether this object also has fixed
         // properties - the two are independent. additionalProperties: true is indistinguishable from an
         // omitted additionalProperties keyword in the underlying OpenApi model (both leave
@@ -117,14 +112,14 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
                 apiSchema.Properties.Add(_schemaReferenceV1Transformer.FromOpenApi(prop.Key, propSchema, api));
             }
         }
-        
+
         apiSchema.ReferenceId = schemaToUse?.Reference?.Id ?? string.Empty;
-        
+
         apiSchema.Extensions = _extensionV1Transformer.FromOpenApi(schema.Extensions);
-        
+
         var example = schemaToUse.Example?.WriteAsString();
         apiSchema.Example = string.IsNullOrEmpty(example) ? WriteGenericExample(apiSchema) : example;
-        
+
         apiSchema.Api = api;
 
         // Allow this schema to be fully processed in other (non-ancestor) branches
@@ -181,7 +176,7 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
             apiSchema.Description = wrapper.Description;
 
         var wrapperExtensions = _extensionV1Transformer.FromOpenApi(wrapper.Extensions);
-        if (wrapperExtensions.Any())
+        if (wrapperExtensions.Count != 0)
         {
             var wrapperExtensionNames = wrapperExtensions.Select(e => e.Name).ToHashSet();
             apiSchema.Extensions = [.. wrapperExtensions
@@ -191,11 +186,13 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         return apiSchema;
     }
 
-    private SchemaConstraintsV1 BuildPropertyConstraints(OpenApiSchema schema)
+    private static SchemaConstraintsV1 BuildPropertyConstraints(OpenApiSchema schema)
     {
-        var constraints = new SchemaConstraintsV1();
-        constraints.IsEmpty = false;
-        
+        var constraints = new SchemaConstraintsV1
+        {
+            IsEmpty = false
+        };
+
         // min value
         if (schema.Minimum.HasValue)
         {
@@ -203,7 +200,7 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
             constraints.HasMinValue = true;
             constraints.IsMinValueInclusive = schema.ExclusiveMinimum != true;
         }
-        
+
         // max value
         if (schema.Maximum.HasValue)
         {
@@ -211,14 +208,14 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
             constraints.HasMaxValue = true;
             constraints.IsMaxValueInclusive = schema.ExclusiveMaximum != true;
         }
-        
+
         // Min Length
         if (schema.MinLength.HasValue)
         {
             constraints.MinLength = schema.MinLength.Value;
             constraints.HasMinLength = true;
         }
-        
+
         // max length
         if (schema.MaxLength.HasValue)
         {
@@ -247,7 +244,7 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
             return existingDescription;
 
         var arrayChunk = isArray ? "An array of elements, where each item is " : string.Empty;
-        
+
         var dataTypeChunk = dataType switch
         {
             DataTypeV1.String => "a sequence of characters, typically used for text data.",
@@ -272,12 +269,12 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
 
     }
 
-    private static object WriteGenericExample(SchemaDefinitionV1 schema) 
+    private static object WriteGenericExample(SchemaDefinitionV1 schema)
     {
         var apiSchemaDataType = schema.DataType;
         var enumOptions = schema.EnumOptions;
-        
-        if (enumOptions.Any())
+
+        if (enumOptions.Count != 0)
         {
             var first = enumOptions.First();
             return $"{first.Value} ({first.Name})";
@@ -299,7 +296,7 @@ public class SchemaDefinitionV1Transformer : ISchemaDefinitionV1Transformer
         };
     }
 
-    
 
-    
+
+
 }

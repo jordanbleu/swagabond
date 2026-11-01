@@ -126,7 +126,7 @@ public class Program
         }
         catch (YamlException ex)
         {
-            consoleHelper.WriteError("An error occurred while parsing the InstructionSet file", new[] { ex.Message },
+            consoleHelper.WriteError("An error occurred while parsing the InstructionSet file", [ex.Message],
                 ex);
             return;
         }
@@ -139,7 +139,7 @@ public class Program
         catch (Exception ex)
         {
             consoleHelper.WriteError("An error occurred while reading/parsing the InstructionSet file",
-                new[] { ex.Message },
+                [ex.Message],
                 ex);
             return;
         }
@@ -213,7 +213,7 @@ public class Program
         }
         catch (Exception ex)
         {
-            consoleHelper.WriteError("There was an error building an execution plan :(", new[] { ex.Message }, ex);
+            consoleHelper.WriteError("There was an error building an execution plan :(", [ex.Message], ex);
             throw;
         }
 
@@ -244,7 +244,7 @@ public class Program
         }
         catch (Exception ex)
         {
-            consoleHelper.WriteError("There was an error (or a bunch maybe) generating output.", new[] { ex.Message },
+            consoleHelper.WriteError("There was an error (or a bunch maybe) generating output.", [ex.Message],
                 ex);
             throw;
         }

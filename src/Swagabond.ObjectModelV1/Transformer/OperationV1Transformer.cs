@@ -10,11 +10,11 @@ public interface IOperationV1Transformer
 
 public class OperationV1Transformer : IOperationV1Transformer
 {
-    private ISchemaDefinitionV1Transformer _schemaDefinitionV1Transformer;
-    private ISchemaReferenceV1Transformer _schemaReferenceV1Transformer;
-    private IRequestBodyV1Transformer _requestBodyV1Transformer;
-    private IResponseBodyV1Transformer _responseBodyV1Transformer;
-    private IExtensionV1Transformer _extensionV1Transformer;
+    private readonly ISchemaDefinitionV1Transformer _schemaDefinitionV1Transformer;
+    private readonly ISchemaReferenceV1Transformer _schemaReferenceV1Transformer;
+    private readonly IRequestBodyV1Transformer _requestBodyV1Transformer;
+    private readonly IResponseBodyV1Transformer _responseBodyV1Transformer;
+    private readonly IExtensionV1Transformer _extensionV1Transformer;
 
     public OperationV1Transformer(ISchemaDefinitionV1Transformer schemaDefinitionV1Transformer, ISchemaReferenceV1Transformer schemaReferenceV1Transformer, IRequestBodyV1Transformer requestBodyV1Transformer, IResponseBodyV1Transformer responseBodyV1Transformer, IExtensionV1Transformer extensionV1Transformer)
     {
@@ -35,7 +35,7 @@ public class OperationV1Transformer : IOperationV1Transformer
 
         apiOperation.Path = path;
         apiOperation.Api = api;
-        
+
         apiOperation.IsEmpty = false;
         apiOperation.Name = $"{httpMethod.ToPascalCase()}{path.Name}";
         apiOperation.Title = $"{httpMethod.ToUpper()} {path.Route}";
@@ -47,7 +47,7 @@ public class OperationV1Transformer : IOperationV1Transformer
         {
             var schemaDef = _schemaDefinitionV1Transformer.FromOpenApi(param.Schema, api);
             var schemaRef = _schemaReferenceV1Transformer.FromOpenApi(param.Name, schemaDef, api);
-            
+
             switch (param.In)
             {
                 case ParameterLocation.Query:
@@ -64,7 +64,7 @@ public class OperationV1Transformer : IOperationV1Transformer
                     break;
             }
         }
-        
+
         if (o.RequestBody is not null)
         {
             apiOperation.RequestBody = _requestBodyV1Transformer.FromOpenApi(o.RequestBody, apiOperation, path, api);
@@ -80,7 +80,7 @@ public class OperationV1Transformer : IOperationV1Transformer
         {
             apiOperation.DefaultResponseBody = _responseBodyV1Transformer.FromOpenApi(defaultResponse, api, apiOperation);
         }
-        
+
         // Map the other response bodies
         foreach (var response in responses)
         {
@@ -90,13 +90,13 @@ public class OperationV1Transformer : IOperationV1Transformer
             var responseBody = _responseBodyV1Transformer.FromOpenApi(response, api, apiOperation);
             apiOperation.ResponseBodies.Add(responseBody);
         }
-        
+
         // If we still don't have a default response body, use the first success response body
         if (apiOperation.DefaultResponseBody.IsEmpty)
         {
             apiOperation.DefaultResponseBody = apiOperation.SuccessResponseBody;
         }
-        
+
         return apiOperation;
     }
 

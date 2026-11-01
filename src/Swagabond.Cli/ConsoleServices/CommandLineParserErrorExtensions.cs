@@ -6,9 +6,8 @@ public static class CommandLineParserErrorExtensions
 {
     extension(Error error)
     {
-        public string ToFriendlyString()
-        {
-            return error switch
+        public string ToFriendlyString() =>
+            error switch
             {
                 MissingRequiredOptionError missingRequiredOptionError =>
                     $"Error: Missing required option '{missingRequiredOptionError.NameInfo.NameText}'.",
@@ -18,6 +17,5 @@ public static class CommandLineParserErrorExtensions
                 SequenceOutOfRangeError => "Error: Sequence out of range.",
                 _ => $"Error: {error.Tag}"
             };
-        }
     }
 }

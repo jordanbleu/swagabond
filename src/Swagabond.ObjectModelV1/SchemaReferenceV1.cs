@@ -20,12 +20,12 @@ public class SchemaReferenceV1 : IObjectV1, INamedObject
     /// Currently...this is always empty. 
     /// </summary>
     public string Title { get; internal set; } = string.Empty;
-    
+
     /// <summary>
     /// A brief description of the schema reference.  
     /// </summary>
     public string Description { get; internal set; } = string.Empty;
-    
+
     /// <summary>
     /// The full / unfiltered name.  Useful in cases where the exact name
     /// must be used, including original casing.  (this does not format as pascal case).
@@ -33,16 +33,13 @@ public class SchemaReferenceV1 : IObjectV1, INamedObject
     /// /// how the schema names will look for your api spec.
     /// </summary>
     public string OriginalName { get; internal set; } = string.Empty;
-    
+
     /// <summary>
     /// The schema definition that this reference points to. 
     /// </summary>
     public SchemaDefinitionV1 Schema { get; internal set; } = SchemaDefinitionV1.Empty;
 
-    public override string ToString()
-    {
-        return $"SchemaReferenceV1 {Name} ({Schema.Name})";
-    }
+    public override string ToString() => $"SchemaReferenceV1 {Name} ({Schema.Name})";
 
     public static readonly SchemaReferenceV1 Empty = new();
 }
