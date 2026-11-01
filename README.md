@@ -9,7 +9,7 @@
  █▄▄     █▀█     █▄ █     █▀▄
  █▄█     █▄█     █ ▀█     █▄▀
  ```
-
+ 
 [![NuGet Version](https://img.shields.io/nuget/v/Swagabond.Cli)](https://www.nuget.org/packages/Swagabond.Cli)
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/jordanbleu/swagabond/dotnet.yaml)](https://github.com/jordanbleu/swagabond/actions/workflows/dotnet.yaml)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/t/jordanbleu/swagabond)](https://github.com/jordanbleu/swagabond/commits/main/)
