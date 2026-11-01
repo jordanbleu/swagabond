@@ -28,7 +28,7 @@ public class RequestBodyV1Transformer : IRequestBodyV1Transformer
         apiRequestBody.IsEmpty = false;
         apiRequestBody.Name = GetName(requestBody, pathV1, operation);
         apiRequestBody.Title = $"{operation.Method.ToUpperInvariant()} {pathV1.Route} RequestBody";
-        apiRequestBody.Description = content?.Schema?.Description ?? string.Empty; ;
+        apiRequestBody.Description = content?.Schema?.Description ?? string.Empty;
         apiRequestBody.Api = apiV1;
         apiRequestBody.Operation = operation;
 
